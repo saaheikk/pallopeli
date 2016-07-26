@@ -1,0 +1,1 @@
+Aihe: 2D-tietokonepeli, jossa on tarkoituksena vangita seinistä poukkoileva pallo (tai joissain versioissa/tasoilla ehkä usempi pallo) seinien sisään. Seiniä luodaan hiirtä klikkaamalla. Jos klikkaa vahingossa palloa, niin peli päättyy.
