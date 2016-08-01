@@ -2,4 +2,4 @@ Aihe: 2D-tietokonepeli, jossa on tarkoituksena vangita seinistä poukkoileva pal
 
 Pelissä on (tarkoitus olla) eri tasoja, ja vaikeammilla tasoilla pallon nopeus on suurempi ja/tai palloja on monta. Pelissä on käytännössä vain yksi toiminto, eli seinän rakentaminen hiirtä klikkaamalla. Lisäksi pelaaja valitsee mihin suuntaan seinä lähtee rakentumaan.
 
-![Määrittelyvaiheen luokkakaavio](Users/saara/maarittelyvaiheenluokkakaavio.png)
+![Määrittelyvaiheen luokkakaavio](https://github.com/saaheikk/pallopeli/tree/master/dokumentaatiohakemisto/maarittelyvaiheenluokkakaavio.png)
