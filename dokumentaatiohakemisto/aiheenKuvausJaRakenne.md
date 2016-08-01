@@ -1,3 +1,5 @@
 Aihe: 2D-tietokonepeli, jossa on tarkoituksena vangita seinistä poukkoileva pallo (tai joissain versioissa/tasoilla ehkä usempi pallo) seinien sisään, niin että pallo ei pääse enää liikkumaan. Seiniä luodaan hiirtä klikkaamalla. Luotu seinä laajenee pala palalta klikkauskohdasta ylös ja alas tai vasemmalle ja oikealle (pelaajan valinnan mukaan), kunnes törmää pelialueen seiniin tai palloon. Jos luotu seinä pääsee laajenemaan pelialueen seiniin asti, niin alue/alueet joiden sisälle ei jää palloa poukkoilemaan täyttyvät "seinämassalla". Tavoite on siis täyttää koko pelialue tällä "seinämassalla" ja saartaa pallo(t). Jos klikkaa vahingossa palloa, niin peli päättyy.
 
 Pelissä on (tarkoitus olla) eri tasoja, ja vaikeammilla tasoilla pallon nopeus on suurempi ja/tai palloja on monta. Pelissä on käytännössä vain yksi toiminto, eli seinän rakentaminen hiirtä klikkaamalla. Lisäksi pelaaja valitsee mihin suuntaan seinä lähtee rakentumaan.
+
+![Määrittelyvaiheen luokkakaavio](Users/saara/maarittelyvaiheenluokkakaavio.png)
