@@ -5,4 +5,5 @@ Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-b
 
 ## Dokumentaatio
 [Aiheen kuvaus] (dokumentaatiohamemisto/aiheenKuvausJaRakenne.md)
+
 [Tuntikirjanpito] (dokumentaatiohakemisto/tuntikirjanpito.md)
