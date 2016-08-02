@@ -14,7 +14,7 @@ class Piirtoalusta extends JPanel {
         @Override
         protected void paintComponent(Graphics graphics) {
             super.paintComponent(graphics);
-            this.pallopeli.getPelialue().piirraPelialue(graphics);
+//            this.pallopeli.getPelialue().piirraPelialue(graphics);
         }
 
     

@@ -14,7 +14,6 @@ public class Kayttoliittyma implements Runnable {
     public Kayttoliittyma(Pallopeli pallopeli) {
         this.pallopeli = pallopeli;
     }
-    
 
     @Override
     public void run() {

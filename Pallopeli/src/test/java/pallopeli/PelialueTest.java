@@ -28,7 +28,6 @@ public class PelialueTest {
     
     @Before
     public void setUp() {
-        pelialue = new Pelialue(10,5);
     }
     
     @After
@@ -36,5 +35,38 @@ public class PelialueTest {
     }
 
     @Test
-    public void hello() {}
+    public void konstruktoriEiHyvaksyLiianPientaLeveytta() {
+        pelialue = new Pelialue(4,5);
+        assertEquals("", pelialue.toString());
+    }
+    
+    public void konstruktoriEiHyvaksyLiianPientaKorkeutta() {
+        pelialue = new Pelialue(10,4);
+        assertEquals("", pelialue.toString());
+    }
+    
+    public void konstruktoriEiHyvaksyLiianSuurtaLeveytta() {
+        pelialue = new Pelialue(150,15);
+        assertEquals("", pelialue.toString());
+    }
+    
+    public void konstruktoriEiHyvaksyLiianSuurtaKorkeutta() {
+        pelialue = new Pelialue(10,150);
+        assertEquals("", pelialue.toString());
+    }
+    
+    public void palatAlustetaanOikein() {
+        pelialue = new Pelialue(6,5);
+        String pelialueString = 
+                  "on-seina on-seina on-seina on-seina on-seina on-seina \n"
+                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
+                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
+                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
+                + "on-seina on-seina on-seina on-seina on-seina on-seina \n";
+        assertEquals(pelialueString, pelialue.toString());
+                
+                
+    }
+    
+
 }
