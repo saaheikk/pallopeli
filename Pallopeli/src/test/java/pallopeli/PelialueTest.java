@@ -63,9 +63,7 @@ public class PelialueTest {
                 + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
                 + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
                 + "on-seina on-seina on-seina on-seina on-seina on-seina \n";
-        assertEquals(pelialueString, pelialue.toString());
-                
-                
+        assertEquals(pelialueString, pelialue.toString());           
     }
     
 

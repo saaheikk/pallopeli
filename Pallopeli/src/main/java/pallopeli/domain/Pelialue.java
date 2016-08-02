@@ -48,23 +48,7 @@ public class Pelialue {
         return merkkijono;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public void testaaTuloste() {
-        for (int k = 0; k < this.alueenKorkeus; k++) {
-            for (int l = 0; l < this.alueenLeveys; l++) {
-                System.out.print(this.palat[k][l].toString() + " ");
-            }
-            System.out.println("");
-        }
-    }
+
 //    public void piirraPelialue(Graphics g) {
 //        for (int k = 0; k < this.alueenKorkeus; k++) {
 //            for (int l = 0; l < this.alueenLeveys; l++) {
