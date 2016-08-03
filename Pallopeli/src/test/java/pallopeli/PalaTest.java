@@ -30,7 +30,41 @@ public class PalaTest {
     @After
     public void tearDown() {
     }
-
     @Test
-    public void hello() {}
+    public void konstruktoriAsettaaSeinaominaisuudenOikeinTavallisellePalalle() {
+        pala = new Pala(false, 3, 3);
+        assertFalse("", pala.isSeina());
+    }    
+    
+    @Test
+    public void konstruktoriAsettaaSeinaominaisuudenOikeinSeinapalalle() {
+        pala = new Pala(true, 3, 3);
+        assertTrue("", pala.isSeina());
+    }  
+    
+    @Test
+    public void toStringToimiiTavallisellaPalalla() {
+        pala = new Pala(false, 3, 3);
+        assertEquals("ei-seinä", pala.toString());
+    }
+    
+    @Test
+    public void toStringToimiiSeinapalalla() {
+        pala = new Pala(true, 3, 3);
+        assertEquals("on-seinä", pala.toString());
+    }
+    
+    @Test
+    public void muutaSeinaksiToimiiTavallisellaPalalla() {
+        pala = new Pala(false, 3, 3);
+        pala.muutaSeinaksi();
+        assertTrue("", pala.isSeina());
+    }
+    
+    @Test
+    public void muutaSeinaksiToimiiSeinapalalla() {
+        pala = new Pala(true, 3, 3);
+        pala.muutaSeinaksi();
+        assertTrue("", pala.isSeina());
+    }    
 }

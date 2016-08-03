@@ -7,25 +7,25 @@ public class Pala {
     private int koordinaattiX;
     private int koordinaattiY; 
     
-    private boolean onSeina;
+    private boolean seina;
     
     // private final Image tavallinenPala = new ImageIcon("tavallinenpala.png").getImage();
     // private final Image seinaPala = new ImageIcon("seinapala.png").getImage();
     
     
-    public Pala(boolean onSeina, int x, int y) {
-        this.onSeina = onSeina;
+    public Pala(boolean seina, int x, int y) {
+        this.seina = seina;
         this.koordinaattiX = x;
         this.koordinaattiY = y;
     }
     
     public void muutaSeinaksi() {
-        this.onSeina = true;
+        this.seina = true;
     }
     
     @Override
     public String toString() {
-        if (this.onSeina) {
+        if (this.seina) {
             return "on-seinä";
         }
         return "ei-seinä";
@@ -39,8 +39,8 @@ public class Pala {
         return koordinaattiY;
     }
 
-    public boolean OnSeina() {
-        return onSeina;
+    public boolean isSeina() {
+        return seina;
     }
     
 

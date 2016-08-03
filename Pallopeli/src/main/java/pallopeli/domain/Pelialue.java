@@ -20,16 +20,16 @@ public class Pelialue {
             this.palat[0][l] = new Pala(true, 0, l);
         }        
         // luo välirivit (seinä - ei seinää - seinä)
-        for (int k = 1; k < this.alueenKorkeus-1; k++) {
+        for (int k = 1; k < this.alueenKorkeus - 1; k++) {
             this.palat[k][0] = new Pala(true, k, 0);
-            for (int l = 1; l < this.alueenLeveys-1; l++) {
+            for (int l = 1; l < this.alueenLeveys - 1; l++) {
                 this.palat[k][l] = new Pala(false, l, k);
             }
-            this.palat[k][this.alueenLeveys-1] = new Pala(true, (this.alueenLeveys-1), k);
+            this.palat[k][this.alueenLeveys - 1] = new Pala(true, (this.alueenLeveys - 1), k);
         }
         // luo vika rivi (kaikki palat seinää)
         for (int l = 0; l < this.alueenLeveys; l++) {
-            this.palat[this.alueenKorkeus-1][l] = new Pala(true, l, (this.alueenKorkeus-1));
+            this.palat[this.alueenKorkeus - 1][l] = new Pala(true, l, (this.alueenKorkeus - 1));
         }
     }
     

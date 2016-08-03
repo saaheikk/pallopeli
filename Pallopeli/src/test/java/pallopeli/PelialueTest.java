@@ -40,29 +40,33 @@ public class PelialueTest {
         assertEquals("", pelialue.toString());
     }
     
+    @Test
     public void konstruktoriEiHyvaksyLiianPientaKorkeutta() {
         pelialue = new Pelialue(10,4);
         assertEquals("", pelialue.toString());
     }
-    
+
+    @Test    
     public void konstruktoriEiHyvaksyLiianSuurtaLeveytta() {
         pelialue = new Pelialue(150,15);
         assertEquals("", pelialue.toString());
     }
     
+    @Test
     public void konstruktoriEiHyvaksyLiianSuurtaKorkeutta() {
         pelialue = new Pelialue(10,150);
         assertEquals("", pelialue.toString());
     }
-    
+    @Test
     public void palatAlustetaanOikein() {
         pelialue = new Pelialue(6,5);
+        pelialue.alustaPalat();
         String pelialueString = 
-                  "on-seina on-seina on-seina on-seina on-seina on-seina \n"
-                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
-                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
-                + "on-seina ei-seina ei-seina ei-seina ei-seina on-seina \n"
-                + "on-seina on-seina on-seina on-seina on-seina on-seina \n";
+                  "on-seinä on-seinä on-seinä on-seinä on-seinä on-seinä \n"
+                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
+                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
+                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
+                + "on-seinä on-seinä on-seinä on-seinä on-seinä on-seinä \n";
         assertEquals(pelialueString, pelialue.toString());           
     }
     
