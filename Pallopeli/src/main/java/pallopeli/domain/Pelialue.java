@@ -33,6 +33,10 @@ public class Pelialue {
         }
     }
     
+    public void muutaAlueSeinaksi() {
+        
+    }
+    
     public Pala[][] getPalat() {
         return palat;
     }
@@ -47,6 +51,8 @@ public class Pelialue {
         }
         return merkkijono;
     }
+    
+
     
 
 //    public void piirraPelialue(Graphics g) {

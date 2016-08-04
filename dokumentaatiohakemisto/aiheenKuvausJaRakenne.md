@@ -11,4 +11,6 @@ Toiminnot:
 	* Jos seinä pääsee rakentumaan loppuun asti, ilman palloa jäänyt alue täyttyy seinämassalla
 * Pelin voittaminen/häviäminen
 
+Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-balls-cover-75-of/flash-game/
+
 ![Määrittelyvaiheen luokkakaavio](https://github.com/saaheikk/pallopeli/tree/master/dokumentaatiohakemisto/maarittelyvaiheenluokkakaavio.png)

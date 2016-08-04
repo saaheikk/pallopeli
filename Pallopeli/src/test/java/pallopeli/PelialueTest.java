@@ -8,10 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import pallopeli.domain.Pelialue;
 
-/**
- *
- * @author saara
- */
+
 public class PelialueTest {
     Pelialue pelialue;
     
@@ -42,19 +39,19 @@ public class PelialueTest {
     
     @Test
     public void konstruktoriEiHyvaksyLiianPientaKorkeutta() {
-        pelialue = new Pelialue(10,4);
+        pelialue = new Pelialue(5,4);
         assertEquals("", pelialue.toString());
     }
 
     @Test    
     public void konstruktoriEiHyvaksyLiianSuurtaLeveytta() {
-        pelialue = new Pelialue(150,15);
+        pelialue = new Pelialue(101,10);
         assertEquals("", pelialue.toString());
     }
     
     @Test
     public void konstruktoriEiHyvaksyLiianSuurtaKorkeutta() {
-        pelialue = new Pelialue(10,150);
+        pelialue = new Pelialue(10,101);
         assertEquals("", pelialue.toString());
     }
     @Test
