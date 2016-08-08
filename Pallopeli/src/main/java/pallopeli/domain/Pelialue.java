@@ -35,7 +35,7 @@ public class Pelialue {
     
     public void muutaAlueSeinaksi() {
         
-    }
+    }   
     
     public Pala[][] getPalat() {
         return palat;

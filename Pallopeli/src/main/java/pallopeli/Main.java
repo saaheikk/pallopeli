@@ -1,6 +1,7 @@
 package pallopeli;
 
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import pallopeli.domain.Pelialue;
 import pallopeli.gui.Kayttoliittyma;
 import pallopeli.peli.Pallopeli;
@@ -19,6 +20,7 @@ public class Main {
                 + "on-seinä on-seinä on-seinä on-seinä on-seinä on-seinä \n";
         System.out.println(pelialue.toString());
         System.out.println(pelialueString);
+        
         
 //        Pallopeli pallopeli = new Pallopeli();
 //        

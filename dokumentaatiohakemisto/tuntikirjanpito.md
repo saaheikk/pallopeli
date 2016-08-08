@@ -8,4 +8,4 @@ Päivä | Tunnit | Kuvaus
 02.08.2016 | 2.5h | Sovelluslogiikan kehittämistä, testien kirjoittamista
 03.08.2016 | 1.0h | Testien kirjoittamista, checkstyle- ja pit-raporttien luominen
 04.08.2016 | 2.0h | Pelimoottorien opiskelua ja pit- ja checkstyle-raporttien kopioiminen GitHubiin dokumentaatiohakemistoon
-
+08.08.2016 | 8.0h | Paljon koodausta

@@ -38,6 +38,12 @@ public class Pala {
     public int getKoordinaattiY() {
         return koordinaattiY;
     }
+    
+    public boolean muutaYlempiPalaSeinaksi() {
+        // oikeellisuustarkistukset!
+        // palan pitäisi tuntea naapuripalat!!!
+        return false;
+    }
 
     public boolean isSeina() {
         return seina;
