@@ -9,7 +9,6 @@ import pallopeli.peli.Pallopeli;
 public class Main {
 
     public static void main(String[] args) { 
-        System.out.println("Hello world!");
         Pelialue pelialue = new Pelialue(6, 5);
         pelialue.alustaPalat();
         String pelialueString = 
