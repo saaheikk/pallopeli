@@ -14,7 +14,7 @@ public class Board {
     private Piece[][] pieces; // matrix containing all the pieces
 
     public Board(int width, int height, int sizeOfPieces) {
-        if (width > 4 && height > 4 && width < 101 && height < 101 && sizeOfPieces > 5 && sizeOfPieces < 51) { 
+        if (width > 4 && height > 4 && width <= 30 && height <= 30 ) { 
             this.width = width;
             this.height = height;
             this.sizeOfPieces = sizeOfPieces;            
@@ -109,6 +109,11 @@ public class Board {
     public Piece getPiece(int x, int y) {
         return this.pieces[y][x];
     }
+
+    public int getSizeOfPieces() {
+        return sizeOfPieces;
+    }
+    
     
     @Override
     public String toString() {

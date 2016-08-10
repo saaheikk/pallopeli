@@ -3,7 +3,6 @@ package pallopeli.logic;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.Timer;
 import pallopeli.BuildingDirection;
 import pallopeli.CompassDirection;
@@ -19,17 +18,18 @@ public class Game extends Timer implements ActionListener {
     
     private BuildingDirection direction;
     private boolean continues;
-    private Updateable upedateable;
+    private Updateable updateable;
 
     public Game(int sizeOfObjects) {
-        super(100, null);
+        super(200, null);
         this.sizeOfObjects = sizeOfObjects;
         this.board = new Board(10, 10, sizeOfObjects);        
         this.ball = new Ball(sizeOfObjects);
-        this.ball.setStartingPoint(10 + 5*sizeOfObjects, 10 + 5*sizeOfObjects);
-        this.drawSpeedOfBall();
+        this.ball.setStartingPoint(this.board);
+        this.ball.drawSpeed();
         
-        this.direction = BuildingDirection.HORIZONTAL;        
+        this.direction = BuildingDirection.HORIZONTAL;  
+        
         this.continues = true;  
         addActionListener(this);
         setInitialDelay(2000);        
@@ -38,14 +38,6 @@ public class Game extends Timer implements ActionListener {
     public void setNewDirection(BuildingDirection direction) {
         this.direction = direction;
     } 
-
-    
-    public void drawSpeedOfBall() {
-        Random random = new Random();
-        int horizontalSpeed = random.nextInt(6) - 1;
-        int verticalSpeed = random.nextInt(6) - 1;
-        this.ball.setSpeed(horizontalSpeed, verticalSpeed);        
-    }
 
     public Board getBoard() {
         return board;
@@ -60,10 +52,9 @@ public class Game extends Timer implements ActionListener {
     }
 
     public void setUpedateable(Updateable upedateable) {
-        this.upedateable = upedateable;
+        this.updateable = upedateable;
     }
     
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
@@ -80,14 +71,13 @@ public class Game extends Timer implements ActionListener {
             Piece nearest = null;
             double minimumDistance = 10000;
             for (int i = 0; i < alarmedWallPieces.size(); i++) {
-                if (minimumDistance > alarmedWallPieces.get(i).getDistanceToPoint(ballXstart, ballYstart)) {
+                if (minimumDistance > alarmedWallPieces.get(i).getDistanceToAPoint(ballXstart, ballYstart)) {
                     nearest = alarmedWallPieces.get(i);
                 }                
-            }
-            
+            }            
             this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
         }
-        this.upedateable.update();
+        this.updateable.update();
         
         
     }

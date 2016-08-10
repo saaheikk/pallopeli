@@ -1,24 +1,23 @@
 package pallopeli.objects;
 
 import java.awt.Graphics;
+import java.util.Random;
 import pallopeli.CompassDirection;
 
 public class Ball {
-    private int x;
-    private int y;
-    private int dx;
-    private int dy;
+    private int x; // horizontal location
+    private int y; // vertical location
+    private int dx; // horizontal speed
+    private int dy; // vertical speed
     private int radius;
 
     public Ball(int sizeOfObjects) {
-        if (sizeOfObjects > 5 && sizeOfObjects < 51) {
-            this.radius = sizeOfObjects / 2;            
-        }
+        this.radius = sizeOfObjects / 2;            
     }
     
-    public void setStartingPoint(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setStartingPoint(Board board) {
+        this.x = (board.getWidth() * board.getSizeOfPieces()) / 2;
+        this.y = (board.getHeight() * board.getSizeOfPieces()) / 2;
     }
     
     public void setSpeed(int dx, int dy) {
@@ -26,6 +25,13 @@ public class Ball {
             this.dx = dx;
             this.dy = dy;            
         }
+    }
+    
+    public void drawSpeed() {
+        Random random = new Random();
+        int horizontalSpeed = random.nextInt(2 * this.radius) - 1;
+        int verticalSpeed = random.nextInt(2 * this.radius) - 1;
+        this.setSpeed(horizontalSpeed, verticalSpeed);        
     }
 
     public int getDx() {
@@ -75,9 +81,5 @@ public class Ball {
     public void draw(Graphics graphics) {
         graphics.fillOval(x, y, 2*radius, 2*radius);
     }
-    
-    
-    
-    
 
 }

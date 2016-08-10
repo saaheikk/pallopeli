@@ -9,7 +9,6 @@ import pallopeli.CompassDirection;
 public class Piece {
     private int x; // location relative to the board
     private int y; // location relative to the board
-    
     private int size; // pixels
     
     private boolean wall;
@@ -22,13 +21,14 @@ public class Piece {
     private final Image pieceImage = new ImageIcon("tavallinenpala.png").getImage();
     private final Image wallImage = new ImageIcon("seinapala.png").getImage();     
 
-    public Piece(int x, int y, boolean wall, int size) {
+    public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
         this.y = y;
         this.wall = wall;
-        this.size = size;
+        this.size = sizeOfObjects;
     }
     
+    // this method is used to build walls during the game
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
         if (compassDirection == CompassDirection.NORTH) {
             return this.turnNeighborIntoWall(this.northNeighbor);
@@ -113,17 +113,16 @@ public class Piece {
         boolean leftLimit = ballX > (upperLeftCornerX - ballR);
         boolean rightLimit = ballX < (upperLeftCornerX + this.size + ballR);
         boolean topLimit = ballY > (upperLeftCornerY - ballR);
-        boolean bottomLimit = ballY < (upperLeftCornerY + this.size + ballR);
-                          
+        boolean bottomLimit = ballY < (upperLeftCornerY + this.size + ballR);                          
         if (leftLimit && rightLimit && topLimit && bottomLimit) {
             return true;
         }
         return false;
     }
-    public double getDistanceToPoint(int x, int y) {
+    public double getDistanceToAPoint(int x, int y) {
         double middleX = (double) this.size * this.x + this.size / 2;
         double middleY = (double) this.size * this.y + this.size / 2;
-        return sqrt(Math.pow((middleX - x), 2) + Math.pow((middleY - y), 2));
+        return Math.sqrt((middleX - x)*(middleX - x) + (middleY - y)*(middleY - y));
     }
     
     public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {

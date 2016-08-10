@@ -1,4 +1,4 @@
-package pallopeli;
+package pallopeli.objects;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,18 +35,7 @@ public class BallTest {
     public void constructorSetsRadiusCorrectly() {
         ball = new Ball(10);
         assertEquals(5, ball.getRadius());
-    }
-    
-    @Test
-    public void constructorDoesNotAcceptTooSmallSize() {
-        ball = new Ball(5);
-        assertEquals(0, ball.getRadius());
-    }  
-    @Test
-    public void constructorDoesNotAcceptTooLargeSize() {
-        ball = new Ball(51);
-        assertEquals(0, ball.getRadius());
-    }     
+    } 
 
     @Test
     public void speedIsSetCorrectly() {
@@ -61,9 +50,21 @@ public class BallTest {
         assertEquals("0, 0",  ball.getDx() + ", " + ball.getDy());
     }      
     @Test
-    public void xSpeedCantBeTooLarge() {
+    public void ySpeedCantBeTooSmall() {
         ball = new Ball(10);
         ball.setSpeed(6, 0);        
         assertEquals("0, 0",  ball.getDx() + ", " + ball.getDy());
     }  
+    @Test
+    public void xSpeedCantBeTooLarge() {
+        ball = new Ball(10);
+        ball.setSpeed(20, 6);        
+        assertEquals("0, 0",  ball.getDx() + ", " + ball.getDy());
+    }      
+    @Test
+    public void ySpeedCantBeTooLarge() {
+        ball = new Ball(10);
+        ball.setSpeed(6, 20);        
+        assertEquals("0, 0",  ball.getDx() + ", " + ball.getDy());
+    }      
 }

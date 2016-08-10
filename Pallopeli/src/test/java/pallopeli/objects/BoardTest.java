@@ -1,4 +1,4 @@
-package pallopeli;
+package pallopeli.objects;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,12 +42,12 @@ public class BoardTest {
     }    
     @Test
     public void constructorDoesNotAcceptTooLargeWidth() {
-        board = new Board(10, 101, 10);
+        board = new Board(10, 31, 10);
         assertEquals("", board.toString());
     }  
     @Test
     public void constructorDoesNotAcceptTooLargeHeight() {
-        board = new Board(101, 10, 10);
+        board = new Board(31, 10, 10);
         assertEquals("", board.toString());
     }    
     @Test
@@ -62,18 +62,20 @@ public class BoardTest {
     }
     @Test
     public void constructorAcceptsMaximiumWidth() {
-        board = new Board(100, 10, 10);
+        board = new Board(30, 10, 10);
         assertEquals(this.testBoardToString(board), board.toString()); 
     }  
     @Test
     public void constructorAcceptsMaximumHeight() {
-        board = new Board(10, 100, 10);
+        board = new Board(10, 30, 10);
         assertEquals(this.testBoardToString(board), board.toString()); 
     }
 
     
     @Test
     public void neighborsAreSetCorrectly() {}   
+    
+    
     
     public String testBoardToString(Board b) {
         String boardToString = "";

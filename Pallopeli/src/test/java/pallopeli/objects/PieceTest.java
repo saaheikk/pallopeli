@@ -1,4 +1,4 @@
-package pallopeli;
+package pallopeli.objects;
 
 import org.junit.After;
 import org.junit.AfterClass;

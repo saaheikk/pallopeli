@@ -1,20 +1,17 @@
 package pallopeli;
 
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import pallopeli.gui.UserInterface;
 import pallopeli.logic.Game;
-import pallopeli.objects.Board;
-
 
 public class Main {
 
     public static void main(String[] args) { 
-        Game g = new Game(30);
-        UserInterface ui = new UserInterface(g);
-        ui.run();
 
-        SwingUtilities.invokeLater(ui);
+        Game g = new Game(30);
+        
+        UserInterface ui = new UserInterface(g);
+        SwingUtilities.invokeLater(ui); // Causes ui.run() to be executed asynchronously on the AWT event dispatching thread.
 
         while (ui.getUpdateable() == null) {
             try {
@@ -24,7 +21,7 @@ public class Main {
             }
         }
         g.setUpedateable(ui.getUpdateable());
-        g.start();
+        g.start(); // Starts the Timer, causing it to start sending action events to its listeners.
         
 
     }
