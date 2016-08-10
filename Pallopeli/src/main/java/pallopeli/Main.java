@@ -2,29 +2,31 @@ package pallopeli;
 
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import pallopeli.domain.Pelialue;
-import pallopeli.gui.Kayttoliittyma;
-import pallopeli.peli.Pallopeli;
+import pallopeli.gui.UserInterface;
+import pallopeli.logic.Game;
+import pallopeli.objects.Board;
+
 
 public class Main {
 
     public static void main(String[] args) { 
-        Pelialue pelialue = new Pelialue(6, 5);
-        pelialue.alustaPalat();
-        String pelialueString = 
-                  "on-seinä on-seinä on-seinä on-seinä on-seinä on-seinä \n"
-                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
-                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
-                + "on-seinä ei-seinä ei-seinä ei-seinä ei-seinä on-seinä \n"
-                + "on-seinä on-seinä on-seinä on-seinä on-seinä on-seinä \n";
-        System.out.println(pelialue.toString());
-        System.out.println(pelialueString);
+        Game g = new Game(30);
+        UserInterface ui = new UserInterface(g);
+        ui.run();
+
+        SwingUtilities.invokeLater(ui);
+
+        while (ui.getUpdateable() == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                System.out.println("Piirtoalustaa ei ole vielä luotu.");
+            }
+        }
+        g.setUpedateable(ui.getUpdateable());
+        g.start();
         
-        
-//        Pallopeli pallopeli = new Pallopeli();
-//        
-//        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(pallopeli);
-//        SwingUtilities.invokeLater(kayttoliittyma); // "Causes kayttoliittyma.run() to be executed asynchronously on the AWT event dispatching thread."
+
     }
     
 }
