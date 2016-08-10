@@ -4,6 +4,6 @@
 Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-balls-cover-75-of/flash-game/
 
 ## Dokumentaatio
-[Aiheen kuvaus] (dokumentaatiohamemisto/aiheenKuvausJaRakenne.md)
+[Aiheen kuvaus] (dokumentaatiohakemisto/aiheenKuvausJaRakenne.md)
 
 [Tuntikirjanpito] (dokumentaatiohakemisto/tuntikirjanpito.md)
