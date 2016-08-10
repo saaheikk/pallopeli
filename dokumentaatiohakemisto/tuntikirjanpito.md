@@ -9,3 +9,5 @@ Päivä | Tunnit | Kuvaus
 03.08.2016 | 1.0h | Testien kirjoittamista, checkstyle- ja pit-raporttien luominen
 04.08.2016 | 2.0h | Pelimoottorien opiskelua ja pit- ja checkstyle-raporttien kopioiminen GitHubiin dokumentaatiohakemistoon
 08.08.2016 | 8.0h | Paljon koodausta
+09.08.2016 | 4.0h | Lisää koodausta, koska  eilinen idea olikin vähän tyhmä
+10.08.2016 | 4.0h | Koodausta: koodissa on pari metodia jotka ovat tosi rumia, mutta ainakin sain pallon liikkumaan pelilaudalla ja (yleensä) kimpoamaan "seinäpaloista"
