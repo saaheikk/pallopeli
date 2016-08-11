@@ -11,4 +11,6 @@ Päivä | Tunnit | Kuvaus
 08.08.2016 | 8.0h | Paljon koodausta
 09.08.2016 | 4.0h | Lisää koodausta, koska  eilinen idea olikin vähän tyhmä
 10.08.2016 | 4.0h | Koodausta: koodissa on pari metodia jotka ovat tosi rumia, mutta ainakin sain pallon liikkumaan pelilaudalla ja (yleensä) kimpoamaan "seinäpaloista"
-11.08.2016 | 2.0h | Paranneltu koodia ja muokattu vähän testjä
+11.08.2016 | 2.0h | Paranneltu koodia ja muokattu vähän testejä
+11.08.2016 | 2.5h | Paranneltu testejä, luokkakaavio päivitetty, pit&checkstyle
+
