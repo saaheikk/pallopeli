@@ -73,8 +73,16 @@ public class BoardTest {
 
     
     @Test
-    public void neighborsAreSetCorrectly() {}   
+    public void neighborsAreSetCorrectly() {
+        // coming...
+    }   
     
+    @Test
+    public void getPieceReturnsTheRightPiece() {
+        board = new Board(10, 10, 30);
+        Piece piece = board.getPiece(3, 4);
+        assertTrue("", (piece.getX() == 3 && piece.getY() == 4));
+    }    
     
     
     public String testBoardToString(Board b) {

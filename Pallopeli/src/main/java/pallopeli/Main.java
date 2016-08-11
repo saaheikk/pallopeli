@@ -3,10 +3,14 @@ package pallopeli;
 import javax.swing.SwingUtilities;
 import pallopeli.gui.UserInterface;
 import pallopeli.logic.Game;
+import pallopeli.objects.Ball;
+import pallopeli.objects.Piece;
 
 public class Main {
 
     public static void main(String[] args) { 
+        
+        
 
         Game g = new Game(30);
         

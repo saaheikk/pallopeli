@@ -21,7 +21,7 @@ public class Game extends Timer implements ActionListener {
     private Updateable updateable;
 
     public Game(int sizeOfObjects) {
-        super(200, null);
+        super(600, null);
         this.sizeOfObjects = sizeOfObjects;
         this.board = new Board(10, 10, sizeOfObjects);        
         this.ball = new Ball(sizeOfObjects);
@@ -78,8 +78,6 @@ public class Game extends Timer implements ActionListener {
             this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
         }
         this.updateable.update();
-        
-        
     }
     
 

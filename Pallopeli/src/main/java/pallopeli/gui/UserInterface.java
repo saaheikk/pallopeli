@@ -36,7 +36,7 @@ public class UserInterface implements Runnable {
         // Huom! Luo ensin piirtoalusta jonka lisäät container-olioon
         // Luo vasta tämän jälkeen näppäimistönkuuntelija, jonka lisäät frame-oliolle
         this.paintingCanvas = new PaintingCanvas(this.game);
-        container.add((Component) paintingCanvas);
+        container.add((Component) paintingCanvas, "Center");
 
     }
 

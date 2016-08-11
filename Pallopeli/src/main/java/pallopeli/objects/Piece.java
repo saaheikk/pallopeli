@@ -98,22 +98,19 @@ public class Piece {
     
     public void draw(Graphics graphics) {
         if (wall) {
-            graphics.drawImage(wallImage, size*x, size*y, null);         
+            graphics.drawImage(wallImage, size * x, size * y, null);         
         } else if (!wall) {
-            graphics.drawImage(pieceImage, size*x, size*y, null);
+            graphics.drawImage(pieceImage, size * x, size * y, null);
         }       
     }
     
-    public boolean hasBall(Ball ball) {
-        int ballX = ball.getX();
-        int ballY = ball.getY();
-        int ballR = ball.getRadius();        
+    public boolean hasBall(Ball ball) {       
         int upperLeftCornerX = this.size * this.x;
         int upperLeftCornerY = this.size * this.y;        
-        boolean leftLimit = ballX > (upperLeftCornerX - ballR);
-        boolean rightLimit = ballX < (upperLeftCornerX + this.size + ballR);
-        boolean topLimit = ballY > (upperLeftCornerY - ballR);
-        boolean bottomLimit = ballY < (upperLeftCornerY + this.size + ballR);                          
+        boolean leftLimit = ball.getX() > (upperLeftCornerX - ball.getRadius());
+        boolean rightLimit = ball.getX() < (upperLeftCornerX + this.size + ball.getRadius());
+        boolean topLimit = ball.getY() > (upperLeftCornerY - ball.getRadius());
+        boolean bottomLimit = ball.getY() < (upperLeftCornerY + this.size + ball.getRadius());                          
         if (leftLimit && rightLimit && topLimit && bottomLimit) {
             return true;
         }
@@ -122,7 +119,7 @@ public class Piece {
     public double getDistanceToAPoint(int x, int y) {
         double middleX = (double) this.size * this.x + this.size / 2;
         double middleY = (double) this.size * this.y + this.size / 2;
-        return Math.sqrt((middleX - x)*(middleX - x) + (middleY - y)*(middleY - y));
+        return Math.sqrt((middleX - x) * (middleX - x) + (middleY - y) * (middleY - y));
     }
     
     public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
@@ -161,7 +158,7 @@ public class Piece {
                 return CompassDirection.SOUTH;
             }              
             return CompassDirection.WEST;
-        } else if (ballX > topRightCornerX){
+        } else if (ballX > topRightCornerX) {
             if (ballY < topRightCornerY && topRightCornerY - ballY > ballX - topRightCornerX) {
                 return CompassDirection.NORTH;
             } else if (ballY > bottomRightCornerY && ballX - bottomRightCornerX > ballY - bottomRightCornerY) {

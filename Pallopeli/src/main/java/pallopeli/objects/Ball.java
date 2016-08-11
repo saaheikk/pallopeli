@@ -77,9 +77,17 @@ public class Ball {
     public int getY() {
         return y;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
     
     public void draw(Graphics graphics) {
-        graphics.fillOval(x, y, 2*radius, 2*radius);
+        graphics.fillOval(x, y, 2 * radius, 2 * radius);
     }
 
 }

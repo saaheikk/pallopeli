@@ -14,7 +14,7 @@ public class Board {
     private Piece[][] pieces; // matrix containing all the pieces
 
     public Board(int width, int height, int sizeOfPieces) {
-        if (width > 4 && height > 4 && width <= 30 && height <= 30 ) { 
+        if (width > 4 && height > 4 && width <= 30 && height <= 30) { 
             this.width = width;
             this.height = height;
             this.sizeOfPieces = sizeOfPieces;            
@@ -86,7 +86,7 @@ public class Board {
     // this is a test version!!    
     protected void buildWall(int x, int y, CompassDirection compassDirection) {
         boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-        while(continues) {
+        while (continues) {
             continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
             y--;        
         }

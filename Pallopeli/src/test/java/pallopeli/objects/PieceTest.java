@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,6 +58,38 @@ public class PieceTest {
         piece.turnIntoWall();
         assertTrue("", piece.isWall());    
     }     
+    
+    @Test
+    public void hasBallWorksIfBallTouchesThePiece() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballThatTouchesThePiece = new Ball(30);
+        Random random = new Random(); // location of the ball is set randomly within the limits
+        int randomX = 3 * 30 - 15 + random.nextInt(60 + 1);
+        int randomY = 3 * 30 - 15 + random.nextInt(60 + 1);
+        ballThatTouchesThePiece.setX(randomX);
+        ballThatTouchesThePiece.setY(randomY);
+        assertTrue("", piece.hasBall(ballThatTouchesThePiece));   
+    }   
+    @Test
+    public void hasBallWorksIfBallDoesNotTouchThePiece() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballThatTouchesThePiece = new Ball(30);
+        ballThatTouchesThePiece.setX(30);
+        ballThatTouchesThePiece.setY(40);
+        assertFalse("", piece.hasBall(ballThatTouchesThePiece));   
+    }   
+    @Test
+    public void getDistanceToAPointWorks() {
+        piece = new Piece(3, 3, true, 30);
+        int x = 250;
+        int y = 50;
+        double middleX = (double) piece.getSize() * piece.getX() + piece.getSize() / 2;
+        double middleY = (double) piece.getSize() * piece.getY() + piece.getSize() / 2;
+        double distance = Math.sqrt((middleX - x)*(middleX - x) + (middleY - y)*(middleY - y));        
+        assertTrue("", distance==piece.getDistanceToAPoint(x, y));    
+    }
+    
+    
     
     @Test
     public void toStringWorksIfPieceIsWall() {
