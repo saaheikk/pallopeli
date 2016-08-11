@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2016</copyright>
     <item>
-      <title>File: 7,
-             Errors: 7,
+      <title>File: 10,
+             Errors: 4,
              Warnings: 0,
              Infos: 0
       </title>
@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.gui.Kayttoliittyma.java">pallopeli/gui/Kayttoliittyma.java</a>
+                  <a href="${project.url}/checkstyle.html#pallopeli.logic.Game.java">pallopeli/logic/Game.java</a>
                 </td>
                 <td>
                   0
@@ -60,7 +60,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.domain.Pallo.java">pallopeli/domain/Pallo.java</a>
+                  <a href="${project.url}/checkstyle.html#pallopeli.gui.PaintingCanvas.java">pallopeli/gui/PaintingCanvas.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.objects.Board.java">pallopeli/objects/Board.java</a>
                 </td>
                 <td>
                   0
@@ -88,21 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.gui.Piirtoalusta.java">pallopeli/gui/Piirtoalusta.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.domain.Pala.java">pallopeli/domain/Pala.java</a>
+                  <a href="${project.url}/checkstyle.html#pallopeli.objects.Ball.java">pallopeli/objects/Ball.java</a>
                 </td>
                 <td>
                   0
@@ -116,7 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.domain.Pelialue.java">pallopeli/domain/Pelialue.java</a>
+                  <a href="${project.url}/checkstyle.html#pallopeli.gui.UserInterface.java">pallopeli/gui/UserInterface.java</a>
                 </td>
                 <td>
                   0
@@ -130,7 +130,49 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#pallopeli.peli.Pallopeli.java">pallopeli/peli/Pallopeli.java</a>
+                  <a href="${project.url}/checkstyle.html#pallopeli.BuildingDirection.java">pallopeli/BuildingDirection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.gui.Updateable.java">pallopeli/gui/Updateable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.objects.Piece.java">pallopeli/objects/Piece.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.CompassDirection.java">pallopeli/CompassDirection.java</a>
                 </td>
                 <td>
                   0
