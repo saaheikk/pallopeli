@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 import pallopeli.BuildingDirection;
 import pallopeli.CompassDirection;
-import pallopeli.gui.Updateable;
+import pallopeli.graphics.Updateable;
 import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
 import pallopeli.objects.Piece;

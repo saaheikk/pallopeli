@@ -1,5 +1,7 @@
 package pallopeli.gui;
 
+import pallopeli.graphics.Updateable;
+import pallopeli.graphics.PaintingCanvas;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;

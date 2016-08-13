@@ -1,7 +1,5 @@
 package pallopeli.objects;
 
-import java.awt.Graphics;
-import java.awt.List;
 import java.util.ArrayList;
 import pallopeli.BuildingDirection;
 import pallopeli.CompassDirection;
@@ -127,13 +125,7 @@ public class Board {
         return boardToString;
     }
     
-    public void draw(Graphics graphics) {
-        for (int h = 0; h < this.height; h++) {                       
-            for (int w = 0; w < this.width; w++) {
-                pieces[h][w].draw(graphics);
-            }
-        }        
-    }
+
     
     public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
         ArrayList<Piece> alarmedWallPieces = new ArrayList<>();

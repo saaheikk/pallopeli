@@ -1,4 +1,4 @@
-package pallopeli.gui;
+package pallopeli.graphics;
 
 
 public interface Updateable {

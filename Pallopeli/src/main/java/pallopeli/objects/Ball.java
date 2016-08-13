@@ -1,6 +1,5 @@
 package pallopeli.objects;
 
-import java.awt.Graphics;
 import java.util.Random;
 import pallopeli.CompassDirection;
 
@@ -84,10 +83,6 @@ public class Ball {
 
     public void setY(int y) {
         this.y = y;
-    }
-    
-    public void draw(Graphics graphics) {
-        graphics.fillOval(x, y, 2 * radius, 2 * radius);
     }
 
 }

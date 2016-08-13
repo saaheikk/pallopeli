@@ -1,9 +1,6 @@
 package pallopeli.objects;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import static java.lang.Math.sqrt;
-import javax.swing.ImageIcon;
 import pallopeli.CompassDirection;
 
 public class Piece {
@@ -16,10 +13,7 @@ public class Piece {
     private Piece northNeighbor;
     private Piece westNeighbor;
     private Piece southNeighbor;
-    private Piece eastNeighbor;
-    
-    private final Image pieceImage = new ImageIcon("tavallinenpala.png").getImage();
-    private final Image wallImage = new ImageIcon("seinapala.png").getImage();     
+    private Piece eastNeighbor;  
 
     public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
@@ -96,13 +90,6 @@ public class Piece {
         return "no-wall";
     }
     
-    public void draw(Graphics graphics) {
-        if (wall) {
-            graphics.drawImage(wallImage, size * x, size * y, null);         
-        } else if (!wall) {
-            graphics.drawImage(pieceImage, size * x, size * y, null);
-        }       
-    }
     
     public boolean hasBall(Ball ball) {       
         int upperLeftCornerX = this.size * this.x;
