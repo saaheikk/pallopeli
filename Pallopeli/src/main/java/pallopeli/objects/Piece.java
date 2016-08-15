@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.awt.Point;
 import static java.lang.Math.sqrt;
 import pallopeli.CompassDirection;
 
@@ -7,6 +8,7 @@ public class Piece {
     private int x; // location relative to the board
     private int y; // location relative to the board
     private int size; // pixels
+    private Point anchor;
     
     private boolean wall;
     
@@ -20,7 +22,17 @@ public class Piece {
         this.y = y;
         this.wall = wall;
         this.size = sizeOfObjects;
+        this.anchor = new Point(x * sizeOfObjects, y * sizeOfObjects);
     }
+    public void turnIntoWall() {
+        this.wall = true;
+    }     
+ 
+    
+    
+    
+    
+    
     
     // this method is used to build walls during the game
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
@@ -51,9 +63,7 @@ public class Piece {
         return this.wall;
     }
     
-    public void turnIntoWall() {
-        this.wall = true;
-    }
+
 
     public void setNorthNeighbor(Piece northNeighbor) {
             this.northNeighbor = northNeighbor;  
@@ -80,21 +90,26 @@ public class Piece {
     }
 
     public int getSize() {
-        return size;
+        return size; 
     }
-    public int getCenterX() {
+    
+    public Point getAnchor() {
+        return this.anchor;
+    }
+    
+    public int getCenterCoordinateX() {
         return this.x * this.size + this.size / 2;
     }
-    public int getCenterY() {
+    public int getCenterCoordinateY() {
         return this.y * this.size + this.size / 2;
     }    
             
     @Override
     public String toString() {
         if (this.wall) {
-            return "(" + this.x + "," + this. y + ") is-wall";
+            return "(" + this.x + "," + this. y + "): is-wall, coordinates: " + this.anchor;
         }
-        return "(" + this.x + "," + this. y + ") no-wall";
+        return "(" + this.x + "," + this. y + "): no-wall, coordinates: " + this.anchor;
     }
     
     
@@ -129,23 +144,26 @@ public class Piece {
         return false; // returns true for pieces that have no neighbors!!!
     }
     
-    public boolean hasBall(Ball ball) {       
-        int upperLeftCornerX = this.size * this.x;
-        int upperLeftCornerY = this.size * this.y;        
-        boolean leftLimit = ball.getX() > (upperLeftCornerX - ball.getRadius());
-        boolean rightLimit = ball.getX() < (upperLeftCornerX + this.size + ball.getRadius());
-        boolean topLimit = ball.getY() > (upperLeftCornerY - ball.getRadius());
-        boolean bottomLimit = ball.getY() < (upperLeftCornerY + this.size + ball.getRadius());                          
-        if (leftLimit && rightLimit && topLimit && bottomLimit) {
-            return true;
-        }
-        return false;
-    }
+
     public double getDistanceToAPoint(int x, int y) {
         double middleX = (double) this.size * this.x + this.size / 2;
         double middleY = (double) this.size * this.y + this.size / 2;
         return Math.sqrt((middleX - x) * (middleX - x) + (middleY - y) * (middleY - y));
     }
+    
+    // this method has problem with corners! --> no tests
+//    public boolean hasBall(Ball ball) {       
+//        int upperLeftCornerX = this.size * this.x;
+//        int upperLeftCornerY = this.size * this.y;        
+//        boolean leftLimit = ball.getX() > (upperLeftCornerX - ball.getRadius());
+//        boolean rightLimit = ball.getX() < (upperLeftCornerX + this.size + ball.getRadius());
+//        boolean topLimit = ball.getY() > (upperLeftCornerY - ball.getRadius());
+//        boolean bottomLimit = ball.getY() < (upperLeftCornerY + this.size + ball.getRadius());                          
+//        if (leftLimit && rightLimit && topLimit && bottomLimit) {
+//            return true;
+//        }
+//        return false;
+//    }      
     
     public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
         // this code will be imporved... i am aware that currenlty it's very ugly :(

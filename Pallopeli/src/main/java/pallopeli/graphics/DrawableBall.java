@@ -15,7 +15,7 @@ public class DrawableBall implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillOval(ballToDraw.getX(), ballToDraw.getY(), 2 * ballToDraw.getRadius(), 2 * ballToDraw.getRadius());
+        g.fillOval(ballToDraw.getCurrentPosition().x, ballToDraw.getCurrentPosition().y, 2 * ballToDraw.getRadius(), 2 * ballToDraw.getRadius());
     }
     
 }

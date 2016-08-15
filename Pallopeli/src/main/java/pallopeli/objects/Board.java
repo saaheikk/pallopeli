@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import pallopeli.BuildingDirection;
 import pallopeli.CompassDirection;
@@ -24,15 +25,15 @@ public class Board {
     }
     
    
-    public ArrayList<Piece> getWallPiecesNearby(int x, int y, int howMuchIsNearby) {
+    public ArrayList<Piece> getWallPiecesNearby(Point point, int howMuchIsNearby) {
         ArrayList<Piece> wallPiecesNearby = new ArrayList<>();
         for (int h = 0; h < this.height; h++) {                       
             for (int w = 0; w < this.width; w++) {
-                Piece p = this.getPiece(w, h);
-                if (p.isWall()) {                    
-                    if (x - howMuchIsNearby < p.getCenterX() && p.getCenterX() < x + howMuchIsNearby) {
-                        if (y - howMuchIsNearby < p.getCenterY() && p.getCenterY() < y + howMuchIsNearby) {
-                            wallPiecesNearby.add(p);
+                Piece piece = this.getPiece(w, h);
+                if (piece.isWall()) {                    
+                    if (point.x - howMuchIsNearby < piece.getCenterCoordinateX() && piece.getCenterCoordinateX() < point.x + howMuchIsNearby) {
+                        if (point.y - howMuchIsNearby < piece.getCenterCoordinateY() && piece.getCenterCoordinateY() < point.y + howMuchIsNearby) {
+                            wallPiecesNearby.add(piece);
                         }
                     }
                 }
@@ -146,19 +147,25 @@ public class Board {
     
 
     
-    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
-        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();
-        for (int h = 0; h < this.height; h++) {                       
-            for (int w = 0; w < this.width; w++) {
-                if (this.getPiece(w, h).isWall()) {
-                    if (this.getPiece(w, h).hasBall(ball)) {
-                        alarmedWallPieces.add(this.getPiece(w, h));
-                    }                    
-                }
-            }
-        }  
-        return alarmedWallPieces;
-    }
+//    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
+//        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();
+//        for (int h = 0; h < this.height; h++) {                       
+//            for (int w = 0; w < this.width; w++) {
+//                if (this.getPiece(w, h).isWall()) {
+//                    if (this.getPiece(w, h).hasBall(ball)) {
+//                        alarmedWallPieces.add(this.getPiece(w, h));
+//                    }                    
+//                }
+//            }
+//        }  
+//        return alarmedWallPieces;
+//    }
+    
+    
+    
+    
+    
+    
     
     
     // helper method

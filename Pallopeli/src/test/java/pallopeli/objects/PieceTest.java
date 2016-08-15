@@ -31,7 +31,21 @@ public class PieceTest {
     @After
     public void tearDown() {
     }
-
+    @Test
+    public void constructorSetsLocationXCorrectly() {
+        piece = new Piece(5, 8, true, 30);
+        assertTrue("", piece.getX() == 5);    
+    }    
+    @Test
+    public void constructorSetsLocationYCorrectly() {
+        piece = new Piece(10, 12, true, 30);
+        assertTrue("", piece.getY() == 12);    
+    }
+        @Test
+    public void constructorSetsSizeCorrectly() {
+        piece = new Piece(2, 0, true, 30);
+        assertTrue("", piece.getSize() == 30);    
+    }
 
     @Test
     public void constructorSetsBooleanWallTrueCorrectly() {
@@ -59,25 +73,7 @@ public class PieceTest {
         assertTrue("", piece.isWall());    
     }     
     
-    @Test
-    public void hasBallWorksIfBallTouchesThePiece() {
-        piece = new Piece(3, 3, true, 30);
-        Ball ballThatTouchesThePiece = new Ball(30);
-        Random random = new Random(); // location of the ball is set randomly within the limits
-        int randomX = 3 * 30 - 15 + random.nextInt(60 + 1);
-        int randomY = 3 * 30 - 15 + random.nextInt(60 + 1);
-        ballThatTouchesThePiece.setX(randomX);
-        ballThatTouchesThePiece.setY(randomY);
-        assertTrue("", piece.hasBall(ballThatTouchesThePiece));   
-    }   
-    @Test
-    public void hasBallWorksIfBallDoesNotTouchThePiece() {
-        piece = new Piece(3, 3, true, 30);
-        Ball ballThatTouchesThePiece = new Ball(30);
-        ballThatTouchesThePiece.setX(30);
-        ballThatTouchesThePiece.setY(40);
-        assertFalse("", piece.hasBall(ballThatTouchesThePiece));   
-    }   
+        
     @Test
     public void getDistanceToAPointWorks() {
         piece = new Piece(3, 3, true, 30);
@@ -104,25 +100,25 @@ public class PieceTest {
     @Test
     public void getCenterXWorksForEvenSize() {
         piece = new Piece(3, 3, false, 30);
-        int centerX = piece.getCenterX();
+        int centerX = piece.getCenterCoordinateX();
         assertTrue("", centerX == 105);    
     }       
     @Test
     public void getCenterXWorksForOddSize() {
         piece = new Piece(3, 3, false, 25);
-        int centerX = piece.getCenterX();
+        int centerX = piece.getCenterCoordinateX();
         assertTrue("", centerX == 87);    
     } 
     @Test
     public void getCenterYWorksForEvenSize() {
         piece = new Piece(3, 3, false, 30);
-        int centerY = piece.getCenterY();
+        int centerY = piece.getCenterCoordinateY();
         assertTrue("", centerY == 105);    
     } 
     @Test
     public void getCenterYWorksForOddSize() {
         piece = new Piece(3, 3, false, 25);
-        int centerY = piece.getCenterY();
+        int centerY = piece.getCenterCoordinateY();
         assertTrue("", centerY == 87);    
     } 
 }

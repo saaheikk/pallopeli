@@ -25,8 +25,7 @@ public class Game extends Timer implements ActionListener {
         this.sizeOfObjects = sizeOfObjects;
         this.board = new Board(10, 10, sizeOfObjects);        
         this.ball = new Ball(sizeOfObjects);
-        this.ball.setStartingPoint(this.board);
-        this.ball.drawSpeed();
+        this.ball.setBallOnBoard(this.board);
         
         this.direction = BuildingDirection.HORIZONTAL;  
         
@@ -61,6 +60,7 @@ public class Game extends Timer implements ActionListener {
             return;
         }      
         this.ball.move(board);
+//        original bouncing that uses the ugly methods in class Piece (does not work perfectly either):
 //        int ballXstart = this.ball.getX();
 //        int ballYstart = this.ball.getY();
 //        

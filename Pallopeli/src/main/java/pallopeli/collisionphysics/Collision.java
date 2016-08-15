@@ -1,30 +1,36 @@
 package pallopeli.collisionphysics;
 
+import java.awt.Point;
 import pallopeli.BuildingDirection;
 
 public class Collision {
-    private int x;
-    private int y;
-    private BuildingDirection direction;
+    private Point collisionPosition;
+    private BuildingDirection reflectingDirection;
 
-    public Collision(int x, int y, BuildingDirection direction) {
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
+    public Collision(Point collisionLocation, BuildingDirection reflectingDirection) {
+        this.collisionPosition = collisionLocation;
+        this.reflectingDirection = reflectingDirection;
     }
 
-    public int getX() {
-        return x;
+    public int getCoordinateX() {
+        return this.collisionPosition.x;
     }
 
-    public int getY() {
-        return y;
+    public int getCoordinateY() {
+        return this.collisionPosition.y;
     }
 
-    public BuildingDirection getDirection() {
-        return direction;
+    public BuildingDirection getReflectingDirection() {
+        return reflectingDirection;
     }
-    
+
+    public Point getCollisionPosition() {
+        return collisionPosition;
+    }
+    @Override
+    public String toString() {
+        return "Collision at (" + this.collisionPosition.x + "," + this.collisionPosition.y + ")";
+    }
     
     
 

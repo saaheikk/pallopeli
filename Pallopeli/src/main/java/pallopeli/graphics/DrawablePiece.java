@@ -21,9 +21,9 @@ public class DrawablePiece implements Drawable {
     @Override
     public void draw(Graphics graphics) {
         if (this.pieceToDraw.isWall()) {
-            graphics.drawImage(wallImage, this.pieceToDraw.getSize() * this.pieceToDraw.getX(), this.pieceToDraw.getSize() * this.pieceToDraw.getY(), null);         
+            graphics.drawImage(wallImage, this.pieceToDraw.getAnchor().x, this.pieceToDraw.getAnchor().y, null);         
         } else if (!this.pieceToDraw.isWall()) {
-            graphics.drawImage(pieceImage, this.pieceToDraw.getSize() * this.pieceToDraw.getX(), this.pieceToDraw.getSize() * this.pieceToDraw.getY(), null);
+            graphics.drawImage(pieceImage, this.pieceToDraw.getAnchor().x, this.pieceToDraw.getAnchor().y, null);
         }       
     }
     
