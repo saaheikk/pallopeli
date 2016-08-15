@@ -13,4 +13,6 @@ Päivä | Tunnit | Kuvaus
 10.08.2016 | 4.0h | Koodausta: koodissa on pari metodia jotka ovat tosi rumia, mutta ainakin sain pallon liikkumaan pelilaudalla ja (yleensä) kimpoamaan "seinäpaloista"
 11.08.2016 | 2.0h | Paranneltu koodia ja muokattu vähän testejä
 11.08.2016 | 2.5h | Paranneltu testejä, luokkakaavio päivitetty, pit&checkstyle
-
+12.08.2016 | 1.0h | Opiskelua ja CollisionDetector-luokan suunnittelua
+13.08.2016 | 3.0h | CollisionDetector-luokan suunnittelua ja toteutusta
+14.08.2016 | 8.5h | CollisionDetectorin toteutusta
