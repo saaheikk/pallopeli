@@ -1,7 +1,11 @@
 package pallopeli.objects;
 
+import java.util.ArrayList;
 import java.util.Random;
+import pallopeli.BuildingDirection;
 import pallopeli.CompassDirection;
+import pallopeli.collisionphysics.Collision;
+import pallopeli.collisionphysics.CollisionDetector;
 
 public class Ball {
     private int x; // horizontal location
@@ -9,9 +13,16 @@ public class Ball {
     private int dx; // horizontal speed
     private int dy; // vertical speed
     private int radius;
+    private CollisionDetector collisionDetector;
+    
+    private int endOfTraceX; // ball "remembers where it came from"
+    private int endOfTraceY; // ball "remembers where it came from"
+    
+
 
     public Ball(int sizeOfObjects) {
-        this.radius = sizeOfObjects / 2;            
+        this.radius = sizeOfObjects / 2;
+        this.collisionDetector = new CollisionDetector();
     }
     
     public void setStartingPoint(Board board) {
@@ -28,8 +39,8 @@ public class Ball {
     
     public void drawSpeed() {
         Random random = new Random();
-        int horizontalSpeed = random.nextInt(2 * this.radius) - 1;
-        int verticalSpeed = random.nextInt(2 * this.radius) - 1;
+        int horizontalSpeed = 1 + random.nextInt(this.radius);
+        int verticalSpeed = 1 + random.nextInt(this.radius);
         this.setSpeed(horizontalSpeed, verticalSpeed);        
     }
 
@@ -45,15 +56,40 @@ public class Ball {
         return radius;
     }
     
+
     
-    public void move() {
+    public void moveOneStepForward() {
+        this.endOfTraceX = this.x;
+        this.endOfTraceY = this.y;
         this.x += this.dx;
         this.y += this.dy;        
     }
-    public void moveOneStepBackwards() {
-        this.x -= this.dx;
-        this.y -= this.dy;          
+    
+    public void move(Board board) {
+        this.moveOneStepForward();
+        System.out.println(this);
+        Collision collision = this.collisionDetector.checkForEarliestCollisionAlongTrace(this, board);
+        if (collision == null) {
+            
+            System.out.println("This step has no collision");
+            return;
+        } else {
+            this.x = collision.getX();
+            this.y = collision.getY();        
+            if (collision.getDirection() == BuildingDirection.HORIZONTAL) {
+                this.dy *= -1;
+            } else if (collision.getDirection() == BuildingDirection.VERTICAL) {
+                this.dx *= -1;
+            }
+            System.out.println("Collision detected!");
+            
+        }
+        
     }
+    
+     
+
+    
     
     public void bounce(CompassDirection compassDirection) {
         if (compassDirection == CompassDirection.EAST || compassDirection == CompassDirection.WEST) { 
@@ -68,6 +104,8 @@ public class Ball {
             this.dy *= -1;            
         }
     }
+    
+    
 
     public int getX() {
         return x;
@@ -77,12 +115,26 @@ public class Ball {
         return y;
     }
 
+    public int getEndOfTraceX() {
+        return endOfTraceX;
+    }
+
+    public int getEndOfTraceY() {
+        return endOfTraceY;
+    }
+
     public void setX(int x) {
         this.x = x;
     }
 
     public void setY(int y) {
         this.y = y;
+    }
+    @Override
+    public String toString() {
+        return "My location: (" + this.x + "," + this.y + 
+                "), speed: (" + this.dx + "," + this.dy + 
+                "), and end of trace: (" + this.endOfTraceX + "," + this.endOfTraceY + ")";
     }
 
 }

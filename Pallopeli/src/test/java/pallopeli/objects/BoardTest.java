@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -82,7 +83,20 @@ public class BoardTest {
         board = new Board(10, 10, 30);
         Piece piece = board.getPiece(3, 4);
         assertTrue("", (piece.getX() == 3 && piece.getY() == 4));
-    }    
+    }   
+    @Test
+    public void getWallPiecesNearbyWorksIfThereAreNone() {
+        board = new Board(10, 10, 30);
+        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(100, 100, 30);
+        assertTrue("", wallPiecesNearby.isEmpty());
+    }     
+    @Test
+    public void getWallPiecesNearbyWorksIfThereAreSome() {
+        board = new Board(10, 10, 30);
+        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(40, 80, 30);
+        assertFalse("", wallPiecesNearby.isEmpty());
+    }     
+    
     
     
     public String testBoardToString(Board b) {

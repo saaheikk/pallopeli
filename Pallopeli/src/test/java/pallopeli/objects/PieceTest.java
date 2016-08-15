@@ -94,11 +94,35 @@ public class PieceTest {
     @Test
     public void toStringWorksIfPieceIsWall() {
         piece = new Piece(3, 3, true, 30);
-        assertEquals("is-wall", piece.toString());    
+        assertEquals("(3,3) is-wall", piece.toString());    
     }  
     @Test
     public void toStringWorksIfPieceIsNotWall() {
         piece = new Piece(3, 3, false, 30);
-        assertEquals("no-wall", piece.toString());    
+        assertEquals("(3,3) no-wall", piece.toString());    
     }     
+    @Test
+    public void getCenterXWorksForEvenSize() {
+        piece = new Piece(3, 3, false, 30);
+        int centerX = piece.getCenterX();
+        assertTrue("", centerX == 105);    
+    }       
+    @Test
+    public void getCenterXWorksForOddSize() {
+        piece = new Piece(3, 3, false, 25);
+        int centerX = piece.getCenterX();
+        assertTrue("", centerX == 87);    
+    } 
+    @Test
+    public void getCenterYWorksForEvenSize() {
+        piece = new Piece(3, 3, false, 30);
+        int centerY = piece.getCenterY();
+        assertTrue("", centerY == 105);    
+    } 
+    @Test
+    public void getCenterYWorksForOddSize() {
+        piece = new Piece(3, 3, false, 25);
+        int centerY = piece.getCenterY();
+        assertTrue("", centerY == 87);    
+    } 
 }

@@ -82,14 +82,52 @@ public class Piece {
     public int getSize() {
         return size;
     }
+    public int getCenterX() {
+        return this.x * this.size + this.size / 2;
+    }
+    public int getCenterY() {
+        return this.y * this.size + this.size / 2;
+    }    
+            
     @Override
     public String toString() {
         if (this.wall) {
-            return "is-wall";
+            return "(" + this.x + "," + this. y + ") is-wall";
         }
-        return "no-wall";
+        return "(" + this.x + "," + this. y + ") no-wall";
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public boolean isSurroundedByWallPieces() {
+        // returns true for pieces that have no neighbors!!!
+        if (this.northNeighbor == null || this.northNeighbor.isWall()) {
+            if (this.eastNeighbor == null || this.eastNeighbor.isWall()) {
+                if (this.southNeighbor == null || this.southNeighbor.isWall()) {
+                    if (this.southNeighbor == null || this.southNeighbor.isWall()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false; // returns true for pieces that have no neighbors!!!
+    }
     
     public boolean hasBall(Ball ball) {       
         int upperLeftCornerX = this.size * this.x;

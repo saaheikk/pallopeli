@@ -25,7 +25,7 @@ public class UserInterface implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Pallopeli");
-        frame.setPreferredSize(new Dimension(400, 400));
+        frame.setPreferredSize(new Dimension(300, 322));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createComponents(frame.getContentPane());

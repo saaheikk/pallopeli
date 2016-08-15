@@ -59,24 +59,25 @@ public class Game extends Timer implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
             return;
-        }        
-        int ballXstart = this.ball.getX();
-        int ballYstart = this.ball.getY();
-        
-        this.ball.move();
-
-        ArrayList<Piece> alarmedWallPieces = this.board.getAlarmedWallPieces(ball);
-        if (!alarmedWallPieces.isEmpty()) {
-            //this.ball.moveOneStepBackwards();
-            Piece nearest = null;
-            double minimumDistance = 10000;
-            for (int i = 0; i < alarmedWallPieces.size(); i++) {
-                if (minimumDistance > alarmedWallPieces.get(i).getDistanceToAPoint(ballXstart, ballYstart)) {
-                    nearest = alarmedWallPieces.get(i);
-                }                
-            }            
-            this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
-        }
+        }      
+        this.ball.move(board);
+//        int ballXstart = this.ball.getX();
+//        int ballYstart = this.ball.getY();
+//        
+//        this.ball.move();
+//
+//        ArrayList<Piece> alarmedWallPieces = this.board.getAlarmedWallPieces(ball);
+//        if (!alarmedWallPieces.isEmpty()) {
+//            //this.ball.moveOneStepBackwards();
+//            Piece nearest = null;
+//            double minimumDistance = 10000;
+//            for (int i = 0; i < alarmedWallPieces.size(); i++) {
+//                if (minimumDistance > alarmedWallPieces.get(i).getDistanceToAPoint(ballXstart, ballYstart)) {
+//                    nearest = alarmedWallPieces.get(i);
+//                }                
+//            }            
+//            this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
+//        }
         this.updateable.update();
     }
     

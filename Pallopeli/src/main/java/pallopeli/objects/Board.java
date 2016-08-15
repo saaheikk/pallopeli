@@ -11,6 +11,7 @@ public class Board {
     
     private Piece[][] pieces; // matrix containing all the pieces
 
+
     public Board(int width, int height, int sizeOfPieces) {
         if (width > 4 && height > 4 && width <= 30 && height <= 30) { 
             this.width = width;
@@ -18,8 +19,26 @@ public class Board {
             this.sizeOfPieces = sizeOfPieces;            
             this.pieces = new Piece[height][width];
             this.initializePieces();
-            this.setNeighbors();   
+            this.setNeighbors();  
         }
+    }
+    
+   
+    public ArrayList<Piece> getWallPiecesNearby(int x, int y, int howMuchIsNearby) {
+        ArrayList<Piece> wallPiecesNearby = new ArrayList<>();
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                Piece p = this.getPiece(w, h);
+                if (p.isWall()) {                    
+                    if (x - howMuchIsNearby < p.getCenterX() && p.getCenterX() < x + howMuchIsNearby) {
+                        if (y - howMuchIsNearby < p.getCenterY() && p.getCenterY() < y + howMuchIsNearby) {
+                            wallPiecesNearby.add(p);
+                        }
+                    }
+                }
+            }
+        }   
+        return wallPiecesNearby;
     }
 
     protected void initializePieces() {
@@ -139,6 +158,20 @@ public class Board {
             }
         }  
         return alarmedWallPieces;
+    }
+    
+    
+    // helper method
+    public ArrayList<Piece> getWallPiecesAsList() {
+        ArrayList<Piece> wallPieces = new ArrayList<>();
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                if (this.getPiece(w, h).isWall()) {
+                    wallPieces.add(this.getPiece(w, h));
+                }
+            }
+        }  
+        return wallPieces;        
     }
 
 }
