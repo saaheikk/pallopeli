@@ -17,5 +17,5 @@ Päivä | Tunnit | Kuvaus
 13.08.2016 | 3.0h | CollisionDetector-luokan suunnittelua ja toteutusta
 14.08.2016 | 8.5h | CollisionDetectorin toteutusta
 15.08.2016 | 5.5h | CollisionDetectorin debuggausta (ei toimi virheettömästi), koodin refaktorointia (--> testit vielä päivittämättä!), 2h pajassa
-
+17.08.2016 | 5.5h | Bugien korjaamista, refaktorointia ja testien kirjoittamista
 
