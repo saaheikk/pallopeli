@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.awt.Point;
 import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,7 +14,6 @@ public class PieceTest {
     Piece piece;    
 
     public PieceTest() {
-
     }
     
     @BeforeClass
@@ -73,30 +73,87 @@ public class PieceTest {
         assertTrue("", piece.isWall());    
     }     
     
-        
     @Test
-    public void getDistanceToAPointWorks() {
+    public void hasBallWorksIfBallLiesOnPiece() {
         piece = new Piece(3, 3, true, 30);
-        int x = 250;
-        int y = 50;
-        double middleX = (double) piece.getSize() * piece.getX() + piece.getSize() / 2;
-        double middleY = (double) piece.getSize() * piece.getY() + piece.getSize() / 2;
-        double distance = Math.sqrt((middleX - x)*(middleX - x) + (middleY - y)*(middleY - y));        
-        assertTrue("", distance==piece.getDistanceToAPoint(x, y));    
-    }
-    
-    
-    
-    @Test
-    public void toStringWorksIfPieceIsWall() {
-        piece = new Piece(3, 3, true, 30);
-        assertEquals("(3,3) is-wall", piece.toString());    
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(95, 95));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
     }  
+    
     @Test
-    public void toStringWorksIfPieceIsNotWall() {
-        piece = new Piece(3, 3, false, 30);
-        assertEquals("(3,3) no-wall", piece.toString());    
-    }     
+    public void hasBallWorksIfBallLiesOnLeftBorder() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(75, 95));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }      
+    @Test
+    public void hasBallWorksIfBallLiesOnTopBorder() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(100, 75));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }    
+    @Test
+    public void hasBallWorksIfBallLiesOnRightBorder() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(135, 105));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }       
+    @Test
+    public void hasBallWorksIfBallLiesOnBottomBorder() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(95, 135));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }       
+    @Test
+    public void hasBallWorksIfBallLiesOnLeftTopCorner() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(80, 80));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }       
+    @Test
+    public void hasBallWorksIfBallLiesOnRightTopCorner() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(130, 80));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }      
+    @Test
+    public void hasBallWorksIfBallLiesOnRightBottomCorner() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(130, 130));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }         
+    @Test
+    public void hasBallWorksIfBallLiesOnLeftBottomCorner() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballLyingOnPiece = new Ball(30);
+        ballLyingOnPiece.setCurrentPosition(new Point(80, 130));
+        assertTrue("", piece.hasBall(ballLyingOnPiece));    
+    }   
+    @Test
+    public void hasBallWorksIfBallDoesNotTouchPiece() {
+        piece = new Piece(2, 3, true, 30);
+        Ball ballNotLyingOnPiece = new Ball(30);
+        ballNotLyingOnPiece.setCurrentPosition(new Point(150, 171));
+        assertFalse("", piece.hasBall(ballNotLyingOnPiece));    
+    }    
+    @Test
+    public void hasBallWorksIfBallAlmostTouchesPiece() {
+        piece = new Piece(3, 3, true, 30);
+        Ball ballNotLyingOnPiece = new Ball(30);
+        ballNotLyingOnPiece.setCurrentPosition(new Point(79, 131));
+        assertFalse("", piece.hasBall(ballNotLyingOnPiece));    
+    }      
+    
+    
+
     @Test
     public void getCenterXWorksForEvenSize() {
         piece = new Piece(3, 3, false, 30);
@@ -121,4 +178,14 @@ public class PieceTest {
         int centerY = piece.getCenterCoordinateY();
         assertTrue("", centerY == 87);    
     } 
+//    @Test
+//    public void toStringWorksIfPieceIsWall() {
+//        piece = new Piece(3, 3, true, 30);
+//        assertEquals("(3,3) is-wall", piece.toString());    
+//    }  
+//    @Test
+//    public void toStringWorksIfPieceIsNotWall() {
+//        piece = new Piece(3, 3, false, 30);
+//        assertEquals("(3,3) no-wall", piece.toString());    
+//    }   
 }

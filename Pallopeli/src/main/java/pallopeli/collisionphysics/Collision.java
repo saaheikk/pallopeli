@@ -1,13 +1,13 @@
 package pallopeli.collisionphysics;
 
 import java.awt.Point;
-import pallopeli.BuildingDirection;
+import pallopeli.SimpleDirection;
 
 public class Collision {
     private Point collisionPosition;
-    private BuildingDirection reflectingDirection;
+    private SimpleDirection reflectingDirection;
 
-    public Collision(Point collisionLocation, BuildingDirection reflectingDirection) {
+    public Collision(Point collisionLocation, SimpleDirection reflectingDirection) {
         this.collisionPosition = collisionLocation;
         this.reflectingDirection = reflectingDirection;
     }
@@ -20,7 +20,7 @@ public class Collision {
         return this.collisionPosition.y;
     }
 
-    public BuildingDirection getReflectingDirection() {
+    public SimpleDirection getReflectingDirection() {
         return reflectingDirection;
     }
 

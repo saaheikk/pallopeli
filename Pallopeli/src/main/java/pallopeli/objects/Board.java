@@ -2,14 +2,13 @@ package pallopeli.objects;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import pallopeli.BuildingDirection;
+import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
 
 public class Board {
     private int width; // how many pieces
     private int height; // how many pieces
     private int sizeOfPieces; // pixels
-    
     private Piece[][] pieces; // matrix containing all the pieces
 
 
@@ -25,22 +24,31 @@ public class Board {
     }
     
    
-    public ArrayList<Piece> getWallPiecesNearby(Point point, int howMuchIsNearby) {
-        ArrayList<Piece> wallPiecesNearby = new ArrayList<>();
-        for (int h = 0; h < this.height; h++) {                       
-            for (int w = 0; w < this.width; w++) {
-                Piece piece = this.getPiece(w, h);
-                if (piece.isWall()) {                    
-                    if (point.x - howMuchIsNearby < piece.getCenterCoordinateX() && piece.getCenterCoordinateX() < point.x + howMuchIsNearby) {
-                        if (point.y - howMuchIsNearby < piece.getCenterCoordinateY() && piece.getCenterCoordinateY() < point.y + howMuchIsNearby) {
-                            wallPiecesNearby.add(piece);
-                        }
-                    }
-                }
-            }
-        }   
-        return wallPiecesNearby;
+
+    
+    
+    // this is a test version!!
+    public void buildWall(int x, int y, SimpleDirection direction) {
+        this.pieces[y][x].turnIntoWall();
+        if (direction == SimpleDirection.HORIZONTAL) {
+            this.buildWall(x, y, CompassDirection.EAST);
+            this.buildWall(x, y, CompassDirection.WEST);
+        } else if (direction == SimpleDirection.VERTICAL) {
+            this.buildWall(x, y, CompassDirection.NORTH);
+            this.buildWall(x, y, CompassDirection.SOUTH);
+        }
+        
     }
+    // this is a test version!!    
+    protected void buildWall(int x, int y, CompassDirection compassDirection) {
+        boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
+        while (continues) {
+            continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
+            y--;        
+        }
+    }    
+    
+    // helper methods
 
     protected void initializePieces() {
         // top row (all pieces are wall)
@@ -61,56 +69,46 @@ public class Board {
         }        
     }
     
+
+    
     protected void setNeighbors() {
         for (int h = 0; h < this.height; h++) {                       
             for (int w = 0; w < this.width; w++) {
-                try { 
-                    this.pieces[h][w].setNorthNeighbor(this.pieces[h - 1][w]);                    
-                } catch (Exception e) {
-                    this.pieces[h][w].setNorthNeighbor(null);
-                }
-                try {
-                    this.pieces[h][w].setEastNeighbor(this.pieces[h][w + 1]);   
-                } catch (Exception e) {
-                    this.pieces[h][w].setEastNeighbor(null);
-                }
-                try {
-                    this.pieces[h][w].setSouthNeighbor(this.pieces[h + 1][w]); 
-                } catch (Exception e) {
-                    this.pieces[h][w].setSouthNeighbor(null);
-                }
-                try {
-                    this.pieces[h][w].setWestNeighbor(this.pieces[h][w - 1]);
-                } catch (Exception e) {
-                    this.pieces[h][w].setWestNeighbor(null);
-                    
+                for (CompassDirection direction : CompassDirection.values()) {
+                    int neighborX = w + direction.getX();
+                    int neighborY = h + direction.getY();
+                    if (this.positionIsInBounds(neighborX, neighborY)) {
+                        this.pieces[h][w].setNeighbor(direction, this.pieces[neighborY][neighborX]);
+                    }
                 }
             }
         }                   
     }
+    public ArrayList<Piece> getWallPiecesNearby(Point point, int howMuchIsNearby) {
+        ArrayList<Piece> wallPiecesNearby = new ArrayList<>();
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                Piece piece = this.getPiece(w, h);
+                if (piece.isWall()) {                    
+                    if (point.x - howMuchIsNearby < piece.getCenterCoordinateX() && piece.getCenterCoordinateX() < point.x + howMuchIsNearby) {
+                        if (point.y - howMuchIsNearby < piece.getCenterCoordinateY() && piece.getCenterCoordinateY() < point.y + howMuchIsNearby) {
+                            wallPiecesNearby.add(piece);
+                        }
+                    }
+                }
+            }
+        }   
+        return wallPiecesNearby;
+    }
+    public boolean positionIsInBounds(int x, int y) {
+        if (0 <= x && x < this.width && 0 <= y && y < this.height) {
+            return true;
+        }
+        return false;
+    }
     
-    // this is a test version!!
-    public void buildWall(int x, int y, BuildingDirection direction) {
-        this.pieces[y][x].turnIntoWall();
-        if (direction == BuildingDirection.HORIZONTAL) {
-            this.buildWall(x, y, CompassDirection.EAST);
-            this.buildWall(x, y, CompassDirection.WEST);
-        } else if (direction == BuildingDirection.VERTICAL) {
-            this.buildWall(x, y, CompassDirection.NORTH);
-            this.buildWall(x, y, CompassDirection.SOUTH);
-        }
-        
-    }
-    // this is a test version!!    
-    protected void buildWall(int x, int y, CompassDirection compassDirection) {
-        boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-        while (continues) {
-            continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-            y--;        
-        }
-    }
   
-
+    // getter & setters
 
     public int getWidth() {
         return width;
@@ -147,6 +145,15 @@ public class Board {
     
 
     
+
+    
+    
+    
+    
+    
+    
+    
+    // trash
 //    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
 //        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();
 //        for (int h = 0; h < this.height; h++) {                       
@@ -159,26 +166,19 @@ public class Board {
 //            }
 //        }  
 //        return alarmedWallPieces;
+//    }    
+    
+//    
+//    public ArrayList<Piece> getWallPiecesAsList() {
+//        ArrayList<Piece> wallPieces = new ArrayList<>();
+//        for (int h = 0; h < this.height; h++) {                       
+//            for (int w = 0; w < this.width; w++) {
+//                if (this.getPiece(w, h).isWall()) {
+//                    wallPieces.add(this.getPiece(w, h));
+//                }
+//            }
+//        }  
+//        return wallPieces;        
 //    }
-    
-    
-    
-    
-    
-    
-    
-    
-    // helper method
-    public ArrayList<Piece> getWallPiecesAsList() {
-        ArrayList<Piece> wallPieces = new ArrayList<>();
-        for (int h = 0; h < this.height; h++) {                       
-            for (int w = 0; w < this.width; w++) {
-                if (this.getPiece(w, h).isWall()) {
-                    wallPieces.add(this.getPiece(w, h));
-                }
-            }
-        }  
-        return wallPieces;        
-    }
 
 }

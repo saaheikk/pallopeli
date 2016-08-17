@@ -2,6 +2,7 @@ package pallopeli.objects;
 
 import java.awt.Point;
 import static java.lang.Math.sqrt;
+import java.util.HashMap;
 import pallopeli.CompassDirection;
 
 public class Piece {
@@ -12,43 +13,68 @@ public class Piece {
     
     private boolean wall;
     
-    private Piece northNeighbor;
-    private Piece westNeighbor;
-    private Piece southNeighbor;
-    private Piece eastNeighbor;  
+    private HashMap<CompassDirection, Piece> neighbors; 
+    
+    private HashMap<CompassDirection, Point> corners;
 
     public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
         this.y = y;
         this.wall = wall;
         this.size = sizeOfObjects;
+        this.neighbors = new HashMap<>();
         this.anchor = new Point(x * sizeOfObjects, y * sizeOfObjects);
+
+
+        this.setCorners();
+    
     }
     public void turnIntoWall() {
         this.wall = true;
     }     
  
-    
-    
-    
-    
-    
-    
-    // this method is used to build walls during the game
-    public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
-        if (compassDirection == CompassDirection.NORTH) {
-            return this.turnNeighborIntoWall(this.northNeighbor);
-        } else if (compassDirection == CompassDirection.EAST) {
-            return this.turnNeighborIntoWall(this.eastNeighbor);            
-        } else if (compassDirection == CompassDirection.SOUTH) {
-            return this.turnNeighborIntoWall(this.southNeighbor);            
-        } else if (compassDirection == CompassDirection.WEST) {
-            return this.turnNeighborIntoWall(this.westNeighbor);            
+    public boolean hasBall(Ball ball) {
+        int leftBorder = anchor.x - ball.getRadius();
+        int rightBorder = anchor.x + this.size + ball.getRadius();
+        
+        if (leftBorder <= ball.getCoordinateX() 
+                && ball.getCoordinateX() <= rightBorder
+                && anchor.y <= ball.getCoordinateY()
+                && ball.getCoordinateY() <= anchor.y + size) {
+            return true;
+        } 
+        int topBorder = anchor.x - ball.getRadius();
+        int bottomBorder = anchor.x + this.size + ball.getRadius();        
+        
+        if (topBorder <= ball.getCoordinateY() 
+                && ball.getCoordinateY() <= bottomBorder
+                && anchor.x <= ball.getCoordinateX()
+                && ball.getCoordinateX() <= anchor.x + size) {
+            return true;
+        } 
+        
+        if (anchor.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+            return true;
         }
+        Point cornerNorthEast = new Point(anchor.x + size, anchor.y);
+        if (cornerNorthEast.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+            return true;
+        }
+
+        Point cornerSouthEast = new Point(anchor.x + size, anchor.y + size);
+        if (cornerSouthEast.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+            return true;
+        }      
+        Point cornerSouthWest = new Point(anchor.x, anchor.y + size);
+        if (cornerSouthWest.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+            return true;
+        }  
         return false;
     }
-    
-    protected boolean turnNeighborIntoWall(Piece neighbor) {
+ 
+    // this method is used to build walls during the game
+    public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
+        Piece neighbor = this.neighbors.get(compassDirection);
         if (neighbor == null) {
             return false;
         } else if (neighbor.isWall()) {
@@ -59,26 +85,33 @@ public class Piece {
         }
     }
     
+
+    
+    // helper methods
+    protected void setCorners() {
+        this.corners = new HashMap<>();
+        this.corners.put(CompassDirection.NORTHEAST, new Point((x + 1) * size, y * size));
+        this.corners.put(CompassDirection.SOUTHEAST, new Point((x + 1) * size, (y + 1) * size));
+        this.corners.put(CompassDirection.SOUTHWEST, new Point(x * size, (y + 1) * size));
+        this.corners.put(CompassDirection.NORTHWEST, new Point(x * size, y * size));
+    }
+    
+    @Override
+    public String toString() {
+        if (this.wall) {
+            return "(" + this.x + "," + this. y + "): is-wall, coordinates: " + this.anchor;
+        }
+        return "(" + this.x + "," + this. y + "): no-wall, coordinates: " + this.anchor;
+    }
+        
+    // getter & setters
+    
     public boolean isWall() {
         return this.wall;
     }
     
-
-
-    public void setNorthNeighbor(Piece northNeighbor) {
-            this.northNeighbor = northNeighbor;  
-    }
-
-    public void setWestNeighbor(Piece westNeighbor) {
-            this.westNeighbor = westNeighbor;           
-    }
-
-    public void setSouthNeighbor(Piece southNeighbor) {
-            this.southNeighbor = southNeighbor;           
-    }
-
-    public void setEastNeighbor(Piece eastNeighbor) {
-            this.eastNeighbor = eastNeighbor;           
+    public void setNeighbor(CompassDirection direction, Piece piece) {
+        this.neighbors.put(direction, piece);
     }
 
     public int getX() {
@@ -104,13 +137,6 @@ public class Piece {
         return this.y * this.size + this.size / 2;
     }    
             
-    @Override
-    public String toString() {
-        if (this.wall) {
-            return "(" + this.x + "," + this. y + "): is-wall, coordinates: " + this.anchor;
-        }
-        return "(" + this.x + "," + this. y + "): no-wall, coordinates: " + this.anchor;
-    }
     
     
     
@@ -128,42 +154,21 @@ public class Piece {
     
     
     
+    // trash
     
-    
-    public boolean isSurroundedByWallPieces() {
-        // returns true for pieces that have no neighbors!!!
-        if (this.northNeighbor == null || this.northNeighbor.isWall()) {
-            if (this.eastNeighbor == null || this.eastNeighbor.isWall()) {
-                if (this.southNeighbor == null || this.southNeighbor.isWall()) {
-                    if (this.southNeighbor == null || this.southNeighbor.isWall()) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false; // returns true for pieces that have no neighbors!!!
-    }
-    
-
-    public double getDistanceToAPoint(int x, int y) {
-        double middleX = (double) this.size * this.x + this.size / 2;
-        double middleY = (double) this.size * this.y + this.size / 2;
-        return Math.sqrt((middleX - x) * (middleX - x) + (middleY - y) * (middleY - y));
-    }
-    
-    // this method has problem with corners! --> no tests
-//    public boolean hasBall(Ball ball) {       
-//        int upperLeftCornerX = this.size * this.x;
-//        int upperLeftCornerY = this.size * this.y;        
-//        boolean leftLimit = ball.getX() > (upperLeftCornerX - ball.getRadius());
-//        boolean rightLimit = ball.getX() < (upperLeftCornerX + this.size + ball.getRadius());
-//        boolean topLimit = ball.getY() > (upperLeftCornerY - ball.getRadius());
-//        boolean bottomLimit = ball.getY() < (upperLeftCornerY + this.size + ball.getRadius());                          
-//        if (leftLimit && rightLimit && topLimit && bottomLimit) {
-//            return true;
+//    public boolean isSurroundedByWallPieces() {
+//        // returns true for pieces that have no neighbors!!!
+//        if (this.northNeighbor == null || this.northNeighbor.isWall()) {
+//            if (this.eastNeighbor == null || this.eastNeighbor.isWall()) {
+//                if (this.southNeighbor == null || this.southNeighbor.isWall()) {
+//                    if (this.southNeighbor == null || this.southNeighbor.isWall()) {
+//                        return true;
+//                    }
+//                }
+//            }
 //        }
-//        return false;
-//    }      
+//        return false; // returns true for pieces that have no neighbors!!!
+//    }
     
     public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
         // this code will be imporved... i am aware that currenlty it's very ugly :(

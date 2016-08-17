@@ -2,7 +2,7 @@ package pallopeli.collisionphysics;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import pallopeli.BuildingDirection;
+import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
 import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
@@ -13,13 +13,10 @@ public class CollisionDetector {
     public CollisionDetector() {
     }
     
-    public Collision checkForEarliestCollisionAlongTrace(Ball ball, Board board) {
-//        ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getCurrentPosition(), 30);
+    public Collision checkForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
         ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
-        
-        
+
         ArrayList<Collision> collisions = new ArrayList<>();
-       
 
         for (Piece p : wallPiecesNearToBall) {
             System.out.println("Wallpiece detected nearby:" + p);
@@ -31,24 +28,26 @@ public class CollisionDetector {
 
             System.out.println("Collisions out:");
             
+            // FIX BORDERS HERE!!!
+            
             Point collisionOnTopBorder = this.collisionOnHorizontalSegment(ball, topBorder, leftBorder, rightBorder);
             if (collisionOnTopBorder != null) {
                 System.out.println(collisionOnTopBorder);
-                collisions.add(new Collision(collisionOnTopBorder, BuildingDirection.HORIZONTAL));
+                collisions.add(new Collision(collisionOnTopBorder, SimpleDirection.HORIZONTAL));
             }
             Point collisionOnRightBorder = this.collisionOnVerticalSegment(ball, rightBorder, topBorder, bottomBorder);
             if (collisionOnRightBorder != null) {
-                collisions.add(new Collision(collisionOnRightBorder, BuildingDirection.VERTICAL));
+                collisions.add(new Collision(collisionOnRightBorder, SimpleDirection.VERTICAL));
                 System.out.println(collisionOnRightBorder);
             }
             Point collisionOnBottomBorder = this.collisionOnHorizontalSegment(ball, bottomBorder, leftBorder, rightBorder);
             if (collisionOnBottomBorder != null) {
-                collisions.add(new Collision(collisionOnBottomBorder, BuildingDirection.HORIZONTAL));    
+                collisions.add(new Collision(collisionOnBottomBorder, SimpleDirection.HORIZONTAL));    
                 System.out.println(collisionOnBottomBorder);
             }
             Point collisionOnLeftBorder = this.collisionOnVerticalSegment(ball, leftBorder, topBorder, bottomBorder);
             if (collisionOnLeftBorder != null) {
-                collisions.add(new Collision(collisionOnLeftBorder, BuildingDirection.VERTICAL));            
+                collisions.add(new Collision(collisionOnLeftBorder, SimpleDirection.VERTICAL));            
                 System.out.println(collisionOnLeftBorder);
             } 
             System.out.println("");
@@ -56,15 +55,15 @@ public class CollisionDetector {
         if (collisions.isEmpty()) {
             return null; // no collisions
         }
-        return this.getEarliestCollision(ball, collisions);   
+        return this.getEarliestProperCollision(ball, collisions);   
         
     }
         
-       
-    
+     
+    // helper methods
 
     public Point collisionOnVerticalSegment(Ball ball, int segmentX, int segmentStartY, int segmentEndY) {
-        // this method returns the collision point on vertival segment or null if no collision happens
+        // this method returns the collision point on vertical segment or null if no collision happens
 
         if (ball.getCurrentPosition().x < segmentX && ball.getPreviousPosition().x < segmentX) {
 //            System.out.println("ball moves on the left side of segmentX");
@@ -131,8 +130,8 @@ public class CollisionDetector {
         return null;        
     }
         
-    private Collision getEarliestCollision(Ball ball, ArrayList<Collision> collisions) {
-        // idea is to "reset coordinates" - new origin at the end of trace
+    private Collision getEarliestProperCollision(Ball ball, ArrayList<Collision> collisions) {
+
 
         int minimumDistanceToEndOfTrace = 1000; // 1000 must be safe enough
         Collision earliest = null;
@@ -140,8 +139,11 @@ public class CollisionDetector {
         for (Collision c : collisions) {           
             int distanceToEndOfTrace = Math.abs(c.getCoordinateX() - ball.getPreviousPosition().x);
             if (distanceToEndOfTrace < minimumDistanceToEndOfTrace) {
-                minimumDistanceToEndOfTrace = distanceToEndOfTrace;
-                earliest = c;
+                // check for the case where ball has just bounced but previousPosition still collides!
+                if (c.getCollisionPosition() != ball.getPreviousPosition()) { 
+                    minimumDistanceToEndOfTrace = distanceToEndOfTrace;
+                    earliest = c;                    
+                }
             }
         }
         return earliest;

@@ -84,18 +84,18 @@ public class BoardTest {
         Piece piece = board.getPiece(3, 4);
         assertTrue("", (piece.getX() == 3 && piece.getY() == 4));
     }   
-    @Test
-    public void getWallPiecesNearbyWorksIfThereAreNone() {
-        board = new Board(10, 10, 30);
-        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(100, 100, 30);
-        assertTrue("", wallPiecesNearby.isEmpty());
-    }     
-    @Test
-    public void getWallPiecesNearbyWorksIfThereAreSome() {
-        board = new Board(10, 10, 30);
-        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(40, 80, 30);
-        assertFalse("", wallPiecesNearby.isEmpty());
-    }     
+//    @Test
+//    public void getWallPiecesNearbyWorksIfThereAreNone() {
+//        board = new Board(10, 10, 30);
+//        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(100, 100, 30);
+//        assertTrue("", wallPiecesNearby.isEmpty());
+//    }     
+//    @Test
+//    public void getWallPiecesNearbyWorksIfThereAreSome() {
+//        board = new Board(10, 10, 30);
+//        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(40, 80, 30);
+//        assertFalse("", wallPiecesNearby.isEmpty());
+//    }     
     
     
     

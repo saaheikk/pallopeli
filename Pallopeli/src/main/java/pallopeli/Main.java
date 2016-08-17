@@ -13,29 +13,26 @@ import pallopeli.objects.Piece;
 public class Main {
 
     public static void main(String[] args) { 
-        kaynnista();
-        
-        
-        
-        
-
-
-        
-        
-        
-         
-        
-
-
-        
-        
-
-
-        
+//        startProgram();
+        Ball ball = new Ball(30);
+        Board board = new Board(5, 5, 30);
+        ball.setBallOnBoard(board);
+        System.out.println(ball);
+        boolean aWallPieceHasBall = false;
+        for (int h = 0; h < board.getHeight(); h++) {                       
+            for (int w = 0; w < board.getWidth(); w++) {
+                if (board.getPiece(w, h).isWall()) {
+                    if (board.getPiece(w, h).hasBall(ball)) {
+                        System.out.println(board.getPiece(w, h));
+                        aWallPieceHasBall = true;
+                    }                    
+                }
+            }
+        }  
 
     }
     
-    public static void kaynnista() {
+    public static void startProgram() {
         Game g = new Game(30);
         
         UserInterface ui = new UserInterface(g);
@@ -52,6 +49,12 @@ public class Main {
         g.start(); // Starts the Timer, causing it to start sending action events to its listeners.
     }
     
+    
+    
+    
+    
+    // testailu-/debuggausmetodeja:
+    
     public static void tutkiTormaysta() {
         Board board = new Board(10, 10, 30);
         Ball ball = new Ball(30);
@@ -63,7 +66,7 @@ public class Main {
         System.out.println(ball);
         System.out.println("...");
               
-        ball.move(board);        
+        ball.moveOnBoard(board);        
     }
     
     public static void tutkiCollisionDetectorinToiminnallisuutta() {

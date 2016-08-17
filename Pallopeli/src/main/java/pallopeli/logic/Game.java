@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Timer;
-import pallopeli.BuildingDirection;
+import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
 import pallopeli.graphics.Updateable;
 import pallopeli.objects.Ball;
@@ -16,7 +16,7 @@ public class Game extends Timer implements ActionListener {
     private Ball ball;
     int sizeOfObjects;
     
-    private BuildingDirection direction;
+    private SimpleDirection direction;
     private boolean continues;
     private Updateable updateable;
 
@@ -27,14 +27,14 @@ public class Game extends Timer implements ActionListener {
         this.ball = new Ball(sizeOfObjects);
         this.ball.setBallOnBoard(this.board);
         
-        this.direction = BuildingDirection.HORIZONTAL;  
+        this.direction = SimpleDirection.HORIZONTAL;  
         
         this.continues = true;  
         addActionListener(this);
         setInitialDelay(2000);        
     }
 
-    public void setNewDirection(BuildingDirection direction) {
+    public void setNewDirection(SimpleDirection direction) {
         this.direction = direction;
     } 
 
@@ -59,7 +59,7 @@ public class Game extends Timer implements ActionListener {
         if (!continues) {
             return;
         }      
-        this.ball.move(board);
+        this.ball.moveOnBoard(board);
 //        original bouncing that uses the ugly methods in class Piece (does not work perfectly either):
 //        int ballXstart = this.ball.getX();
 //        int ballYstart = this.ball.getY();
