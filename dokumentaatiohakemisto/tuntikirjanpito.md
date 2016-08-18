@@ -18,5 +18,5 @@ Päivä | Tunnit | Kuvaus
 14.08.2016 | 8.5h | CollisionDetectorin toteutusta
 15.08.2016 | 5.5h | CollisionDetectorin debuggausta (ei toimi virheettömästi), koodin refaktorointia (--> testit vielä päivittämättä!), 2h pajassa
 17.08.2016 | 5.5h | Bugien korjaamista, refaktorointia ja testien kirjoittamista
-18.08.2016 | 4.0h | Testien kirjoittamista, koodin parantelua, JavaDoc luokille ja päämetodeille, pit&checktyle sekä niiden päivittäminen GitHubiin
+18.08.2016 | 4.0h | Testien kirjoittamista, koodin parantelua, JavaDoc luokille ja päämetodeille, pit&checkstyle sekä niiden päivittäminen GitHubiin
 
