@@ -11,6 +11,11 @@ import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
+/**
+ * Game contains the main application logic of Pallopeli.
+ * @author saara
+ */
+
 public class Game extends Timer implements ActionListener {    
     private Board board;
     private Ball ball;
@@ -19,7 +24,11 @@ public class Game extends Timer implements ActionListener {
     private SimpleDirection direction;
     private boolean continues;
     private Updateable updateable;
-
+    
+    /**
+     * Constructor for a new Game ready to start.
+     * @param sizeOfObjects 
+     */
     public Game(int sizeOfObjects) {
         super(600, null);
         this.sizeOfObjects = sizeOfObjects;
@@ -33,27 +42,10 @@ public class Game extends Timer implements ActionListener {
         addActionListener(this);
         setInitialDelay(2000);        
     }
-
-    public void setNewDirection(SimpleDirection direction) {
-        this.direction = direction;
-    } 
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public Ball getBall() {
-        return ball;
-    }
-
-    public int getSizeOfObjects() {
-        return this.sizeOfObjects;
-    }
-
-    public void setUpedateable(Updateable upedateable) {
-        this.updateable = upedateable;
-    }
-    
+    /**
+     * Method inherited from ActionListener; invoked when an action occurs.
+     * @param e 
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
@@ -80,6 +72,28 @@ public class Game extends Timer implements ActionListener {
 //        }
         this.updateable.update();
     }
+    
+    // getters and setters
+    public void setNewDirection(SimpleDirection direction) {
+        this.direction = direction;
+    } 
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Ball getBall() {
+        return ball;
+    }
+
+    public int getSizeOfObjects() {
+        return this.sizeOfObjects;
+    }
+
+    public void setUpedateable(Updateable upedateable) {
+        this.updateable = upedateable;
+    }
+
     
 
     

@@ -3,6 +3,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import pallopeli.objects.Ball;
 
+/**
+ * DrawablePiece provides draw-method for Ball.
+ * @author saara
+ */
+
 public class DrawableBall implements Drawable {
     private Ball ballToDraw;
 

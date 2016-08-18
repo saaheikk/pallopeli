@@ -5,17 +5,19 @@ import static java.lang.Math.sqrt;
 import java.util.HashMap;
 import pallopeli.CompassDirection;
 
+/**
+ * Piece represents a piece on board and it can be either wall (ball bounces from it) or "transparent" (ball does not see it).
+ * @author saara
+ */
+
 public class Piece {
     private int x; // location relative to the board
     private int y; // location relative to the board
-    private int size; // pixels
-    private Point anchor;
-    
+    private int size; // pixels    
     private boolean wall;
     
-    private HashMap<CompassDirection, Piece> neighbors; 
-    
-    private HashMap<CompassDirection, Point> corners;
+    private HashMap<CompassDirection, Piece> neighbors;     
+    private HashMap<CompassDirection, Point> cornerPoints;
 
     public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
@@ -23,56 +25,53 @@ public class Piece {
         this.wall = wall;
         this.size = sizeOfObjects;
         this.neighbors = new HashMap<>();
-        this.anchor = new Point(x * sizeOfObjects, y * sizeOfObjects);
-
-
         this.setCorners();
-    
     }
+    
+    /**
+     * Turns Piece into wall so that ball bounces from it.
+     */
     public void turnIntoWall() {
         this.wall = true;
-    }     
- 
-    public boolean hasBall(Ball ball) {
-        int leftBorder = anchor.x - ball.getRadius();
-        int rightBorder = anchor.x + this.size + ball.getRadius();
+    }  
+    
+    /**
+     * Checks if the given ball touches the piece or not.
+     * @param ball
+     * @return True if given ball touches the piece and false if not.
+     */
+    public boolean hasBall(Ball ball) { 
+        int leftBorder = cornerPoints.get(CompassDirection.NORTHWEST).x - ball.getRadius();
+        int rightBorder = cornerPoints.get(CompassDirection.NORTHEAST).x + ball.getRadius();
         
         if (leftBorder <= ball.getCoordinateX() 
                 && ball.getCoordinateX() <= rightBorder
-                && anchor.y <= ball.getCoordinateY()
-                && ball.getCoordinateY() <= anchor.y + size) {
+                && cornerPoints.get(CompassDirection.NORTHWEST).y <= ball.getCoordinateY()
+                && ball.getCoordinateY() <= cornerPoints.get(CompassDirection.SOUTHEAST).y) {
             return true;
         } 
-        int topBorder = anchor.x - ball.getRadius();
-        int bottomBorder = anchor.x + this.size + ball.getRadius();        
+        int topBorder = cornerPoints.get(CompassDirection.NORTHWEST).y - ball.getRadius();
+        int bottomBorder = cornerPoints.get(CompassDirection.SOUTHEAST).y + ball.getRadius();        
         
         if (topBorder <= ball.getCoordinateY() 
                 && ball.getCoordinateY() <= bottomBorder
-                && anchor.x <= ball.getCoordinateX()
-                && ball.getCoordinateX() <= anchor.x + size) {
-            return true;
-        } 
-        
-        if (anchor.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+                && cornerPoints.get(CompassDirection.NORTHWEST).x <= ball.getCoordinateX()
+                && ball.getCoordinateX() <= cornerPoints.get(CompassDirection.NORTHEAST).x) {
             return true;
         }
-        Point cornerNorthEast = new Point(anchor.x + size, anchor.y);
-        if (cornerNorthEast.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
-            return true;
+        for (CompassDirection direction : CompassDirection.values()) {
+            if (cornerPoints.get(direction)!=null) {
+                if (cornerPoints.get(direction).distance(ball.getCurrentPosition()) <= ball.getRadius()) {
+                    return true;
+                }                
+            }
         }
-
-        Point cornerSouthEast = new Point(anchor.x + size, anchor.y + size);
-        if (cornerSouthEast.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
-            return true;
-        }      
-        Point cornerSouthWest = new Point(anchor.x, anchor.y + size);
-        if (cornerSouthWest.distance(ball.getCurrentPosition()) <= ball.getRadius()) {
-            return true;
-        }  
         return false;
     }
  
-    // this method is used to build walls during the game
+    
+    
+    // this method is used to build walls during the gameand it's still under consturction
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
         if (neighbor == null) {
@@ -80,30 +79,32 @@ public class Piece {
         } else if (neighbor.isWall()) {
             return false;
         } else {
+            // here we have to check that Ball does not collide with neigbor - game over otherwise!
             neighbor.turnIntoWall();
             return true;
         }
     }
-    
 
-    
-    // helper methods
+    /**
+     * Helper method for setting corner points.
+     */
     protected void setCorners() {
-        this.corners = new HashMap<>();
-        this.corners.put(CompassDirection.NORTHEAST, new Point((x + 1) * size, y * size));
-        this.corners.put(CompassDirection.SOUTHEAST, new Point((x + 1) * size, (y + 1) * size));
-        this.corners.put(CompassDirection.SOUTHWEST, new Point(x * size, (y + 1) * size));
-        this.corners.put(CompassDirection.NORTHWEST, new Point(x * size, y * size));
+        this.cornerPoints = new HashMap<>();
+        this.cornerPoints.put(CompassDirection.NORTHEAST, new Point((x + 1) * size, y * size));
+        this.cornerPoints.put(CompassDirection.SOUTHEAST, new Point((x + 1) * size, (y + 1) * size));
+        this.cornerPoints.put(CompassDirection.SOUTHWEST, new Point(x * size, (y + 1) * size));
+        this.cornerPoints.put(CompassDirection.NORTHWEST, new Point(x * size, y * size));
     }
     
     @Override
     public String toString() {
         if (this.wall) {
-            return "(" + this.x + "," + this. y + "): is-wall, coordinates: " + this.anchor;
+            return "(" + this.x + "," + this. y + "): is-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
         }
-        return "(" + this.x + "," + this. y + "): no-wall, coordinates: " + this.anchor;
+        return "(" + this.x + "," + this. y + "): no-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
     }
-        
+
+    
     // getter & setters
     
     public boolean isWall() {
@@ -126,8 +127,8 @@ public class Piece {
         return size; 
     }
     
-    public Point getAnchor() {
-        return this.anchor;
+    public Point getCornerPoint(CompassDirection direction) {
+        return this.cornerPoints.get(direction);
     }
     
     public int getCenterCoordinateX() {
@@ -170,52 +171,52 @@ public class Piece {
 //        return false; // returns true for pieces that have no neighbors!!!
 //    }
     
-    public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
-        // this code will be imporved... i am aware that currenlty it's very ugly :(
-        int topLeftCornerX = this.size * this.x;
-        int topLeftCornerY = this.size * this.y;
-        int topRightCornerX  = topLeftCornerX + this.size;
-        int topRightCornerY = topLeftCornerY;
-        int bottomLeftCornerX = topLeftCornerX;
-        int bottomLeftCornerY = topLeftCornerY + this.size;
-        int bottomRightCornerX = topRightCornerX;
-        int bottomRightCornerY = bottomLeftCornerY;
-                
-        if (ballX - topRightCornerX == ballY - topRightCornerY) {
-            return CompassDirection.NORTHEAST;
-        } else if (ballX - topLeftCornerX == ballY - topLeftCornerY) {
-            return CompassDirection.NORTHWEST;
-        } else if (ballY < topLeftCornerY) {
-            if (ballX < topLeftCornerX && topLeftCornerX - ballX > topLeftCornerY - ballY) {
-                return CompassDirection.WEST;
-            } else if (ballX > topRightCornerX && ballX - topRightCornerX > topLeftCornerY - ballY) {
-                return CompassDirection.EAST;
-            }
-            return CompassDirection.NORTH;
-        } else if (ballY > bottomLeftCornerY) {
-            if (ballX < bottomLeftCornerX && bottomLeftCornerX - ballX > bottomLeftCornerY - ballY) {
-                return CompassDirection.WEST;
-            } else if (ballX > bottomRightCornerX && ballX - bottomRightCornerX > bottomRightCornerY - ballY) {
-                return CompassDirection.EAST;
-            }                        
-            return CompassDirection.SOUTH;
-        } else if (ballX < topLeftCornerX) {
-            if (ballY < topLeftCornerY && topLeftCornerY - ballY > topLeftCornerX - ballX) {
-                return CompassDirection.NORTH;
-            } else if (ballY > bottomLeftCornerY && ballY - bottomLeftCornerY > bottomLeftCornerX - ballX) {
-                return CompassDirection.SOUTH;
-            }              
-            return CompassDirection.WEST;
-        } else if (ballX > topRightCornerX) {
-            if (ballY < topRightCornerY && topRightCornerY - ballY > ballX - topRightCornerX) {
-                return CompassDirection.NORTH;
-            } else if (ballY > bottomRightCornerY && ballX - bottomRightCornerX > ballY - bottomRightCornerY) {
-                return CompassDirection.SOUTH;
-            }              
-            return CompassDirection.EAST;
-        }
-        return null;
-    }
+//    public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
+//        // this code will be imporved... i am aware that currenlty it's very ugly :(
+//        int topLeftCornerX = this.size * this.x;
+//        int topLeftCornerY = this.size * this.y;
+//        int topRightCornerX  = topLeftCornerX + this.size;
+//        int topRightCornerY = topLeftCornerY;
+//        int bottomLeftCornerX = topLeftCornerX;
+//        int bottomLeftCornerY = topLeftCornerY + this.size;
+//        int bottomRightCornerX = topRightCornerX;
+//        int bottomRightCornerY = bottomLeftCornerY;
+//                
+//        if (ballX - topRightCornerX == ballY - topRightCornerY) {
+//            return CompassDirection.NORTHEAST;
+//        } else if (ballX - topLeftCornerX == ballY - topLeftCornerY) {
+//            return CompassDirection.NORTHWEST;
+//        } else if (ballY < topLeftCornerY) {
+//            if (ballX < topLeftCornerX && topLeftCornerX - ballX > topLeftCornerY - ballY) {
+//                return CompassDirection.WEST;
+//            } else if (ballX > topRightCornerX && ballX - topRightCornerX > topLeftCornerY - ballY) {
+//                return CompassDirection.EAST;
+//            }
+//            return CompassDirection.NORTH;
+//        } else if (ballY > bottomLeftCornerY) {
+//            if (ballX < bottomLeftCornerX && bottomLeftCornerX - ballX > bottomLeftCornerY - ballY) {
+//                return CompassDirection.WEST;
+//            } else if (ballX > bottomRightCornerX && ballX - bottomRightCornerX > bottomRightCornerY - ballY) {
+//                return CompassDirection.EAST;
+//            }                        
+//            return CompassDirection.SOUTH;
+//        } else if (ballX < topLeftCornerX) {
+//            if (ballY < topLeftCornerY && topLeftCornerY - ballY > topLeftCornerX - ballX) {
+//                return CompassDirection.NORTH;
+//            } else if (ballY > bottomLeftCornerY && ballY - bottomLeftCornerY > bottomLeftCornerX - ballX) {
+//                return CompassDirection.SOUTH;
+//            }              
+//            return CompassDirection.WEST;
+//        } else if (ballX > topRightCornerX) {
+//            if (ballY < topRightCornerY && topRightCornerY - ballY > ballX - topRightCornerX) {
+//                return CompassDirection.NORTH;
+//            } else if (ballY > bottomRightCornerY && ballX - bottomRightCornerX > ballY - bottomRightCornerY) {
+//                return CompassDirection.SOUTH;
+//            }              
+//            return CompassDirection.EAST;
+//        }
+//        return null;
+//    }
 
 
 

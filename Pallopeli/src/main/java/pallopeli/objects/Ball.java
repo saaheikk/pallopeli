@@ -8,6 +8,11 @@ import pallopeli.CompassDirection;
 import pallopeli.collisionphysics.Collision;
 import pallopeli.collisionphysics.CollisionDetector;
 
+/**
+ * Ball represents the ball in game and its main task is to move itself on board so that its movement is fairly smooth and it bounces from pieces that are wall. 
+ * @author saara
+ */
+
 public class Ball {
     private Point currentPosition;
     private Point previousPosition;
@@ -20,7 +25,10 @@ public class Ball {
         this.radius = sizeOfObjects / 2;
         this.collisionDetector = new CollisionDetector();
     }
-    
+    /**
+     * Sets ball at the middle point of given board, draws a starting speed randomly and sets the imaginary previous position depending on the drawn speed.
+     * @param board 
+     */
     public void setBallOnBoard(Board board) {
         int x = (board.getWidth() * board.getSizeOfPieces()) / 2;
         int y = (board.getHeight() * board.getSizeOfPieces()) / 2;
@@ -28,6 +36,10 @@ public class Ball {
         this.drawSpeed();
         this.previousPosition = new Point(x - this.dx, y - this.dy);        
     }
+    /**
+     * The main method of Ball; relocates the ball on given Board according to its speed.
+     * @param board 
+     */
     
     public void moveOnBoard(Board board) {
         this.moveOneStepForward();
@@ -46,7 +58,10 @@ public class Ball {
             // check if ball collides after resetting...inner corners might cause this!
         } 
     }
-    
+    /**
+     * Resets the parameters of Ball after given Collision.
+     * @param collision 
+     */
     public void resetAfterCollision(Collision collision) {
         int legalTranslationX = collision.getCoordinateX() - this.previousPosition.x;
         int legalTranslationY = collision.getCoordinateY() - this.previousPosition.y;
@@ -75,15 +90,18 @@ public class Ball {
 
     }
     
-    // helper methods
-    
+    /**
+     * Helper method that gives Ball a random speed (within the speed limits).
+     */
     public void drawSpeed() {
         Random random = new Random();
         int horizontalSpeed = 1 + random.nextInt(this.radius);
         int verticalSpeed = 1 + random.nextInt(this.radius);
         this.setSpeed(horizontalSpeed, verticalSpeed);        
     }    
-    
+    /**
+     * Helper method that simply translates the position parameters according to the speed of Ball.
+     */
     public void moveOneStepForward() {
         this.previousPosition.translate(dx, dy);
         this.currentPosition.translate(dx, dy);

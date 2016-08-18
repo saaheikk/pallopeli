@@ -3,6 +3,11 @@ package pallopeli.collisionphysics;
 import java.awt.Point;
 import pallopeli.SimpleDirection;
 
+/**
+ * Collision represents a single collision event.
+ * @author saara
+ */
+
 public class Collision {
     private Point collisionPosition;
     private SimpleDirection reflectingDirection;

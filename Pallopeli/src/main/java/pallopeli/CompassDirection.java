@@ -1,5 +1,10 @@
 package pallopeli;
 
+/**
+ * CompassDirection is mainly used to manage Piece's neighbors.
+ * @author saara
+ */
+
 public enum CompassDirection {
     NORTH(0,1),
     NORTHEAST(1,1),

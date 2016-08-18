@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import pallopeli.CompassDirection;
 import pallopeli.objects.Piece;
 
 public class PieceTest {
@@ -58,7 +59,30 @@ public class PieceTest {
         piece = new Piece(3, 3, false, 30);
         assertFalse("", piece.isWall());    
     }  
-    
+    @Test
+    public void constructorSetsCornerPointNorthwestCorrectly() {
+        piece = new Piece(3, 4, false, 30);
+        Point expectedNorthwest = new Point(90, 120);
+        assertEquals(expectedNorthwest, piece.getCornerPoint(CompassDirection.NORTHWEST));    
+    }     
+    @Test
+    public void constructorSetsCornerPointNortheastCorrectly() {
+        piece = new Piece(3, 4, false, 30);
+        Point expectedNorthwest = new Point(120, 120);
+        assertEquals(expectedNorthwest, piece.getCornerPoint(CompassDirection.NORTHEAST));    
+    } 
+    @Test
+    public void constructorSetsCornerPointSoutheastCorrectly() {
+        piece = new Piece(3, 4, false, 30);
+        Point expectedNorthwest = new Point(120, 150);
+        assertEquals(expectedNorthwest, piece.getCornerPoint(CompassDirection.SOUTHEAST));    
+    } 
+    @Test
+    public void constructorSetsCornerPointSouthwestCorrectly() {
+        piece = new Piece(3, 4, false, 30);
+        Point expectedNorthwest = new Point(90, 150);
+        assertEquals(expectedNorthwest, piece.getCornerPoint(CompassDirection.SOUTHWEST));    
+    }     
     @Test
     public void turnIntoWallWorksIfPieceIsNotYetWall() {
         piece = new Piece(3, 3, false, 30);

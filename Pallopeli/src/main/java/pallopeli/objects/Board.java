@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
 
+/**
+ * Board contains all the pieces of the game as a matrix and it's main task is to build walls according to commands from user and ball.
+ * @author saara
+ */
+
 public class Board {
     private int width; // how many pieces
     private int height; // how many pieces
@@ -22,11 +27,7 @@ public class Board {
             this.setNeighbors();  
         }
     }
-    
-   
-
-    
-    
+      
     // this is a test version!!
     public void buildWall(int x, int y, SimpleDirection direction) {
         this.pieces[y][x].turnIntoWall();
@@ -48,8 +49,9 @@ public class Board {
         }
     }    
     
-    // helper methods
-
+    /**
+     * Helper method to initialize pieces so that wall pieces surround the board.
+     */
     protected void initializePieces() {
         // top row (all pieces are wall)
         for (int w = 0; w < this.width; w++) {
@@ -69,7 +71,9 @@ public class Board {
         }        
     }
     
-
+    /**
+     * Helper method to make Piece know it's neighbors.
+     */
     
     protected void setNeighbors() {
         for (int h = 0; h < this.height; h++) {                       
@@ -84,6 +88,12 @@ public class Board {
             }
         }                   
     }
+    /**
+     * Helper method for detecting pieces that are at risk to collide with Ball.
+     * @param point
+     * @param howMuchIsNearby
+     * @return List of pieces that are close to the given point.
+     */
     public ArrayList<Piece> getWallPiecesNearby(Point point, int howMuchIsNearby) {
         ArrayList<Piece> wallPiecesNearby = new ArrayList<>();
         for (int h = 0; h < this.height; h++) {                       
@@ -100,6 +110,12 @@ public class Board {
         }   
         return wallPiecesNearby;
     }
+    /**
+     * Helper method to check if given position is located within the boundaries of Board.
+     * @param x
+     * @param y
+     * @return True if the given position is allowed and false if not.
+     */
     public boolean positionIsInBounds(int x, int y) {
         if (0 <= x && x < this.width && 0 <= y && y < this.height) {
             return true;

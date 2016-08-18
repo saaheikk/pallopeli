@@ -1,5 +1,6 @@
 package pallopeli.objects;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -71,7 +72,6 @@ public class BoardTest {
         board = new Board(10, 30, 10);
         assertEquals(this.testBoardToString(board), board.toString()); 
     }
-
     
     @Test
     public void neighborsAreSetCorrectly() {
@@ -84,18 +84,88 @@ public class BoardTest {
         Piece piece = board.getPiece(3, 4);
         assertTrue("", (piece.getX() == 3 && piece.getY() == 4));
     }   
-//    @Test
-//    public void getWallPiecesNearbyWorksIfThereAreNone() {
-//        board = new Board(10, 10, 30);
-//        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(100, 100, 30);
-//        assertTrue("", wallPiecesNearby.isEmpty());
-//    }     
-//    @Test
-//    public void getWallPiecesNearbyWorksIfThereAreSome() {
-//        board = new Board(10, 10, 30);
-//        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(40, 80, 30);
-//        assertFalse("", wallPiecesNearby.isEmpty());
-//    }     
+    
+    @Test
+    public void getWallPiecesNearbyWorksIfThereAreNone() {
+        board = new Board(10, 10, 30);
+        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(new Point(100, 100), 30);
+        assertTrue("", wallPiecesNearby.isEmpty());
+    }     
+    @Test
+    public void getWallPiecesNearbyWorksIfThereAreSome() {
+        board = new Board(10, 10, 30);
+        ArrayList<Piece> wallPiecesNearby = board.getWallPiecesNearby(new Point(40, 80), 30);
+        assertFalse("", wallPiecesNearby.isEmpty());
+    }   
+    
+    @Test
+    public void positionIsInBoundsWorksIfPositionIsLegal() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(5, 8));
+    }   
+    @Test
+    public void positionIsInBoundsWorksIfPositionIsFurthestLeft() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(0, 8));
+    }      
+    @Test
+    public void positionIsInBoundsWorksIfPositionIsFurthestRight() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(9, 8));
+    }   
+    @Test
+    public void positionIsInBoundsWorksIfPositionIsOnTop() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(2, 0));
+    }       
+    @Test
+    public void positionIsInBoundsWorksIfPositionIsOnBottom() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(4, 9));
+    }       
+    @Test
+    public void positionIsInBoundsWorksIfPositionXIsNegative() {
+        board = new Board(10, 10, 30);
+        assertFalse("", board.positionIsInBounds(-1, 9));
+    }  
+    @Test
+    public void positionIsInBoundsWorksIfPositionYIsNegative() {
+        board = new Board(10, 10, 30);
+        assertFalse("", board.positionIsInBounds(4, -1));
+    }      
+    @Test
+    public void positionIsInBoundsWorksIfPositionXIsTooLarge() {
+        board = new Board(10, 10, 30);
+        assertFalse("", board.positionIsInBounds(10, 9));
+    }  
+    @Test
+    public void positionIsInBoundsWorksIfPositionYIsTooLarge() {
+        board = new Board(10, 10, 30);
+        assertFalse("", board.positionIsInBounds(4, 10));
+    }      
+    
+    @Test
+    public void topLeftCornerPositionIsInBounds() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(0, 0));
+    }  
+    @Test
+    public void topRightCornerPositionIsInBounds() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(9, 0));
+    }   
+    @Test
+    public void bottomRightCornerPositionIsInBounds() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(9, 9));
+    }   
+    
+    @Test
+    public void bottomLeftCornerPositionIsInBounds() {
+        board = new Board(10, 10, 30);
+        assertTrue("", board.positionIsInBounds(0, 9));
+    }       
+    
     
     
     

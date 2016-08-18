@@ -13,22 +13,9 @@ import pallopeli.objects.Piece;
 public class Main {
 
     public static void main(String[] args) { 
-//        startProgram();
-        Ball ball = new Ball(30);
-        Board board = new Board(5, 5, 30);
-        ball.setBallOnBoard(board);
-        System.out.println(ball);
-        boolean aWallPieceHasBall = false;
-        for (int h = 0; h < board.getHeight(); h++) {                       
-            for (int w = 0; w < board.getWidth(); w++) {
-                if (board.getPiece(w, h).isWall()) {
-                    if (board.getPiece(w, h).hasBall(ball)) {
-                        System.out.println(board.getPiece(w, h));
-                        aWallPieceHasBall = true;
-                    }                    
-                }
-            }
-        }  
+        startProgram();
+
+ 
 
     }
     

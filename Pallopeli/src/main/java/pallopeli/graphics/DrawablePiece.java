@@ -3,7 +3,13 @@ package pallopeli.graphics;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import pallopeli.CompassDirection;
 import pallopeli.objects.Piece;
+
+/**
+ * DrawablePiece provides draw-method for Piece and it draws different picture depending on whether Piece is wall or not.
+ * @author saara
+ */
 
 
 public class DrawablePiece implements Drawable {
@@ -20,10 +26,13 @@ public class DrawablePiece implements Drawable {
 
     @Override
     public void draw(Graphics graphics) {
+        int x = this.pieceToDraw.getCornerPoint(CompassDirection.NORTHWEST).x;
+        int y = this.pieceToDraw.getCornerPoint(CompassDirection.NORTHWEST).y;
+
         if (this.pieceToDraw.isWall()) {
-            graphics.drawImage(wallImage, this.pieceToDraw.getAnchor().x, this.pieceToDraw.getAnchor().y, null);         
+            graphics.drawImage(wallImage, x, y, null);         
         } else if (!this.pieceToDraw.isWall()) {
-            graphics.drawImage(pieceImage, this.pieceToDraw.getAnchor().x, this.pieceToDraw.getAnchor().y, null);
+            graphics.drawImage(pieceImage, x, y, null);
         }       
     }
     

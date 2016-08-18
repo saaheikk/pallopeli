@@ -3,6 +3,11 @@ package pallopeli.graphics;
 import java.awt.Graphics;
 import pallopeli.objects.Board;
 
+/**
+ * DrawableBoard provides draw-method for Board and it draws every Piece on Board by using DrawablePiece.
+ * @author saara
+ */
+
 public class DrawableBoard implements Drawable {
     private Board boardToDraw;
     
