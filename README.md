@@ -8,6 +8,6 @@ Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-b
 
 [Tuntikirjanpito] (dokumentaatiohakemisto/tuntikirjanpito.md)
 
-Pit-raportti: https://htmlpreview.github.io/?https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/pit-raportti/201608112335/index.html
+Pit-raportti: https://htmlpreview.github.io/?https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/pit-raportti/201608182147/index.html
 
 Checkstyle-raportti: https://htmlpreview.github.io/?https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/checkstyle-raportti/site/checkstyle.html
