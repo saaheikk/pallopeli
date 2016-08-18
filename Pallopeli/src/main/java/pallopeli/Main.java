@@ -47,8 +47,8 @@ public class Main {
         Ball ball = new Ball(30);
         
         // initialize situation
-        ball.setCurrentPosition(new Point(254,202));
-        ball.setPreviousPosition(new Point(250,200));
+        ball.setCurrentPosition(new Point(254, 202));
+        ball.setPreviousPosition(new Point(250, 200));
         ball.setSpeed(4, 2);
         System.out.println(ball);
         System.out.println("...");
@@ -58,8 +58,8 @@ public class Main {
     
     public static void tutkiCollisionDetectorinToiminnallisuutta() {
         Ball ball = new Ball(30);
-        ball.setCurrentPosition(new Point(258,204));
-        ball.setPreviousPosition(new Point(254,202));
+        ball.setCurrentPosition(new Point(258, 204));
+        ball.setPreviousPosition(new Point(254, 202));
         ball.setSpeed(4, 2);
         System.out.println(ball);
         System.out.println("...");

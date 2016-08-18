@@ -42,8 +42,7 @@ public class Piece {
      */
     public boolean hasBall(Ball ball) { 
         int leftBorder = cornerPoints.get(CompassDirection.NORTHWEST).x - ball.getRadius();
-        int rightBorder = cornerPoints.get(CompassDirection.NORTHEAST).x + ball.getRadius();
-        
+        int rightBorder = cornerPoints.get(CompassDirection.NORTHEAST).x + ball.getRadius();        
         if (leftBorder <= ball.getCoordinateX() 
                 && ball.getCoordinateX() <= rightBorder
                 && cornerPoints.get(CompassDirection.NORTHWEST).y <= ball.getCoordinateY()
@@ -51,8 +50,7 @@ public class Piece {
             return true;
         } 
         int topBorder = cornerPoints.get(CompassDirection.NORTHWEST).y - ball.getRadius();
-        int bottomBorder = cornerPoints.get(CompassDirection.SOUTHEAST).y + ball.getRadius();        
-        
+        int bottomBorder = cornerPoints.get(CompassDirection.SOUTHEAST).y + ball.getRadius();                
         if (topBorder <= ball.getCoordinateY() 
                 && ball.getCoordinateY() <= bottomBorder
                 && cornerPoints.get(CompassDirection.NORTHWEST).x <= ball.getCoordinateX()
@@ -60,7 +58,7 @@ public class Piece {
             return true;
         }
         for (CompassDirection direction : CompassDirection.values()) {
-            if (cornerPoints.get(direction)!=null) {
+            if (cornerPoints.get(direction) != null) {
                 if (cornerPoints.get(direction).distance(ball.getCurrentPosition()) <= ball.getRadius()) {
                     return true;
                 }                
@@ -68,9 +66,7 @@ public class Piece {
         }
         return false;
     }
- 
-    
-    
+
     // this method is used to build walls during the gameand it's still under consturction
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
@@ -99,9 +95,9 @@ public class Piece {
     @Override
     public String toString() {
         if (this.wall) {
-            return "(" + this.x + "," + this. y + "): is-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
+            return "(" + this.x + "," + this.y + "): is-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
         }
-        return "(" + this.x + "," + this. y + "): no-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
+        return "(" + this.x + "," + this.y + "): no-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
     }
 
     
@@ -137,26 +133,8 @@ public class Piece {
     public int getCenterCoordinateY() {
         return this.y * this.size + this.size / 2;
     }    
-            
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // trash
-    
+
+    // trash   
 //    public boolean isSurroundedByWallPieces() {
 //        // returns true for pieces that have no neighbors!!!
 //        if (this.northNeighbor == null || this.northNeighbor.isWall()) {
@@ -170,7 +148,6 @@ public class Piece {
 //        }
 //        return false; // returns true for pieces that have no neighbors!!!
 //    }
-    
 //    public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
 //        // this code will be imporved... i am aware that currenlty it's very ugly :(
 //        int topLeftCornerX = this.size * this.x;
@@ -217,11 +194,4 @@ public class Piece {
 //        }
 //        return null;
 //    }
-
-
-
-    
-    
-    
-    
 }

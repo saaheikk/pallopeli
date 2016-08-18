@@ -83,11 +83,6 @@ public class Ball {
             this.currentPosition.setLocation(currentPositionReset);                
             this.dy *= -1;
         }
-        
-        // check for case where moveOneStepForward does not kill this collision event
-        if (collision.getCollisionPosition() == this.currentPosition) {
-        }
-
     }
     
     /**
@@ -168,15 +163,7 @@ public class Ball {
     public void setDy(int dy) {
         this.dy = dy;
     }    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     // trash 
     
 //    public void bounce(CompassDirection compassDirection) {
@@ -192,14 +179,6 @@ public class Ball {
 //            this.dy *= -1;            
 //        }
 //    }
-
-
-
-
-
-
-
-
     
 
 }
