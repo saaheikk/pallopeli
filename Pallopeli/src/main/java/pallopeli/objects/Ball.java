@@ -69,7 +69,6 @@ public class Ball {
         int illegalTranslationX = this.currentPosition.x - collision.getCoordinateX();
         int illegalTranslationY = this.currentPosition.y - collision.getCoordinateY();
 
-
         if (collision.getReflectingDirection() == SimpleDirection.VERTICAL) {  
             Point previousPositionReset = new Point(collision.getCoordinateX() + legalTranslationX, collision.getCoordinateY() - legalTranslationY);
             Point currentPositionReset = new Point(collision.getCoordinateX() - illegalTranslationX, collision.getCoordinateY() + illegalTranslationY);
@@ -83,6 +82,16 @@ public class Ball {
             this.currentPosition.setLocation(currentPositionReset);                
             this.dy *= -1;
         }
+    }
+    
+    public boolean liesOnWall(Board board) {
+        boolean liesOnWall = false;
+        for (Piece p : board.getWallPiecesNearby(currentPosition, 50)) {
+            if (p.hasBall(this)) {
+                liesOnWall = true;
+            }
+        }
+        return liesOnWall;
     }
     
     /**

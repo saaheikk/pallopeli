@@ -50,7 +50,8 @@ public class Game extends Timer implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
             return;
-        }      
+        }
+
         this.ball.moveOnBoard(board);
 //        original bouncing that uses the ugly methods in class Piece (does not work perfectly either):
 //        int ballXstart = this.ball.getX();
@@ -70,6 +71,9 @@ public class Game extends Timer implements ActionListener {
 //            }            
 //            this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
 //        }
+        if (this.ball.liesOnWall(board)) {
+            continues = false;
+        }
         this.updateable.update();
     }
     

@@ -146,6 +146,14 @@ public class Board {
         return sizeOfPieces;
     }
     
+    public Piece getPieceThatEnclosesPoint(Point p) {
+        if (p.x % this.sizeOfPieces == 0 || p.y % this.sizeOfPieces == 0) {
+            return null; // check for lines between the pieces
+        }
+        int x = p.x / this.sizeOfPieces;
+        int y = p.y / this.sizeOfPieces; 
+        return this.getPiece(x, y);
+    }
     
     @Override
     public String toString() {
