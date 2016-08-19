@@ -19,4 +19,5 @@ Päivä | Tunnit | Kuvaus
 15.08.2016 | 5.5h | CollisionDetectorin debuggausta (ei toimi virheettömästi), koodin refaktorointia (--> testit vielä päivittämättä!), 2h pajassa
 17.08.2016 | 5.5h | Bugien korjaamista, refaktorointia ja testien kirjoittamista
 18.08.2016 | 4.0h | Testien kirjoittamista, koodin parantelua, JavaDoc luokille ja päämetodeille, pit&checkstyle sekä niiden päivittäminen GitHubiin
+19.08.2016 | 1.0h | MouseListeneriin tutustumista ja sellaisen lisääminen käyttöliittymään, aloitettu rakentamaan seinänrakentamistoiminnallisuutta
 
