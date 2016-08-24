@@ -15,8 +15,6 @@ public class DrawableBall implements Drawable {
         this.ballToDraw = ballToDraw;
     }
     
-    
-
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.RED);
