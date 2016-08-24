@@ -123,9 +123,12 @@ public class CollisionDetector {
         // this method returns the collision point on vertival segment or null if no collision happens
 
         if (ball.getCurrentPosition().y < segmentY && ball.getPreviousPosition().y < segmentY) {
+            System.out.println("above segmentY");  
             return null; // ball moves above segmentY
+
         }
         if (ball.getCurrentPosition().y > segmentY && ball.getPreviousPosition().y > segmentY) {
+            System.out.println("under segmentY");              
             return null; // ball moves under segmentY
         }
         if (ball.getDy() == 0) {
@@ -143,6 +146,7 @@ public class CollisionDetector {
         if (segmentStartX <= collisionX && collisionX <= segmentEndX) {
             return new Point(collisionX, segmentY); // actual collision with segment (including ending points)
         }
+        System.out.println("no proper collision");          
         return null;        
     }
     
@@ -150,10 +154,9 @@ public class CollisionDetector {
      * Helper method that checks which collision in given list is the earliest proper one.
      * @param ball
      * @param collisions
-     * @return 
-     */
-        
-    private Collision getEarliestProperCollision(Ball ball, ArrayList<Collision> collisions) {
+     * @return Collision that is used to reset parameters of Ball.
+     */   
+    public Collision getEarliestProperCollision(Ball ball, ArrayList<Collision> collisions) {
         int minimumDistanceToEndOfTrace = 1000; // 1000 must be safe enough
         Collision earliest = null;
 
@@ -161,7 +164,7 @@ public class CollisionDetector {
             int distanceToEndOfTrace = Math.abs(c.getCoordinateX() - ball.getPreviousPosition().x);
             if (distanceToEndOfTrace < minimumDistanceToEndOfTrace) {
                 // check for the case where ball has just bounced but previousPosition still collides!
-                if (c.getCollisionPosition() != ball.getPreviousPosition()) { 
+                if (!c.getCollisionPosition().equals(ball.getPreviousPosition())) { 
                     minimumDistanceToEndOfTrace = distanceToEndOfTrace;
                     earliest = c;                    
                 }

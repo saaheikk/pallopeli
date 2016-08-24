@@ -20,7 +20,11 @@ public class DrawableBall implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillOval(ballToDraw.getCurrentPosition().x, ballToDraw.getCurrentPosition().y, 2 * ballToDraw.getRadius(), 2 * ballToDraw.getRadius());
+        int r = ballToDraw.getRadius();
+        g.fillOval(ballToDraw.getCurrentPosition().x - r, ballToDraw.getCurrentPosition().y - r, 2 * r, 2 * r);
+        System.out.println("");
+        System.out.println("BALL DRAWN AT " + ballToDraw.getCurrentPosition());
+        System.out.println("");
     }
     
 }

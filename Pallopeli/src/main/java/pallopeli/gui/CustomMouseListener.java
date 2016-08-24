@@ -14,7 +14,7 @@ import pallopeli.objects.Piece;
  *
  * @author saara
  */
-public class CustomMouseListener implements MouseListener {
+public class CustomMouseListener extends Thread implements MouseListener {
     private Board board;
 
     public CustomMouseListener(Board board) {

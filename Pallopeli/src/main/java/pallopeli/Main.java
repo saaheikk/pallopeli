@@ -3,6 +3,7 @@ package pallopeli;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import pallopeli.collisionphysics.Collision;
 import pallopeli.collisionphysics.CollisionDetector;
 import pallopeli.gui.UserInterface;
 import pallopeli.logic.Game;
@@ -14,6 +15,10 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
+
+        
+
+  
 
     }
     
@@ -27,7 +32,7 @@ public class Main {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
-                System.out.println("Piirtoalustaa ei ole vielä luotu.");
+                System.out.println("PaintingCanvas under contruction.");
             }
         }
         g.setUpedateable(ui.getUpdateable());
@@ -38,33 +43,8 @@ public class Main {
     
     
     
-    // testailu-/debuggausmetodeja:
+
     
-    public static void tutkiTormaysta() {
-        Board board = new Board(10, 10, 30);
-        Ball ball = new Ball(30);
-        
-        // initialize situation
-        ball.setCurrentPosition(new Point(254, 202));
-        ball.setPreviousPosition(new Point(250, 200));
-        ball.setSpeed(4, 2);
-        System.out.println(ball);
-        System.out.println("...");
-              
-        ball.moveOnBoard(board);        
-    }
-    
-    public static void tutkiCollisionDetectorinToiminnallisuutta() {
-        Ball ball = new Ball(30);
-        ball.setCurrentPosition(new Point(258, 204));
-        ball.setPreviousPosition(new Point(254, 202));
-        ball.setSpeed(4, 2);
-        System.out.println(ball);
-        System.out.println("...");
-              
-        CollisionDetector cd = new CollisionDetector();
-        Point p = cd.collisionOnVerticalSegment(ball, 255, 165, 225);
-        System.out.println(p);
-    }
+
     
 }

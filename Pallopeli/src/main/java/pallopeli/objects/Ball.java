@@ -54,6 +54,7 @@ public class Ball {
             System.out.println("Collision detected!");
             System.out.println(collision);
             this.resetAfterCollision(collision);
+            System.out.println("Resetted after collision: " + this.toString());
             
             // check if ball collides after resetting...inner corners might cause this!
         } 

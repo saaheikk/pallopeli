@@ -53,27 +53,9 @@ public class Game extends Timer implements ActionListener {
         }
 
         this.ball.moveOnBoard(board);
-//        original bouncing that uses the ugly methods in class Piece (does not work perfectly either):
-//        int ballXstart = this.ball.getX();
-//        int ballYstart = this.ball.getY();
-//        
-//        this.ball.move();
-//
-//        ArrayList<Piece> alarmedWallPieces = this.board.getAlarmedWallPieces(ball);
-//        if (!alarmedWallPieces.isEmpty()) {
-//            //this.ball.moveOneStepBackwards();
-//            Piece nearest = null;
-//            double minimumDistance = 10000;
-//            for (int i = 0; i < alarmedWallPieces.size(); i++) {
-//                if (minimumDistance > alarmedWallPieces.get(i).getDistanceToAPoint(ballXstart, ballYstart)) {
-//                    nearest = alarmedWallPieces.get(i);
-//                }                
-//            }            
-//            this.ball.bounce(nearest.getDirectionWhereToBounce(ballXstart, ballYstart));
+//        if (this.ball.liesOnWall(board)) {
+//            continues = false;
 //        }
-        if (this.ball.liesOnWall(board)) {
-            continues = false;
-        }
         this.updateable.update();
     }
     

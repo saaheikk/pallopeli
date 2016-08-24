@@ -6,7 +6,7 @@ import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
 
 /**
- * Board contains all the pieces of the game as a matrix and it's main task is to build walls according to commands from user and ball.
+ * Board contains all the pieces of the game as a matrix and its main task is to build walls according to commands from user and ball.
  * @author saara
  */
 
