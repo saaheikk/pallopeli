@@ -11,7 +11,12 @@ import pallopeli.SimpleDirection;
 public class Collision {
     private Point collisionPosition;
     private SimpleDirection reflectingDirection;
-
+    
+    /**
+     * Creates new Collision.
+     * @param collisionLocation
+     * @param reflectingDirection 
+     */
     public Collision(Point collisionLocation, SimpleDirection reflectingDirection) {
         this.collisionPosition = collisionLocation;
         this.reflectingDirection = reflectingDirection;
