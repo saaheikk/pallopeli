@@ -29,8 +29,6 @@ public class PaintingCanvas extends JPanel implements Updateable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-
         for (int i = 0; i < this.drawables.size(); i++) {
             this.drawables.get(i).draw(g);
         }       

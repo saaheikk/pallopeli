@@ -12,7 +12,7 @@ import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
 /**
- *
+ * CustomMouseListener listens to mouse clicks and sets Game into "building mode".
  * @author saara
  */
 public class CustomMouseListener implements MouseListener {
@@ -25,7 +25,9 @@ public class CustomMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (!this.game.isBuilding()) {
-            this.game.buildWall(e.getPoint());
+            this.game.setBuilding(true);
+            this.game.getWallbuilder().resetStart(e.getPoint(), this.game.getDirection());
+//            this.game.buildWall(e.getPoint());
         }      
     }
 

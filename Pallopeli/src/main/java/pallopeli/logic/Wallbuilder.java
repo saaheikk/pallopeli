@@ -5,6 +5,7 @@
  */
 package pallopeli.logic;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import pallopeli.CompassDirection;
 import pallopeli.SimpleDirection;
@@ -12,69 +13,64 @@ import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
 /**
- *
+ * Wallbuilder is in charge of building walls by turning pieces into wall one by one.
  * @author saaheikk
  */
 public class Wallbuilder {
-    private Board board;    
-    private Piece start;
-    private Piece[][] pieces;
+    private Board board;  
+    private Piece start;    
+    private SimpleDirection buildingDirection;
+    private boolean firstStep;
+    int stepsFromStart;
 
-    
     public Wallbuilder(Board board) {
         this.board = board;
-        this.pieces = new Piece[2][Math.max(board.getHeight(), board.getWidth())];
+        this.refresh();
     }
-    
-    public void createListOfPiecesToBuild(Piece start, SimpleDirection simpleDirection) {
-        this.start = start;
-        int x = start.getX();
-        int y = start.getY();
-        int length = Math.max(board.getHeight(), board.getWidth());
-        // aware that here we have some copypaste...
-        if (simpleDirection == SimpleDirection.HORIZONTAL) {
-            int w = x - 1;
-            int e = x + 1;
-            for (int i = 0; i < length; i++) {
-                this.pieces[0][i] = board.getPiece(w, y);
-                this.pieces[1][i] = board.getPiece(e, y);
-                w--; 
-                e++;               
-            }
-        }
-        if (simpleDirection == SimpleDirection.VERTICAL) {
-            int n = y - 1;
-            int s = y + 1;
-            for (int i = 0; i < length; i++) {
-                this.pieces[0][i] = board.getPiece(x, n);
-                this.pieces[0][i] = board.getPiece(x, s);
-                n--;
-                s++;                
-            }
-        }        
-    }
-    
-    public void build() {
 
-
+    public void resetStart(Point p, SimpleDirection simpleDirection) {  
+        this.start = this.board.getPieceThatEnclosesPoint(p);
+        this.buildingDirection = simpleDirection;
+        this.firstStep = true;
     }
-    
-    public void checkForUpdates() {
         
-    }
+    public void refresh() {
+        this.start = null;
+        this.buildingDirection = null;
+        this.firstStep = false;
+        this.stepsFromStart = 0;        
+    }        
     
-    public int calculateSteps() {
-        int steps = 0;
-        int length = Math.max(board.getHeight(), board.getWidth());        
-        for (int i = 0; i < length; i++) {
-            if (!this.pieces[0][i].equals(null) || !this.pieces[1][i].equals(null)) {
-                steps++;
+    
+    public boolean build() {
+        if (this.firstStep) {
+            this.start.turnIntoWall();
+            this.firstStep = false;
+        }
+        if (buildingDirection == SimpleDirection.HORIZONTAL) {
+            int e = this.start.getX() + this.stepsFromStart;
+            int w = this.start.getX() - this.stepsFromStart;
+            
+            Piece edgeInEast = this.board.getPiece(e, start.getY());
+            Piece edgeInWest = this.board.getPiece(w, start.getY());
+            
+            boolean buildingInEastCompleted = false;
+            boolean buildingInWestCompleted = false;
+            
+            if (edgeInEast != null) {
+                buildingInEastCompleted = edgeInEast.turnNeighborIntoWall(CompassDirection.EAST);
             }
-        }   
-        return steps;
-    }
-    
-    
-    
-    
+            if (edgeInWest != null) {
+                buildingInWestCompleted = edgeInWest.turnNeighborIntoWall(CompassDirection.WEST);
+            }
+            this.stepsFromStart++;
+            if (!buildingInEastCompleted && !buildingInWestCompleted) {
+                this.refresh();
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }    
+
 }
