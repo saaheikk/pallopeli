@@ -15,11 +15,6 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
-
-        
-
-  
-
     }
     
     public static void startProgram() {
@@ -38,13 +33,5 @@ public class Main {
         g.setUpedateable(ui.getUpdateable());
         g.start(); // Starts the Timer, causing it to start sending action events to its listeners.
     }
-    
-    
-    
-    
-    
 
-    
-
-    
 }

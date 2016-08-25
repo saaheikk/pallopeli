@@ -46,7 +46,7 @@ public class UserInterface implements Runnable {
         // Luo vasta tämän jälkeen näppäimistönkuuntelija, jonka lisäät frame-oliolle
         this.paintingCanvas = new PaintingCanvas(this.game);
         container.add((Component) paintingCanvas, "Center");
-        CustomMouseListener mouseListener = new CustomMouseListener(this.game.getBoard());
+        CustomMouseListener mouseListener = new CustomMouseListener(this.game);
         this.frame.getContentPane().addMouseListener(mouseListener);
     }
 

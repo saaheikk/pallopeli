@@ -1,5 +1,6 @@
 package pallopeli.logic;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class Game extends Timer implements ActionListener {
     
     private SimpleDirection direction;
     private boolean continues;
+    private boolean building;
+    
     private Updateable updateable;
     
     /**
@@ -38,7 +41,9 @@ public class Game extends Timer implements ActionListener {
         
         this.direction = SimpleDirection.HORIZONTAL;  
         
-        this.continues = true;  
+        this.continues = true;
+        this.building = false;
+        
         addActionListener(this);
         setInitialDelay(2000);        
     }
@@ -58,6 +63,12 @@ public class Game extends Timer implements ActionListener {
 //        }
         this.updateable.update();
     }
+    
+    
+    public void buildWall(Point p) {
+        board.getPieceThatEnclosesPoint(p).turnIntoWall();
+    }
+    
     
     // getters and setters
     public void setNewDirection(SimpleDirection direction) {
@@ -79,6 +90,15 @@ public class Game extends Timer implements ActionListener {
     public void setUpedateable(Updateable upedateable) {
         this.updateable = upedateable;
     }
+
+    public void setBuilding(boolean building) {
+        this.building = building;
+    }
+
+    public boolean isBuilding() {
+        return building;
+    }
+    
 
     
 

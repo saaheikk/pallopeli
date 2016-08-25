@@ -7,6 +7,7 @@ package pallopeli.gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import pallopeli.logic.Game;
 import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
@@ -15,16 +16,17 @@ import pallopeli.objects.Piece;
  * @author saara
  */
 public class CustomMouseListener implements MouseListener {
-    private Board board;
+    private Game game;
 
-    public CustomMouseListener(Board board) {
-        this.board = board;
+    public CustomMouseListener(Game game) {
+        this.game = game;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        board.getPieceThatEnclosesPoint(e.getPoint()).turnIntoWall();
-        
+        if (!this.game.isBuilding()) {
+            this.game.buildWall(e.getPoint());
+        }      
     }
 
     @Override

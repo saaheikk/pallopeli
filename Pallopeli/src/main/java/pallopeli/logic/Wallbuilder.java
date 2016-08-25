@@ -23,41 +23,55 @@ public class Wallbuilder {
     
     public Wallbuilder(Board board) {
         this.board = board;
-        this.pieces = new Piece[2][10];
+        this.pieces = new Piece[2][Math.max(board.getHeight(), board.getWidth())];
     }
     
-    public void createListOfPiecesToBuild(Piece start) {
+    public void createListOfPiecesToBuild(Piece start, SimpleDirection simpleDirection) {
         this.start = start;
-
-        
-    }
-    
-    public void build(Piece start, SimpleDirection sd) {
         int x = start.getX();
         int y = start.getY();
-        
-        // check if ball lies on Piece start
-        start.turnIntoWall();
-        if (sd == SimpleDirection.HORIZONTAL) {
-            int e = x;
-            int w = x;
-
-            while (true) {
-                // sleep
-                
-                board.getPiece(e, y).turnNeighborIntoWall(CompassDirection.EAST);
-                board.getPiece(w, y).turnNeighborIntoWall(CompassDirection.WEST);
-                
-                e--;
-                w++;
-                        
+        int length = Math.max(board.getHeight(), board.getWidth());
+        // aware that here we have some copypaste...
+        if (simpleDirection == SimpleDirection.HORIZONTAL) {
+            int w = x - 1;
+            int e = x + 1;
+            for (int i = 0; i < length; i++) {
+                this.pieces[0][i] = board.getPiece(w, y);
+                this.pieces[1][i] = board.getPiece(e, y);
+                w--; 
+                e++;               
             }
-
         }
+        if (simpleDirection == SimpleDirection.VERTICAL) {
+            int n = y - 1;
+            int s = y + 1;
+            for (int i = 0; i < length; i++) {
+                this.pieces[0][i] = board.getPiece(x, n);
+                this.pieces[0][i] = board.getPiece(x, s);
+                n--;
+                s++;                
+            }
+        }        
+    }
+    
+    public void build() {
+
+
     }
     
     public void checkForUpdates() {
         
+    }
+    
+    public int calculateSteps() {
+        int steps = 0;
+        int length = Math.max(board.getHeight(), board.getWidth());        
+        for (int i = 0; i < length; i++) {
+            if (!this.pieces[0][i].equals(null) || !this.pieces[1][i].equals(null)) {
+                steps++;
+            }
+        }   
+        return steps;
     }
     
     
