@@ -202,6 +202,9 @@ public class PieceTest {
         int centerY = piece.getCenterCoordinateY();
         assertTrue("", centerY == 87);    
     } 
+    
+    
+    
 //    @Test
 //    public void toStringWorksIfPieceIsWall() {
 //        piece = new Piece(3, 3, true, 30);

@@ -36,18 +36,17 @@ public class Ball {
         this.drawSpeed();
         this.previousPosition = new Point(x - this.dx, y - this.dy);        
     }
-    /**
-     * The main method of Ball; relocates the ball on given Board according to its speed.
-     * @param board 
-     */
     
+    /**
+     * The main method of Ball; relocates Ball on given Board according to its speed.
+     * @param board 
+     */    
     public void moveOnBoard(Board board) {
         this.moveOneStepForward();
         System.out.println(this + "\n");
                            
         Collision collision = this.collisionDetector.checkForEarliestProperCollisionAlongTrace(this, board);
-        if (collision == null) {
-            
+        if (collision == null) {            
             System.out.println("This step has no collision");
             return;
         } else {

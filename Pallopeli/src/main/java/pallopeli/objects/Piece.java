@@ -36,7 +36,7 @@ public class Piece {
     }  
     
     /**
-     * Checks if the given ball touches the piece or not.
+     * Checks if given Ball touches Piece or not.
      * @param ball
      * @return True if given ball touches the piece and false if not.
      */

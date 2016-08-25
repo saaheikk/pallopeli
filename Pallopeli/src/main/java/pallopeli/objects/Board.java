@@ -72,7 +72,7 @@ public class Board {
     }
     
     /**
-     * Helper method to make Piece know it's neighbors.
+     * Helper method to make Piece know its neighbors.
      */
     
     protected void setNeighbors() {
@@ -166,17 +166,7 @@ public class Board {
         }
         return boardToString;
     }
-    
 
-    
-
-    
-    
-    
-    
-    
-    
-    
     // trash
 //    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
 //        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();

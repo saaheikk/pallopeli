@@ -146,6 +146,28 @@ public class BallTest {
         assertTrue("", ball.getCurrentPosition().equals(expectedPosition));
     }
     
+    @Test
+    public void liesOnWallWorksIfBallDoesNotLieOnWall() {
+        Board board = new Board(10, 10, 30);
+        ball = new Ball(30);
+        ball.setCurrentPosition(new Point(80, 170));
+        assertFalse("", ball.liesOnWall(board));
+    }
+    @Test
+    public void liesOnWallWorksIfBallLiesOnWall() {
+        Board board = new Board(10, 10, 30);
+        ball = new Ball(30);
+        ball.setCurrentPosition(new Point(80, 20));
+        assertTrue("", ball.liesOnWall(board));
+    }    
+    @Test
+    public void liesOnWallWorksIfBallTouchesWall() {
+        Board board = new Board(10, 10, 30);
+        ball = new Ball(30);
+        ball.setCurrentPosition(new Point(80, 45));
+        assertTrue("", ball.liesOnWall(board));
+    }  
+    
     // tests for moving by using collision detector
     @Test
     public void testMoving() {

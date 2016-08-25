@@ -41,7 +41,7 @@ public class Wallbuilder {
         this.stepsFromStart = 0;        
     }        
     
-    
+    // this method is very ugly...
     public boolean build() {
         if (this.firstStep) {
             this.start.turnIntoWall();

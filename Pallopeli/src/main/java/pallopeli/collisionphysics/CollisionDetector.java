@@ -172,31 +172,5 @@ public class CollisionDetector {
         }
         return earliest;
     }
-    
-
 }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
 
-
-    

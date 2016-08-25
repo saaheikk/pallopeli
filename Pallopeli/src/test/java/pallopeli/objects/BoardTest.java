@@ -165,10 +165,27 @@ public class BoardTest {
         board = new Board(10, 10, 30);
         assertTrue("", board.positionIsInBounds(0, 9));
     }       
+
+    @Test
+    public void getPieceThatEnclosesPointReturnsTheRightPiece() {
+        board = new Board(10, 10, 30);
+        Piece returned = board.getPieceThatEnclosesPoint(new Point(5, 5));
+        assertEquals(board.getPiece(0, 0), returned);
+    }     
     
-    
-    
-    
+    @Test
+    public void getPieceThatEnclosesPointReturnsNullIfPointIsJustBetweenPieces() {
+        board = new Board(10, 10, 30);
+        Piece returned = board.getPieceThatEnclosesPoint(new Point(5, 30));
+        assertEquals(null, returned);
+    }    
+    @Test
+    public void getPieceThatEnclosesPointReturnsNullIfPointIsAtCorner() {
+        board = new Board(10, 10, 30);
+        Piece returned = board.getPieceThatEnclosesPoint(new Point(60, 30));
+        assertEquals(null, returned);
+    }
+
     public String testBoardToString(Board b) {
         String boardToString = "";
         for (int h = 0; h < b.getHeight(); h++) {                       

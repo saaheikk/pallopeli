@@ -65,7 +65,7 @@ public class Game extends Timer implements ActionListener {
             this.building = this.wallbuilder.build();
            // here we have to somehow check that ball does not lie on the piece that just turned into wall...
         }
-//        this.ball.moveOnBoard(board);
+        this.ball.moveOnBoard(board);
 //        if (this.ball.liesOnWall(board)) {
 //            continues = false;
 //        }
