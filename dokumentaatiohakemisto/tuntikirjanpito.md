@@ -20,4 +20,6 @@ Päivä | Tunnit | Kuvaus
 17.08.2016 | 5.5h | Bugien korjaamista, refaktorointia ja testien kirjoittamista
 18.08.2016 | 4.0h | Testien kirjoittamista, koodin parantelua, JavaDoc luokille ja päämetodeille, pit&checkstyle sekä niiden päivittäminen GitHubiin
 19.08.2016 | 1.0h | MouseListeneriin tutustumista ja sellaisen lisääminen käyttöliittymään, aloitettu rakentamaan seinänrakentamistoiminnallisuutta
-
+24.08.2016 | 3.0h | Seinän rakentumisen suunnittelua ja koodausta (1.5h pajassa)
+25.08.2016 | 4.0h | Wallbuilder-luokan kehittelyä (jäi pahasti kesken), parin testin kirjoitaamista, pit&checkstyle, Javadoc uusille luokille, luokkakaavion päivitys
+ 

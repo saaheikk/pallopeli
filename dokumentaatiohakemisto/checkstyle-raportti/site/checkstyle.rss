@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2016</copyright>
     <item>
-      <title>File: 16,
+      <title>File: 18,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -75,6 +75,34 @@ under the License.
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#pallopeli.graphics.DrawableBoard.java">pallopeli/graphics/DrawableBoard.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.logic.Wallbuilder.java">pallopeli/logic/Wallbuilder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#pallopeli.gui.CustomMouseListener.java">pallopeli/gui/CustomMouseListener.java</a>
                 </td>
                 <td>
                   0
