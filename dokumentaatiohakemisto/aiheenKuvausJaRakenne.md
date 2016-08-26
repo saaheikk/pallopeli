@@ -2,14 +2,20 @@ Aihe: 2D-tietokonepeli, jossa on tarkoituksena vangita seinistä poukkoileva pal
 
 Pelissä on (tarkoitus olla) eri tasoja, ja vaikeammilla tasoilla pallon nopeus on suurempi ja/tai palloja on monta. Pelissä on käytännössä vain yksi toiminto, eli seinän rakentaminen hiirtä klikkaamalla. Lisäksi pelaaja valitsee mihin suuntaan seinä lähtee rakentumaan.
 
+Päivitys: Pelaajalla on alussa esim. 3 elämää, jotka pelaaja yksi kerrallaan menettää, jos tekee virheitä. 
+
 Käyttäjät: Kuka tahansa, joka haluaa pelata hauskaa peliä.
 
 Toiminnot:
 * Rakennussuunnan valinta (pysty/vaaka)
 * Seinän rakentaminen valittuun suuntaan
-	* Ei onnistu jos klikkaa vahingossa palaa, jossa pallo parhaillaan on (vain osittainkin), tällöin pelaaja häviää pelin
+	* Ei onnistu jos klikkaa vahingossa palaa, jossa pallo parhaillaan on (vain osittainkin), tällöin pelaaja menettää yhden "elämän"
 	* Jos seinä pääsee rakentumaan loppuun asti, ilman palloa jäänyt alue täyttyy seinämassalla
+	* Päivitys: jos seinä ei pääse rakentumaan loppuun asti, niin pelaaja menettää yhden "elämän"
+	* Päivitys: jos pallo koskee yhtäkin rakentumassa olevaa seinäpalaa, niin koko rakentumassa oleva seinäosuus häviää ja pelaaja menettää "elämän" 
 * Pelin voittaminen/häviäminen
+	* Voittaminen kun tietty prosenttiosuus pelialueesta on muuttunut seinäksi (esim. 75%)
+	* Häviäminen kun "elämät" loppuvat
 
 Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-balls-cover-75-of/flash-game/
 
