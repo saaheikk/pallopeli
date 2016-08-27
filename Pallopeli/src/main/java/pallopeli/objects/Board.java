@@ -24,9 +24,12 @@ public class Board {
             this.sizeOfPieces = sizeOfPieces;            
             this.pieces = new Piece[height][width];
             this.initializePieces();
-            this.setNeighbors();  
+            this.setNeighbors();
+//            this.resetActiveBorders();
         }
     }
+    
+
       
     // this is a test version!!
     public void buildWall(int x, int y, SimpleDirection direction) {
@@ -123,6 +126,10 @@ public class Board {
         return false;
     }
     
+    public void resetBorders() {
+        // reset borders of the wallpieces after creating the board or turning pieces into wall
+    }
+    
   
     // getter & setters
 
@@ -168,6 +175,16 @@ public class Board {
     }
 
     // trash
+//    public void resetActiveBorders() {
+//        for (int h = 0; h < this.height; h++) {                       
+//            for (int w = 0; w < this.width; w++) {
+//                this.getPiece(w, h).resetActiveBorders();
+//            }
+//        }           
+//        
+//    }    
+//    
+    
 //    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
 //        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();
 //        for (int h = 0; h < this.height; h++) {                       

@@ -1,6 +1,8 @@
 package pallopeli.collisionphysics;
 
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
@@ -31,7 +33,8 @@ public class CollisionDetector {
         ArrayList<Collision> collisions = new ArrayList<>();
 
         for (Piece p : wallPiecesNearToBall) {
-            System.out.println("Wallpiece detected nearby:" + p);
+            System.out.println("Wallpiece detected nearby: " + p);
+
             int leftBorder = p.getCornerPoint(CompassDirection.NORTHWEST).x - ball.getRadius();
             int topBorder = p.getCornerPoint(CompassDirection.NORTHWEST).y - ball.getRadius();
             int rightBorder = p.getCornerPoint(CompassDirection.SOUTHEAST).x + ball.getRadius();
@@ -40,7 +43,7 @@ public class CollisionDetector {
 
             System.out.println("Collisions out:");
             
-            // FIX BORDERS HERE!!!
+//             FIX BORDERS HERE!!!
             
             Point collisionOnTopBorder = this.collisionOnHorizontalSegment(ball, topBorder, leftBorder, rightBorder);
             if (collisionOnTopBorder != null) {
@@ -70,6 +73,46 @@ public class CollisionDetector {
         return this.getEarliestProperCollision(ball, collisions);   
         
     }
+    
+    public Point collisionPointAtVerticalLine(Line2D line, Ball ball) {
+        if (line.getX1() != line.getX2()) {
+            return null; // do not accept other than vertical lines
+        }
+        Point collisionPoint = null;
+        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+        if (line.intersectsLine(traceOfBall)) {
+            double triangleX = (double) ball.getDx();
+            double triangleY = (double) ball.getDy();
+
+            double smallTriangleX = (double) (line.getX1() - ball.getPreviousPosition().x);
+            double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
+            
+            int collisionX = (int) line.getX1();
+            int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
+            collisionPoint = new Point(collisionX, collisionY);
+        }
+        return collisionPoint;
+    }
+    public Point collisionPointAtHorizontalLine(Line2D line, Ball ball) {
+        if (line.getY1() != line.getY2()) {
+            return null; // do not accept other than horizontal lines
+        }
+        Point collisionPoint = null;
+        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+        if (line.intersectsLine(traceOfBall)) {
+            float triangleX = (float) ball.getDx();
+            float triangleY = (float) ball.getDy();
+
+            float smallTriangleY = (float) (line.getY1() - ball.getPreviousPosition().y);
+            float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
+
+            int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
+            int collisionY = (int) line.getY1();
+            collisionPoint = new Point(collisionX, collisionY);
+        }
+        return collisionPoint;
+    }    
+    
         
      
     /**
@@ -172,5 +215,58 @@ public class CollisionDetector {
         }
         return earliest;
     }
+    
+    // trash
+//    public Collision alternativeCheckForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
+//        ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
+//
+//        ArrayList<Collision> collisions = new ArrayList<>();
+//
+//        for (Piece p : wallPiecesNearToBall) {
+//            System.out.println("Wallpiece detected nearby: " + p);
+//            for (Shape border : this.getActiveBordersForBall(ball, p)) {
+//                System.out.println("Found active borders!!!!");
+//                if (border.getClass().isInstance(new Line2D.Float())) {
+//                    Point pointH = this.collisionPointAtHorizontalLine((Line2D) border, ball);
+//                    collisions.add(new Collision(pointH, SimpleDirection.HORIZONTAL));
+//                    Point pointV = this.collisionPointAtVerticalLine((Line2D) border, ball);
+//                    collisions.add(new Collision(pointV, SimpleDirection.VERTICAL));
+//                }
+//            }    
+//        }
+//        if (collisions.isEmpty()) {
+//            return null; // no collisions
+//        }
+//        return this.getEarliestProperCollision(ball, collisions);   
+//    }    
+    
+    // this method could be in Piece
+//    public ArrayList<Shape> getActiveBordersForBall(Ball ball, Piece piece) {
+//        int r = ball.getRadius();
+//        ArrayList<Shape> borders = new ArrayList<>();
+//        if (piece.borderIsActive(CompassDirection.NORTH)) {
+//            Line2D north = new Line2D.Float(piece.getCornerPoint(CompassDirection.NORTHWEST).x, piece.getCornerPoint(CompassDirection.NORTHWEST).y - r,
+//                    piece.getCornerPoint(CompassDirection.NORTHEAST).x, piece.getCornerPoint(CompassDirection.NORTHEAST).y - r);
+//            borders.add(north);
+//        }
+//        if (piece.borderIsActive(CompassDirection.EAST)) {
+//            Line2D east = new Line2D.Float(piece.getCornerPoint(CompassDirection.NORTHEAST).x + r, piece.getCornerPoint(CompassDirection.NORTHEAST).y,
+//                    piece.getCornerPoint(CompassDirection.SOUTHEAST).x + r, piece.getCornerPoint(CompassDirection.SOUTHEAST).y);
+//            borders.add(east);
+//        }
+//        if (piece.borderIsActive(CompassDirection.SOUTH)) {
+//            Line2D south = new Line2D.Float(piece.getCornerPoint(CompassDirection.SOUTHEAST).x, piece.getCornerPoint(CompassDirection.SOUTHEAST).y + r,
+//                    piece.getCornerPoint(CompassDirection.SOUTHWEST).x, piece.getCornerPoint(CompassDirection.SOUTHWEST).y + r);
+//            borders.add(south);
+//        }
+//        if (piece.borderIsActive(CompassDirection.WEST)) {
+//            Line2D west = new Line2D.Float(piece.getCornerPoint(CompassDirection.SOUTHWEST).x - r, piece.getCornerPoint(CompassDirection.SOUTHWEST).y,
+//                    piece.getCornerPoint(CompassDirection.NORTHWEST).x - r, piece.getCornerPoint(CompassDirection.NORTHWEST).y);
+//            borders.add(west);
+//        }
+//        // add corners later
+//        return borders;
+//    }
+    
 }
 

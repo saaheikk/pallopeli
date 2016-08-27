@@ -1,6 +1,8 @@
 package pallopeli;
 
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import pallopeli.collisionphysics.Collision;
@@ -15,6 +17,7 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
+
     }
     
     public static void startProgram() {

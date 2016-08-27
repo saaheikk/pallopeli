@@ -19,7 +19,7 @@ import pallopeli.logic.Game;
 
 public class UserInterface implements Runnable {
     private JFrame frame;
-    private Game game;
+    private Game game; // Starting new game after winning/losing? --> reset game?
     private int sizeOfObjects; 
 
     private Updateable paintingCanvas;
