@@ -41,7 +41,7 @@ public class Game extends Timer implements ActionListener {
         this.ball = new Ball(sizeOfObjects);
         this.ball.setBallOnBoard(this.board);
         
-        this.direction = SimpleDirection.HORIZONTAL;  
+        this.direction = SimpleDirection.VERTICAL;  
         
         this.wallbuilder = new Wallbuilder(this.board);
         
@@ -58,21 +58,20 @@ public class Game extends Timer implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
-            // GAME OVER
-            return;
+            return; // GAME OVER
         }       
         this.ball.moveOnBoard(board);
         if (buildingNewWall) {
-            if (this.direction == SimpleDirection.HORIZONTAL) {
-                this.buildingNewWall = this.wallbuilder.buildOneStepHorizontal(ball);
+            boolean buildingIsOn = this.wallbuilder.buildOneStep(ball, this.direction);
+            if (this.wallbuilder.anyPieceUnderConstructionHasBall(ball)) {
+                this.continues = false; // ball touches any piece under costruction --> GAME OVER
             }
-            
-           // here we have to somehow check that ball does not lie on the piece that just turned into wall...
+            if (!buildingIsOn) {
+                this.wallbuilder.turnAreaIntoWall(ball);
+                this.wallbuilder.refresh();
+            }
+            this.buildingNewWall = buildingIsOn;
         }
-
-//        if (this.ball.liesOnWall(board)) {
-//            continues = false;
-//        }
         this.updateable.update();
     }
  

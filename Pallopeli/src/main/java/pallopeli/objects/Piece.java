@@ -77,8 +77,6 @@ public class Piece {
         }
         return false;
     }
-    
-
 
     // this method is used to build walls during the game and it's still under consturction
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
@@ -96,6 +94,7 @@ public class Piece {
     }
     public boolean setNeighborUnderConstruction(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
+        System.out.println(neighbor);
         if (neighbor == null) {
             return false;
         } else if (neighbor.isWall()) {          
@@ -124,21 +123,7 @@ public class Piece {
         Line2D southBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHEAST), cornerPoints.get(CompassDirection.SOUTHWEST));
         Line2D westBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHWEST), cornerPoints.get(CompassDirection.NORTHWEST));
     }    
-    // just trying smthg
-//    public ArrayList<Object> getActiveCornersAndBorders() {
-//        ArrayList<Object> activeBorders = new ArrayList<>();
-//        for (CompassDirection direction : this.cornerPoints.keySet()) {
-//            if (this.activeBorders.get(direction)) {
-//                activeBorders.add(this.cornerPoints.get(direction));
-//            }
-//        }
-//        for (CompassDirection direction : this.borders.keySet()) {
-//            if (this.activeBorders.get(direction)) {
-//                activeBorders.add(this.borders.get(direction));
-//            }
-//        }
-//        return activeBorders;
-//    }
+
     
     
     @Override
@@ -197,6 +182,23 @@ public class Piece {
     
 
     // trash   
+    // just trying smthg
+//    public ArrayList<Object> getActiveCornersAndBorders() {
+//        ArrayList<Object> activeBorders = new ArrayList<>();
+//        for (CompassDirection direction : this.cornerPoints.keySet()) {
+//            if (this.activeBorders.get(direction)) {
+//                activeBorders.add(this.cornerPoints.get(direction));
+//            }
+//        }
+//        for (CompassDirection direction : this.borders.keySet()) {
+//            if (this.activeBorders.get(direction)) {
+//                activeBorders.add(this.borders.get(direction));
+//            }
+//        }
+//        return activeBorders;
+//    }    
+    
+    
     // reset borders for bouncing 
 //    public void resetBorders() {
 //        // only for wall?

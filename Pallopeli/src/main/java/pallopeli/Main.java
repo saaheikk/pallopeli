@@ -9,6 +9,7 @@ import pallopeli.collisionphysics.Collision;
 import pallopeli.collisionphysics.CollisionDetector;
 import pallopeli.gui.UserInterface;
 import pallopeli.logic.Game;
+import pallopeli.logic.Wallbuilder;
 import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
@@ -17,6 +18,15 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
+
+        
+                
+//        Board board = new Board(10, 10, 30); 
+//        Wallbuilder w = new Wallbuilder(board);
+//        
+//        Piece p = board.getPiece(2, 1);
+//        System.out.println(p);
+//        System.out.println(p.setNeighborUnderConstruction(CompassDirection.NORTH));
 
     }
     

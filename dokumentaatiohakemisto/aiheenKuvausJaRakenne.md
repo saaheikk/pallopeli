@@ -3,6 +3,7 @@ Aihe: 2D-tietokonepeli, jossa on tarkoituksena vangita seinistä poukkoileva pal
 Pelissä on (tarkoitus olla) eri tasoja, ja vaikeammilla tasoilla pallon nopeus on suurempi ja/tai palloja on monta. Pelissä on käytännössä vain yksi toiminto, eli seinän rakentaminen hiirtä klikkaamalla. Lisäksi pelaaja valitsee mihin suuntaan seinä lähtee rakentumaan.
 
 Päivitys: Pelaajalla on alussa esim. 3 elämää, jotka pelaaja yksi kerrallaan menettää, jos tekee virheitä. 
+Päivitys2: Pelaajalla on alussa vain yksi elämä, ts. peli loppuu heti ensimmäisestä virheestä.
 
 Käyttäjät: Kuka tahansa, joka haluaa pelata hauskaa peliä.
 

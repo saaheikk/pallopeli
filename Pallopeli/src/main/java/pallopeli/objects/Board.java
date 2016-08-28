@@ -28,6 +28,16 @@ public class Board {
 //            this.resetActiveBorders();
         }
     }
+    // constructor used for debugging
+    public Board() { 
+            this.width = 3;
+            this.height = 3;
+            this.sizeOfPieces = 30;            
+            this.pieces = new Piece[height][width];
+            this.initializePieces();
+
+        
+    }    
     
 
       
@@ -78,7 +88,7 @@ public class Board {
      * Helper method to make Piece know its neighbors.
      */
     
-    protected void setNeighbors() {
+    public void setNeighbors() {
         for (int h = 0; h < this.height; h++) {                       
             for (int w = 0; w < this.width; w++) {
                 for (CompassDirection direction : CompassDirection.values()) {
@@ -86,8 +96,10 @@ public class Board {
                     int neighborY = h + direction.getY();
                     if (this.positionIsInBounds(neighborX, neighborY)) {
                         this.pieces[h][w].setNeighbor(direction, this.pieces[neighborY][neighborX]);
+                        
                     }
                 }
+                System.out.println("");
             }
         }                   
     }
