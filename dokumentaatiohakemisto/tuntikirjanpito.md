@@ -24,3 +24,4 @@ Päivä | Tunnit | Kuvaus
 25.08.2016 | 4.0h | Wallbuilder-luokan kehittelyä (jäi pahasti kesken), parin testin kirjoittamista, pit&checkstyle, Javadoc uusille luokille, luokkakaavion päivitys
 26.08.2016 | 3.0h | Huonojen ideoiden suunnittelua, toteuttamista ja poiskommentointia
 27.08.2016 | 2.5h | Huonot ideat jatkuu, testien kirjoittamista
+28.08.2016 | 5.5h | Walbuilderin rakentaminen (sis. armotonta debuggausta), koodikatselmointi

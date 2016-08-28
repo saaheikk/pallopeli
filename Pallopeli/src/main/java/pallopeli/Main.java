@@ -18,15 +18,13 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
-
+        
+        Board b = new Board(10,10,30);
+        Wallbuilder w = new Wallbuilder(b);
+        
+        
         
                 
-//        Board board = new Board(10, 10, 30); 
-//        Wallbuilder w = new Wallbuilder(board);
-//        
-//        Piece p = board.getPiece(2, 1);
-//        System.out.println(p);
-//        System.out.println(p.setNeighborUnderConstruction(CompassDirection.NORTH));
 
     }
     

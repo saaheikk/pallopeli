@@ -120,9 +120,6 @@ public class Wallbuilder {
         
     }
 
-    
-    
-
 
     public boolean anyPieceUnderConstructionHasBall(Ball ball) {
         for (int i = 0; i < 2; i++) {
@@ -137,37 +134,7 @@ public class Wallbuilder {
         return false;
     } 
     
-    // this method is very ugly...
-    public boolean build() {
-        if (this.firstStep) {
-            this.start.turnIntoWall();
-            this.firstStep = false;
-        }
-        if (buildingDirection == SimpleDirection.HORIZONTAL) {
-            int e = this.start.getX() + this.stepsFromStart;
-            int w = this.start.getX() - this.stepsFromStart;
-            
-            Piece edgeInEast = this.board.getPiece(e, start.getY());
-            Piece edgeInWest = this.board.getPiece(w, start.getY());
-            
-            boolean buildingInEastCompleted = false;
-            boolean buildingInWestCompleted = false;
-            
-            if (edgeInEast != null) {
-                buildingInEastCompleted = edgeInEast.turnNeighborIntoWall(CompassDirection.EAST);
-            }
-            if (edgeInWest != null) {
-                buildingInWestCompleted = edgeInWest.turnNeighborIntoWall(CompassDirection.WEST);
-            }
-            this.stepsFromStart++;
-            if (!buildingInEastCompleted && !buildingInWestCompleted) {
-                this.refresh();
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }    
+   
     // only if building is fully completed and all the info is NOT yet refreshed:
     public void turnAreaIntoWall(Ball ball) {
         int startX = 0;
@@ -195,7 +162,7 @@ public class Wallbuilder {
                 endY = this.board.getWidth() - 1;
             } else {
                 startX = 0;
-                endY = start.getX();
+                endX = start.getX();
             }            
         }
         for (int h = startY; h <= endY; h++) {                       
@@ -239,5 +206,37 @@ public class Wallbuilder {
 //        }
 //        return true;    
 //    }    
+    
+        // this method is very ugly...
+//    public boolean build() {
+//        if (this.firstStep) {
+//            this.start.turnIntoWall();
+//            this.firstStep = false;
+//        }
+//        if (buildingDirection == SimpleDirection.HORIZONTAL) {
+//            int e = this.start.getX() + this.stepsFromStart;
+//            int w = this.start.getX() - this.stepsFromStart;
+//            
+//            Piece edgeInEast = this.board.getPiece(e, start.getY());
+//            Piece edgeInWest = this.board.getPiece(w, start.getY());
+//            
+//            boolean buildingInEastCompleted = false;
+//            boolean buildingInWestCompleted = false;
+//            
+//            if (edgeInEast != null) {
+//                buildingInEastCompleted = edgeInEast.turnNeighborIntoWall(CompassDirection.EAST);
+//            }
+//            if (edgeInWest != null) {
+//                buildingInWestCompleted = edgeInWest.turnNeighborIntoWall(CompassDirection.WEST);
+//            }
+//            this.stepsFromStart++;
+//            if (!buildingInEastCompleted && !buildingInWestCompleted) {
+//                this.refresh();
+//                return false;
+//            }
+//            return true;
+//        }
+//        return false;
+//    } 
 
 }
