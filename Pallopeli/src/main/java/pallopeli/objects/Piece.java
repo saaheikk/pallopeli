@@ -19,6 +19,7 @@ public class Piece {
     private int y; // location relative to the board
     private int size; // pixels    
     private boolean wall;
+    private boolean underConstruction;
     
     private HashMap<CompassDirection, Piece> neighbors;
     
@@ -30,6 +31,7 @@ public class Piece {
         this.x = x;
         this.y = y;
         this.wall = wall;
+        this.underConstruction = false;
         this.size = sizeOfObjects;
         this.neighbors = new HashMap<>();
 //        this.activeBorders = new HashMap<>();
@@ -92,6 +94,18 @@ public class Piece {
             return true;
         }
     }
+    public boolean setNeighborUnderConstruction(CompassDirection compassDirection) {
+        Piece neighbor = this.neighbors.get(compassDirection);
+        if (neighbor == null) {
+            return false;
+        } else if (neighbor.isWall()) {          
+            return false;
+        } else {
+            // here we have to check that Ball does not collide with neigbor - game over otherwise!
+            neighbor.setUnderConstruction(true);
+            return true;
+        }
+    }    
 
     /**
      * Helper method for setting corner points.
@@ -168,7 +182,19 @@ public class Piece {
     }
     public int getCenterCoordinateY() {
         return this.y * this.size + this.size / 2;
-    }    
+    }
+    public boolean isUnderConstruction() {
+        return underConstruction;
+    }
+
+    public void setUnderConstruction(boolean underConstruction) {
+        this.underConstruction = underConstruction;
+    }
+    public Piece getNeighbor(CompassDirection direction) {
+        return this.neighbors.get(direction);
+    }
+
+    
 
     // trash   
     // reset borders for bouncing 
@@ -273,4 +299,6 @@ public class Piece {
 //        }
 //        return null;
 //    }
+
+
 }

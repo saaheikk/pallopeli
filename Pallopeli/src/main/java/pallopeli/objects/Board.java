@@ -146,7 +146,10 @@ public class Board {
     }
     
     public Piece getPiece(int x, int y) {
-        return this.pieces[y][x];
+        if (this.positionIsInBounds(x, y)) {
+            return this.pieces[y][x];
+        }
+        return null;
     }
 
     public int getSizeOfPieces() {

@@ -17,6 +17,7 @@ public class DrawablePiece implements Drawable {
     
     private final Image pieceImage = new ImageIcon("tavallinenpala.png").getImage();
     private final Image wallImage = new ImageIcon("seinapala.png").getImage();    
+    private final Image underConstruction = new ImageIcon("underconstruction.png").getImage();
 
     public DrawablePiece(Piece pieceToDraw) {
         this.pieceToDraw = pieceToDraw;
@@ -31,7 +32,9 @@ public class DrawablePiece implements Drawable {
 
         if (this.pieceToDraw.isWall()) {
             graphics.drawImage(wallImage, x, y, null);         
-        } else if (!this.pieceToDraw.isWall()) {
+        } else if (this.pieceToDraw.isUnderConstruction()) {
+            graphics.drawImage(underConstruction, x, y, null);
+        } else {
             graphics.drawImage(pieceImage, x, y, null);
         }       
     }

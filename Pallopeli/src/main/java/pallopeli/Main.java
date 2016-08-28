@@ -30,7 +30,7 @@ public class Main {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
-                System.out.println("PaintingCanvas under contruction.");
+                System.out.println("PaintingCanvas still under contruction.");
             }
         }
         g.setUpedateable(ui.getUpdateable());
