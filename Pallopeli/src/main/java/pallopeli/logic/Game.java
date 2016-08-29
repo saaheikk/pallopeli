@@ -41,7 +41,7 @@ public class Game extends Timer implements ActionListener {
         this.ball = new Ball(sizeOfObjects);
         this.ball.setBallOnBoard(this.board);
         
-        this.direction = SimpleDirection.VERTICAL;  
+        this.direction = SimpleDirection.HORIZONTAL;  
         
         this.wallbuilder = new Wallbuilder(this.board);
         
@@ -62,18 +62,39 @@ public class Game extends Timer implements ActionListener {
         }       
         this.ball.moveOnBoard(board);
         if (buildingNewWall) {
-            boolean buildingIsOn = this.wallbuilder.buildOneStep(ball, this.direction);
-            if (this.wallbuilder.anyPieceUnderConstructionHasBall(ball)) {
-                this.continues = false; // ball touches any piece under costruction --> GAME OVER
+            boolean buildingIsOn = this.wallbuilder.buildOneStep(this.direction);
+            if (this.wallbuilder.startHasBall(ball)) {
+                this.wallbuilder.cancelContructionOfStart();
+                buildingIsOn = false;
+            } else {
+                this.wallbuilder.turnStartIntoWall();
             }
+            if (this.wallbuilder.directionHasBall(ball) == 1) {
+                this.wallbuilder.setFirstDirectionContinues(false);
+                this.wallbuilder.cancelConstruction(1);
+                this.wallbuilder.setFirstConstructionFailed(true);
+            }
+            if (this.wallbuilder.directionHasBall(ball) == 2) {
+                this.wallbuilder.setSecondDirectionContinues(false);
+                this.wallbuilder.cancelConstruction(2);
+                this.wallbuilder.setSecondConstructionFailed(true);
+            }            
+            
+//            if (this.wallbuilder.anyPieceUnderConstructionHasBall(ball)) {
+//                
+//                this.continues = false; // ball touches any piece under costruction --> GAME OVER
+//            }
+
             if (!buildingIsOn) {
-                this.wallbuilder.turnAreaIntoWall(ball);
+                this.wallbuilder.turnAreaIntoWall(ball); // only if 
                 this.wallbuilder.refresh();
             }
             this.buildingNewWall = buildingIsOn;
         }
         this.updateable.update();
     }
+    
+     
  
     
     

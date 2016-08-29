@@ -21,14 +21,18 @@ public class Wallbuilder {
     private Board board;  
     
     // "refreshable":
-    private Piece start;  
-    private Piece firstEnd;
-    private Piece secondEnd;
+    private Piece start; // default: null
+    private Piece firstEnd; // default: null
+    private Piece secondEnd; // default: null
     
     private SimpleDirection buildingDirection;
+    
     private boolean firstStep;
-    private boolean firstDirectionContinues;
-    private boolean secondDirectionContinues;
+    private boolean firstDirectionContinues; // indicates if wallpiece has stopped the construction
+    private boolean secondDirectionContinues; // indicates if wallpiece has stopped the construction
+    
+    private boolean firstConstructionFailed; // indicates if ball has stopped the construction
+    private boolean secondConstructionFailed; // indicates if ball has stopped the construction
     
     private int stepsFromStart;
     
@@ -53,24 +57,40 @@ public class Wallbuilder {
         this.firstStep = false;
         this.stepsFromStart = 0;  
         this.piecesUnderConstruction = new Piece[2][Math.max(board.getHeight(), board.getWidth())];
+        
+        this.firstConstructionFailed = false;
+        this.secondConstructionFailed = false;
     }   
     
-    public void buildFirstStep(Ball ball) {
+    public boolean buildFirstStep() {
 //        if (this.start.hasBall(ball)) {
 //            return false;  // building fails if ball happens to lie on the piece that is about to turn into wall
 //        }
+        if (this.start.isWall()) {
+            return false;
+        }
         this.start.setUnderConstruction(true);
-        System.out.println("Start: " + this.start);
         this.firstStep = false;
         this.firstDirectionContinues = true;
         this.secondDirectionContinues = true;
-//        return true; 
+        return true; 
+    }
+    
+    public boolean startHasBall(Ball ball) {
+        return this.start.hasBall(ball);
+    }
+    public void turnStartIntoWall() {
+        this.start.turnIntoWall();
+    }
+    public void cancelContructionOfStart() {
+        this.start.setUnderConstruction(false);
     }
 
     
-    public boolean buildOneStep(Ball ball, SimpleDirection simpleDirection) {
+    public boolean buildOneStep(SimpleDirection simpleDirection) {
         if (this.firstStep) {
-            this.buildFirstStep(ball);
+            return this.buildFirstStep();
+            
         } 
         if (this.firstDirectionContinues) {
             Piece edge = null;
@@ -119,7 +139,13 @@ public class Wallbuilder {
         return true;          
         
     }
-
+    public void cancelConstruction(int direction) {
+        for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
+            if (this.piecesUnderConstruction[direction - 1][j] != null) {
+                this.piecesUnderConstruction[direction - 1][j].setUnderConstruction(false);
+            }
+        }
+    }
 
     public boolean anyPieceUnderConstructionHasBall(Ball ball) {
         for (int i = 0; i < 2; i++) {
@@ -133,44 +159,104 @@ public class Wallbuilder {
         }
         return false;
     } 
+    // method returns which direction has collision with ball or 0 if no collision
+    public int directionHasBall(Ball ball) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
+                if (this.piecesUnderConstruction[i][j] != null) {
+                    if (this.piecesUnderConstruction[i][j].hasBall(ball)) {
+                        return i + 1;
+                    }
+                }
+            }
+        }
+        return 0;      
+    }
+
+    public boolean firstConstructionFailed() {
+        return firstConstructionFailed;
+    }
+
+    public void setFirstConstructionFailed(boolean constructionFailed) {
+        this.firstConstructionFailed = constructionFailed;
+    }    
+    public boolean secondConstructionFailed() {
+        return secondConstructionFailed;
+    }
+
+    public void setSecondConstructionFailed(boolean constructionFailed) {
+        this.secondConstructionFailed = constructionFailed;
+    }
+    
+    
+    
     
    
     // only if building is fully completed and all the info is NOT yet refreshed:
     public void turnAreaIntoWall(Ball ball) {
-        int startX = 0;
-        int endX = 0;
-        int startY = 0;
-        int endY = 0;
         
-        if (buildingDirection == SimpleDirection.HORIZONTAL) {
-            startX = this.firstEnd.getX();
-            endX = this.secondEnd.getX();
-            if (ball.getCoordinateY() < start.getCenterCoordinateY()) {
-                startY = start.getY();
-                endY = this.board.getHeight() - 1;
-            } else {
-                startY = 0;
-                endY = start.getY();
+        if (!this.firstConstructionFailed && !this.secondConstructionFailed) {
+            int startX = 0;
+            int endX = 0;
+            int startY = 0;
+            int endY = 0;
+
+            if (buildingDirection == SimpleDirection.HORIZONTAL) {
+                startX = this.firstEnd.getX();
+                endX = this.secondEnd.getX();
+                if (ball.getCoordinateY() < start.getCenterCoordinateY()) {
+                    startY = start.getY();
+                    endY = this.board.getHeight() - 1;
+                } else {
+                    startY = 0;
+                    endY = start.getY();
+                }
+
             }
-            
-        }
-        if (buildingDirection == SimpleDirection.VERTICAL) {
-            startY = this.firstEnd.getY();
-            endY = this.secondEnd.getY();
-            if (ball.getCoordinateX() < start.getCenterCoordinateX()) {
-                startX = start.getX();
-                endY = this.board.getWidth() - 1;
-            } else {
-                startX = 0;
-                endX = start.getX();
-            }            
-        }
-        for (int h = startY; h <= endY; h++) {                       
-            for (int w = startX; w <= endX; w++) {
-                this.board.getPiece(w, h).turnIntoWall();
+            if (buildingDirection == SimpleDirection.VERTICAL) {
+                startY = this.firstEnd.getY();
+                endY = this.secondEnd.getY();
+                if (ball.getCoordinateX() < start.getCenterCoordinateX()) {
+                    startX = start.getX();
+                    endY = this.board.getWidth() - 1;
+                } else {
+                    startX = 0;
+                    endX = start.getX();
+                }            
             }
-        }  
+            for (int h = startY; h <= endY; h++) {                       
+                for (int w = startX; w <= endX; w++) {
+                    this.board.getPiece(w, h).turnIntoWall();
+                }
+            }  
+        } else if (this.firstConstructionFailed) {
+            if (!this.secondConstructionFailed) {
+                for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
+                    if (this.piecesUnderConstruction[1][j] != null) {
+                        this.piecesUnderConstruction[1][j].turnIntoWall();
+                    }
+                }
+                
+            }
+        } else if (this.secondConstructionFailed) {
+            if (!this.firstConstructionFailed) {
+                for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
+                    if (this.piecesUnderConstruction[0][j] != null) {
+                        this.piecesUnderConstruction[0][j].turnIntoWall();
+                    }
+                }                
+            }           
+        }
+
     }
+    public void setFirstDirectionContinues(boolean firstDirectionContinues) {
+        this.firstDirectionContinues = firstDirectionContinues;
+    }
+
+    public void setSecondDirectionContinues(boolean secondDirectionContinues) {
+        this.secondDirectionContinues = secondDirectionContinues;
+    }    
+    
     
 // trash
     
@@ -238,5 +324,7 @@ public class Wallbuilder {
 //        }
 //        return false;
 //    } 
+
+
 
 }
