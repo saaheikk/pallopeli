@@ -20,7 +20,7 @@ import pallopeli.objects.Piece;
 public class Wallbuilder {
     private Board board;  
     
-    // "refreshable":
+    // "refreshable" parametres:
     private Piece start; // default: null
     private Piece firstEnd; // default: null
     private Piece secondEnd; // default: null
@@ -38,18 +38,34 @@ public class Wallbuilder {
     private int stepsFromStart;
     
     private Piece[][] piecesUnderConstruction;
-
+    
+    /**
+     * Constructor for a new Wallbuilder.
+     * @param board The Board where Wallbuilder builds walls.
+     */
     public Wallbuilder(Board board) {
         this.board = board;
         this.refresh();
     }
-
-    public void resetStart(Point p, SimpleDirection simpleDirection) {  
+    
+    /**
+     * Resets the parameters to build new wall on Board.
+     * @param p Point where start is tried to set.
+     * @param simpleDirection Set Wallbuilder's building direction.
+     * @return 
+     */
+    public boolean resetStart(Point p, SimpleDirection simpleDirection) {  
         this.start = this.board.getPieceThatEnclosesPoint(p);
+        if (start == null) {
+            return false;
+        }
         this.buildingDirection = simpleDirection;
         this.firstStep = true;
+        return true;
     }
-        
+    /**
+     * Refreshes the reusable parameters.
+     */    
     public void refresh() {
         this.start = null;
         this.firstEnd = null;
@@ -63,11 +79,9 @@ public class Wallbuilder {
         this.firstConstructionFailed = false;
         this.secondConstructionFailed = false;
     }   
+
     
     public boolean buildFirstStep() {
-//        if (this.start.hasBall(ball)) {
-//            return false;  // building fails if ball happens to lie on the piece that is about to turn into wall
-//        }
         if (this.start.isWall()) {
             this.startFailed = true;
             return false;

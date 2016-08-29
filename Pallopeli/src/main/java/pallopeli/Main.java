@@ -18,30 +18,33 @@ public class Main {
 
     public static void main(String[] args) { 
         startProgram();
-        
-        Board b = new Board(10,10,30);
-        Wallbuilder w = new Wallbuilder(b);
-        
-        
-        
-                
-
     }
     
+    /**
+     * Start Pallopeli.
+     */
     public static void startProgram() {
         Game g = new Game(30);
         
         UserInterface ui = new UserInterface(g);
         SwingUtilities.invokeLater(ui); // Causes ui.run() to be executed asynchronously on the AWT event dispatching thread.
 
-        while (ui.getUpdateable() == null) {
+        while (ui.getPainitingCanvas() == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
                 System.out.println("PaintingCanvas still under contruction.");
             }
         }
-        g.setUpedateable(ui.getUpdateable());
+        while (ui.getSidebar() == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                System.out.println("Sidebar still under contruction.");
+            }
+        }        
+        g.setPaintingCanvas(ui.getPainitingCanvas());
+        g.setSidebar(ui.getSidebar());
         g.start(); // Starts the Timer, causing it to start sending action events to its listeners.
     }
 

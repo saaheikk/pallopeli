@@ -1,5 +1,6 @@
 package pallopeli.gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import pallopeli.graphics.Updateable;
 import pallopeli.graphics.PaintingCanvas;
@@ -10,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import pallopeli.graphics.Sidebar;
 import pallopeli.logic.Game;
 
 /**
@@ -23,6 +25,7 @@ public class UserInterface implements Runnable {
     private int sizeOfObjects; 
 
     private Updateable paintingCanvas;
+    private Updateable sidebar;
 
     public UserInterface(Game game) {
         this.game = game;
@@ -35,9 +38,11 @@ public class UserInterface implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Pallopeli");
-        frame.setPreferredSize(new Dimension(300, 322));
+//        frame.setPreferredSize(new Dimension(300, 322)); // just right for 10 x 10 board
+        frame.setPreferredSize(new Dimension(610, 322));        
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        // createStartingView(frame.getContentPane());
         createComponents(frame.getContentPane());
 
         frame.pack();
@@ -46,18 +51,34 @@ public class UserInterface implements Runnable {
     
     // This method will later add other ui-components to Container!
     public void createComponents(Container container) { 
+        container.setLayout(new BorderLayout());
+        
         this.paintingCanvas = new PaintingCanvas(this.game);
         container.add((Component) paintingCanvas, "Center");
-        CustomMouseListener mouseListener = new CustomMouseListener(this.game);
+        
+        this.sidebar = new Sidebar(this.game);
+        container.add((Component) sidebar, "East");
+        
+        GameMouseListener mouseListener = new GameMouseListener(this.game);
         this.frame.getContentPane().addMouseListener(mouseListener);
+        GameKeyListener keylistener = new GameKeyListener(this.game);
+        this.frame.addKeyListener(keylistener); //???!!!
     }
+    
+    public void createStartingView(Container container) { 
+        GameMouseListener mouseListener = new GameMouseListener(this.game);
+        this.frame.getContentPane().addMouseListener(mouseListener);
+    }    
 
     // getters and setters
     
     public JFrame getFrame() {
         return frame;
     }
-    public Updateable getUpdateable() {
+    public Updateable getPainitingCanvas() {
         return this.paintingCanvas;
     }
+    public Updateable getSidebar() {
+        return this.sidebar;
+    }    
 }
