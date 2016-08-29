@@ -31,6 +31,7 @@ public class Wallbuilder {
     private boolean firstDirectionContinues; // indicates if wallpiece has stopped the construction
     private boolean secondDirectionContinues; // indicates if wallpiece has stopped the construction
     
+    private boolean startFailed;
     private boolean firstConstructionFailed; // indicates if ball has stopped the construction
     private boolean secondConstructionFailed; // indicates if ball has stopped the construction
     
@@ -58,6 +59,7 @@ public class Wallbuilder {
         this.stepsFromStart = 0;  
         this.piecesUnderConstruction = new Piece[2][Math.max(board.getHeight(), board.getWidth())];
         
+        this.startFailed = false;
         this.firstConstructionFailed = false;
         this.secondConstructionFailed = false;
     }   
@@ -67,10 +69,12 @@ public class Wallbuilder {
 //            return false;  // building fails if ball happens to lie on the piece that is about to turn into wall
 //        }
         if (this.start.isWall()) {
+            this.startFailed = true;
             return false;
         }
         this.start.setUnderConstruction(true);
         this.firstStep = false;
+        this.startFailed = false;
         this.firstDirectionContinues = true;
         this.secondDirectionContinues = true;
         return true; 
@@ -82,15 +86,15 @@ public class Wallbuilder {
     public void turnStartIntoWall() {
         this.start.turnIntoWall();
     }
-    public void cancelContructionOfStart() {
+    public void cancelConstructionOfStart() {
         this.start.setUnderConstruction(false);
+        this.startFailed = true;
     }
 
     
     public boolean buildOneStep(SimpleDirection simpleDirection) {
         if (this.firstStep) {
             return this.buildFirstStep();
-            
         } 
         if (this.firstDirectionContinues) {
             Piece edge = null;
@@ -146,19 +150,7 @@ public class Wallbuilder {
             }
         }
     }
-
-    public boolean anyPieceUnderConstructionHasBall(Ball ball) {
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
-                if (this.piecesUnderConstruction[i][j] != null) {
-                    if (this.piecesUnderConstruction[i][j].hasBall(ball)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    } 
+ 
     // method returns which direction has collision with ball or 0 if no collision
     public int directionHasBall(Ball ball) {
         for (int i = 0; i < 2; i++) {
@@ -187,14 +179,13 @@ public class Wallbuilder {
     public void setSecondConstructionFailed(boolean constructionFailed) {
         this.secondConstructionFailed = constructionFailed;
     }
-    
-    
-    
-    
+
    
     // only if building is fully completed and all the info is NOT yet refreshed:
     public void turnAreaIntoWall(Ball ball) {
-        
+        if (this.startFailed) {
+            return;
+        }
         if (!this.firstConstructionFailed && !this.secondConstructionFailed) {
             int startX = 0;
             int endX = 0;
@@ -259,7 +250,18 @@ public class Wallbuilder {
     
     
 // trash
-    
+//    public boolean anyPieceUnderConstructionHasBall(Ball ball) {
+//        for (int i = 0; i < 2; i++) {
+//            for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
+//                if (this.piecesUnderConstruction[i][j] != null) {
+//                    if (this.piecesUnderConstruction[i][j].hasBall(ball)) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }    
 //    public boolean buildOneStepHorizontal(Ball ball) {
 //        if (this.firstStep) {
 //            return this.buildFirstStep(ball);

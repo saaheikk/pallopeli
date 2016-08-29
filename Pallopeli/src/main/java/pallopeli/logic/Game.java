@@ -30,6 +30,9 @@ public class Game extends Timer implements ActionListener {
     
     private Updateable updateable;
     
+    private int lives;
+    private boolean win;
+    
     /**
      * Constructor for a new Game ready to start.
      * @param sizeOfObjects 
@@ -48,6 +51,8 @@ public class Game extends Timer implements ActionListener {
         this.continues = true;
         this.buildingNewWall = false;
         
+        this.lives = 3;
+        this.win = false;
         addActionListener(this);
         setInitialDelay(2000);        
     }
@@ -64,7 +69,8 @@ public class Game extends Timer implements ActionListener {
         if (buildingNewWall) {
             boolean buildingIsOn = this.wallbuilder.buildOneStep(this.direction);
             if (this.wallbuilder.startHasBall(ball)) {
-                this.wallbuilder.cancelContructionOfStart();
+                this.wallbuilder.cancelConstructionOfStart();
+                this.lives--;
                 buildingIsOn = false;
             } else {
                 this.wallbuilder.turnStartIntoWall();
@@ -73,28 +79,41 @@ public class Game extends Timer implements ActionListener {
                 this.wallbuilder.setFirstDirectionContinues(false);
                 this.wallbuilder.cancelConstruction(1);
                 this.wallbuilder.setFirstConstructionFailed(true);
+                this.lives--;
             }
             if (this.wallbuilder.directionHasBall(ball) == 2) {
                 this.wallbuilder.setSecondDirectionContinues(false);
                 this.wallbuilder.cancelConstruction(2);
                 this.wallbuilder.setSecondConstructionFailed(true);
+                this.lives--;
             }            
-            
-//            if (this.wallbuilder.anyPieceUnderConstructionHasBall(ball)) {
-//                
-//                this.continues = false; // ball touches any piece under costruction --> GAME OVER
-//            }
 
             if (!buildingIsOn) {
-                this.wallbuilder.turnAreaIntoWall(ball); // only if 
+                this.wallbuilder.turnAreaIntoWall(ball); 
                 this.wallbuilder.refresh();
             }
             this.buildingNewWall = buildingIsOn;
         }
+        if (this.lives < 1) {
+            this.continues = false; // 
+        }
+        if (this.boardIsCovered()) {
+            this.continues = false;
+            this.win = true;
+        }
         this.updateable.update();
     }
     
-     
+    public boolean boardIsCovered() {
+        int allPieces = this.board.numberOfAllPieces();
+        double enough =  0.85 * (double) allPieces;
+        if (board.numberOfWallPieces() > enough) {
+            return true;
+        }   
+        return false;
+    }
+    
+
  
     
     

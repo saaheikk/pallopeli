@@ -177,6 +177,21 @@ public class Board {
         return this.getPiece(x, y);
     }
     
+    public int numberOfAllPieces() {
+        return this.height * this.width;
+    }
+    public int numberOfWallPieces() {
+        int n = 0;
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                if (this.getPiece(w, h).isWall()) {
+                    n++;
+                }
+            }
+        }
+        return n;
+    }    
+    
     @Override
     public String toString() {
         String boardToString = "";
