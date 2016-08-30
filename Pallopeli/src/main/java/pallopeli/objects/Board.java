@@ -28,39 +28,6 @@ public class Board {
 //            this.resetActiveBorders();
         }
     }
-    // constructor used for debugging
-    public Board() { 
-            this.width = 3;
-            this.height = 3;
-            this.sizeOfPieces = 30;            
-            this.pieces = new Piece[height][width];
-            this.initializePieces();
-
-        
-    }    
-    
-
-      
-    // this is a test version!!
-    public void buildWall(int x, int y, SimpleDirection direction) {
-        this.pieces[y][x].turnIntoWall();
-        if (direction == SimpleDirection.HORIZONTAL) {
-            this.buildWall(x, y, CompassDirection.EAST);
-            this.buildWall(x, y, CompassDirection.WEST);
-        } else if (direction == SimpleDirection.VERTICAL) {
-            this.buildWall(x, y, CompassDirection.NORTH);
-            this.buildWall(x, y, CompassDirection.SOUTH);
-        }
-        
-    }
-    // this is a test version!!    
-    protected void buildWall(int x, int y, CompassDirection compassDirection) {
-        boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-        while (continues) {
-            continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-            y--;        
-        }
-    }    
     
     /**
      * Helper method to initialize pieces so that wall pieces surround the board.
@@ -87,7 +54,6 @@ public class Board {
     /**
      * Helper method to make Piece know its neighbors.
      */
-    
     public void setNeighbors() {
         for (int h = 0; h < this.height; h++) {                       
             for (int w = 0; w < this.width; w++) {
@@ -105,8 +71,8 @@ public class Board {
     }
     /**
      * Helper method for detecting pieces that are at risk to collide with Ball.
-     * @param point
-     * @param howMuchIsNearby
+     * @param point Ball's current location.
+     * @param howMuchIsNearby 
      * @return List of pieces that are close to the given point.
      */
     public ArrayList<Piece> getWallPiecesNearby(Point point, int howMuchIsNearby) {
@@ -127,8 +93,8 @@ public class Board {
     }
     /**
      * Helper method to check if given position is located within the boundaries of Board.
-     * @param x
-     * @param y
+     * @param x Tested coordinate x.
+     * @param y Tested coordinate y.
      * @return True if the given position is allowed and false if not.
      */
     public boolean positionIsInBounds(int x, int y) {
@@ -203,8 +169,37 @@ public class Board {
         }
         return boardToString;
     }
+    // constructor used for debugging
+    public Board() { 
+            this.width = 3;
+            this.height = 3;
+            this.sizeOfPieces = 30;            
+            this.pieces = new Piece[height][width];
+            this.initializePieces();
 
+    }    
     // trash
+//    // this is a test version!!
+//    public void buildWall(int x, int y, SimpleDirection direction) {
+//        this.pieces[y][x].turnIntoWall();
+//        if (direction == SimpleDirection.HORIZONTAL) {
+//            this.buildWall(x, y, CompassDirection.EAST);
+//            this.buildWall(x, y, CompassDirection.WEST);
+//        } else if (direction == SimpleDirection.VERTICAL) {
+//            this.buildWall(x, y, CompassDirection.NORTH);
+//            this.buildWall(x, y, CompassDirection.SOUTH);
+//        }
+//        
+//    }
+//    // this is a test version!!    
+//    protected void buildWall(int x, int y, CompassDirection compassDirection) {
+//        boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
+//        while (continues) {
+//            continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
+//            y--;        
+//        }
+//    }       
+    
 //    public void resetActiveBorders() {
 //        for (int h = 0; h < this.height; h++) {                       
 //            for (int w = 0; w < this.width; w++) {

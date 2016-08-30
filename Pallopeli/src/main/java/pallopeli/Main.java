@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import pallopeli.collisionphysics.Collision;
 import pallopeli.collisionphysics.CollisionDetector;
+import pallopeli.graphics.Updateable;
 import pallopeli.gui.UserInterface;
 import pallopeli.logic.Game;
 import pallopeli.logic.Wallbuilder;
@@ -28,24 +29,38 @@ public class Main {
         
         UserInterface ui = new UserInterface(g);
         SwingUtilities.invokeLater(ui); // Causes ui.run() to be executed asynchronously on the AWT event dispatching thread.
-
+        
+        
         while (ui.getPainitingCanvas() == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
-                System.out.println("PaintingCanvas still under contruction.");
+                System.out.println("Game view still under contruction.");
             }
-        }
+        }  
         while (ui.getSidebar() == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
-                System.out.println("Sidebar still under contruction.");
+                System.out.println("Game view still under contruction.");
             }
-        }        
+        }    
         g.setPaintingCanvas(ui.getPainitingCanvas());
         g.setSidebar(ui.getSidebar());
-        g.start(); // Starts the Timer, causing it to start sending action events to its listeners.
+        g.start(); // Starts the Timer, causing it to start sending action events to its listeners.        
+                
+// this does not work, why?        
+//        for (Updateable u : ui.getUpdateables()) {
+//            while (u == null) {
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException ex) {
+//                    System.out.println("Game view still under contruction.");
+//                }
+//            }            
+//        }
+//        g.setUpdateables(ui.getUpdateables());
+
     }
 
 }

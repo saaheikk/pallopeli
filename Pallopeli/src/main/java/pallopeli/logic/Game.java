@@ -28,6 +28,7 @@ public class Game extends Timer implements ActionListener {
     private boolean continues;
     private boolean buildingNewWall;
     
+//    private ArrayList<Updateable> updateables;
     private Updateable paintingCanvas;
     private Updateable sidebar;
     
@@ -40,6 +41,7 @@ public class Game extends Timer implements ActionListener {
      */
     public Game(int sizeOfObjects) {
         super(600, null); // set update for every 600 millseconds
+//        this.updateables = new ArrayList<>(); // create empty list for updateables
         
         // create objects
         this.sizeOfObjects = sizeOfObjects;
@@ -106,6 +108,7 @@ public class Game extends Timer implements ActionListener {
             this.win = true;
         }
         this.paintingCanvas.update();
+        this.sidebar.update();
     }
 
     /**
@@ -179,6 +182,21 @@ public class Game extends Timer implements ActionListener {
     public int getLives() {
         return this.lives;
     }
+  
+//    trash    
+//    public void updateUpdateables() {
+//        for (Updateable updateable : this.updateables) {
+//            updateable.update();
+//        }
+//    }    
+//
+//    public ArrayList<Updateable> getUpdateables() {
+//        return updateables;
+//    }
+//
+//    public void setUpdateables(ArrayList<Updateable> updateables) {
+//        this.updateables = updateables;
+//    }
     
     
     

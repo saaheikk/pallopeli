@@ -11,6 +11,7 @@ import pallopeli.SimpleDirection;
 public class Collision {
     private Point collisionPosition;
     private SimpleDirection reflectingDirection;
+    // private "TYPE"???
     
     /**
      * Creates new Collision.

@@ -121,8 +121,8 @@ public class BallTest {
     public void ballDrawsLegalSpeedForItself() {
         ball = new Ball(10);
         ball.drawSpeed();
-        boolean dxIsLegal = (0 < ball.getDx() && ball.getDx() <=10);
-        boolean dyIsLegal = (0 < ball.getDy() && ball.getDy() <=10);
+        boolean dxIsLegal = (0 != ball.getDx() && Math.abs(ball.getDx()) <=10);
+        boolean dyIsLegal = (0 != ball.getDy() && Math.abs(ball.getDy()) <=10);
         
         assertTrue("", dxIsLegal && dyIsLegal);
     }   

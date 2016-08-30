@@ -27,7 +27,7 @@ public class Ball {
     }
     /**
      * Sets ball at the middle point of given board, draws a starting speed randomly and sets the imaginary previous position depending on the drawn speed.
-     * @param board 
+     * @param board Board where Ball is set on.
      */
     public void setBallOnBoard(Board board) {
         int x = (board.getWidth() * board.getSizeOfPieces()) / 2;
@@ -39,7 +39,7 @@ public class Ball {
     
     /**
      * The main method of Ball; relocates Ball on given Board according to its speed.
-     * @param board 
+     * @param board  Board where Ball moves.
      */    
     public void moveOnBoard(Board board) {
         this.moveOneStepForward();
@@ -84,16 +84,6 @@ public class Ball {
         }
     }
     
-    public boolean liesOnWall(Board board) {
-        boolean liesOnWall = false;
-        for (Piece p : board.getWallPiecesNearby(currentPosition, 50)) {
-            if (p.hasBall(this)) {
-                liesOnWall = true;
-            }
-        }
-        return liesOnWall;
-    }
-    
     /**
      * Helper method that gives Ball a random speed (within the speed limits).
      */
@@ -101,6 +91,14 @@ public class Ball {
         Random random = new Random();
         int horizontalSpeed = 1 + random.nextInt(this.radius);
         int verticalSpeed = 1 + random.nextInt(this.radius);
+        int signDx = random.nextInt(2);
+        int signDy = random.nextInt(2);
+        if (signDx == 1) {
+            horizontalSpeed *= -1;
+        }
+        if (signDy == 1) {
+            verticalSpeed *= -1;
+        }
         this.setSpeed(horizontalSpeed, verticalSpeed);        
     }    
     /**
@@ -111,17 +109,26 @@ public class Ball {
         this.currentPosition.translate(dx, dy);
     }
     
+    // methods used for testing
     @Override
     public String toString() {
         return "My current position: (" + this.currentPosition.x + "," + this.currentPosition.y +
                 "), speed vector: (" + this.dx + "," + this.dy + 
                 "), and previous location: (" + this.previousPosition.x + "," + this.previousPosition.y + ")";
     }  
+    public boolean liesOnWall(Board board) {
+        boolean liesOnWall = false;
+        for (Piece p : board.getWallPiecesNearby(currentPosition, 50)) {
+            if (p.hasBall(this)) {
+                liesOnWall = true;
+            }
+        }
+        return liesOnWall;
+    }      
     
     // getter & setters 
-
     public void setSpeed(int dx, int dy) {
-        if (dx > 0 && dy > 0 && dx <= this.radius && dy <= this.radius) {
+        if (dx != 0 && dy != 0 && Math.abs(dx) <= this.radius && Math.abs(dy) <= this.radius) {
             this.dx = dx;
             this.dy = dy;
         }
@@ -171,9 +178,11 @@ public class Ball {
 
     public void setDy(int dy) {
         this.dy = dy;
-    }    
+    }  
+    
 
     // trash 
+  
     
 //    public void bounce(CompassDirection compassDirection) {
 //        if (compassDirection == CompassDirection.EAST || compassDirection == CompassDirection.WEST) { 

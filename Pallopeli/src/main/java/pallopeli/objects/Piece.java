@@ -87,11 +87,12 @@ public class Piece {
         } else if (neighbor.isWall()) {          
             return false;
         } else {
-            // here we have to check that Ball does not collide with neigbor - game over otherwise!
+            // (here we have to check that Ball does not collide with neigbor - game over otherwise!)
             neighbor.turnIntoWall();
             return true;
         }
     }
+    // this method is used to build walls during the game and it's still under consturction    
     public boolean setNeighborUnderConstruction(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
         System.out.println(neighbor);
@@ -100,7 +101,7 @@ public class Piece {
         } else if (neighbor.isWall()) {          
             return false;
         } else {
-            // here we have to check that Ball does not collide with neigbor - game over otherwise!
+            // (here we have to check that Ball does not collide with neigbor - game over otherwise!)
             neighbor.setUnderConstruction(true);
             return true;
         }

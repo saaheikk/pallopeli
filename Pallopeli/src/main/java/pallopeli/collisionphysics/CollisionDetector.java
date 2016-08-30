@@ -22,14 +22,13 @@ public class CollisionDetector {
     /**
      * CollisionDetector's main method.
      * This method checks if Ball has collided on wall over the latest step.
-     * @param ball
-     * @param board
+     * @param ball Ball that have to bounce according to the Board's current state.
+     * @param board Board where Ball moves.
      * @return The earliest proper collision point (as Collision).
      */
     
     public Collision checkForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
         ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
-
         ArrayList<Collision> collisions = new ArrayList<>();
 
         for (Piece p : wallPiecesNearToBall) {
@@ -72,49 +71,7 @@ public class CollisionDetector {
         }
         return this.getEarliestProperCollision(ball, collisions);   
         
-    }
-    
-    public Point collisionPointAtVerticalLine(Line2D line, Ball ball) {
-        if (line.getX1() != line.getX2()) {
-            return null; // do not accept other than vertical lines
-        }
-        Point collisionPoint = null;
-        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
-        if (line.intersectsLine(traceOfBall)) {
-            double triangleX = (double) ball.getDx();
-            double triangleY = (double) ball.getDy();
-
-            double smallTriangleX = (double) (line.getX1() - ball.getPreviousPosition().x);
-            double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
-            
-            int collisionX = (int) line.getX1();
-            int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
-            collisionPoint = new Point(collisionX, collisionY);
-        }
-        return collisionPoint;
-    }
-    public Point collisionPointAtHorizontalLine(Line2D line, Ball ball) {
-        if (line.getY1() != line.getY2()) {
-            return null; // do not accept other than horizontal lines
-        }
-        Point collisionPoint = null;
-        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
-        if (line.intersectsLine(traceOfBall)) {
-            float triangleX = (float) ball.getDx();
-            float triangleY = (float) ball.getDy();
-
-            float smallTriangleY = (float) (line.getY1() - ball.getPreviousPosition().y);
-            float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
-
-            int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
-            int collisionY = (int) line.getY1();
-            collisionPoint = new Point(collisionX, collisionY);
-        }
-        return collisionPoint;
-    }    
-    
-        
-     
+    } 
     /**
      * Helper method.
      * @param ball
@@ -217,6 +174,47 @@ public class CollisionDetector {
     }
     
     // trash
+    
+//    
+//    public Point collisionPointAtVerticalLine(Line2D line, Ball ball) {
+//        if (line.getX1() != line.getX2()) {
+//            return null; // do not accept other than vertical lines
+//        }
+//        Point collisionPoint = null;
+//        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+//        if (line.intersectsLine(traceOfBall)) {
+//            double triangleX = (double) ball.getDx();
+//            double triangleY = (double) ball.getDy();
+//
+//            double smallTriangleX = (double) (line.getX1() - ball.getPreviousPosition().x);
+//            double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
+//            
+//            int collisionX = (int) line.getX1();
+//            int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
+//            collisionPoint = new Point(collisionX, collisionY);
+//        }
+//        return collisionPoint;
+//    }
+//    public Point collisionPointAtHorizontalLine(Line2D line, Ball ball) {
+//        if (line.getY1() != line.getY2()) {
+//            return null; // do not accept other than horizontal lines
+//        }
+//        Point collisionPoint = null;
+//        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+//        if (line.intersectsLine(traceOfBall)) {
+//            float triangleX = (float) ball.getDx();
+//            float triangleY = (float) ball.getDy();
+//
+//            float smallTriangleY = (float) (line.getY1() - ball.getPreviousPosition().y);
+//            float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
+//
+//            int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
+//            int collisionY = (int) line.getY1();
+//            collisionPoint = new Point(collisionX, collisionY);
+//        }
+//        return collisionPoint;
+//    }     
+    
 //    public Collision alternativeCheckForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
 //        ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
 //

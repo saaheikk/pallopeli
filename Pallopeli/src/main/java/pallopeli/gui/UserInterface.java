@@ -7,6 +7,7 @@ import pallopeli.graphics.PaintingCanvas;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -64,11 +65,7 @@ public class UserInterface implements Runnable {
         GameKeyListener keylistener = new GameKeyListener(this.game);
         this.frame.addKeyListener(keylistener); //???!!!
     }
-    
-    public void createStartingView(Container container) { 
-        GameMouseListener mouseListener = new GameMouseListener(this.game);
-        this.frame.getContentPane().addMouseListener(mouseListener);
-    }    
+      
 
     // getters and setters
     
@@ -81,4 +78,10 @@ public class UserInterface implements Runnable {
     public Updateable getSidebar() {
         return this.sidebar;
     }    
+    public ArrayList<Updateable> getUpdateables() {
+        ArrayList<Updateable> updateables = new ArrayList<>();
+        updateables.add(paintingCanvas);
+        updateables.add(sidebar);
+        return updateables;
+    }
 }
