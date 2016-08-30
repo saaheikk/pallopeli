@@ -24,7 +24,7 @@ public class Sidebar extends JPanel implements Updateable {
     private JLabel lives;
     private JLabel direction;
     private JLabel status;
-    
+    private JLabel statusContent;
     
     public Sidebar(Game game) {
         super.setBackground(Color.WHITE);
@@ -39,13 +39,14 @@ public class Sidebar extends JPanel implements Updateable {
         this.instructions = new JLabel();
         this.lives = new JLabel();
         this.direction = new JLabel();
-        this.status = new JLabel();   
+        this.status = new JLabel();  
+        this.statusContent = new JLabel();
         
         container.add(this.instructions);
         container.add(this.lives);
         container.add(this.direction);
         container.add(this.status);   
-        
+        container.add(this.statusContent);   
         this.setPreferredSize(new Dimension(155, 322));
         this.setMaximumSize(this.getPreferredSize()); 
         this.setMinimumSize(this.getPreferredSize());
@@ -59,7 +60,22 @@ public class Sidebar extends JPanel implements Updateable {
         this.instructions.setText("Instructions here:\n");
         this.lives.setText("Lives: " + game.getLives() + "\n");
         this.direction.setText("Direction: " + game.getDirection() + "\n");
-        this.status.setText("Status: ");
+        this.status.setText("Game status: ");
+        this.statusContent.setText(this.statusOfGame());
+    }
+    
+    public String statusOfGame() {
+        String status = "";
+        if (game.continues()) {
+            status += "Game continues.";
+        } else {
+            if (game.win()) {
+                status += "Game over! You win!";
+            } else {
+                status += "Game over! You lost!";
+            }
+        }
+        return status;
     }
     
 }

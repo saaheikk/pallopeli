@@ -56,7 +56,7 @@ public class Game extends Timer implements ActionListener {
         this.direction = SimpleDirection.HORIZONTAL;        
         this.continues = true;
         this.buildingNewWall = false;
-        this.lives = 3;
+        this.lives = 30;
         this.win = false;
         
         addActionListener(this);
@@ -136,6 +136,16 @@ public class Game extends Timer implements ActionListener {
             return;
         }        
     }
+
+    public boolean continues() {
+        return continues;
+    }
+
+    public boolean win() {
+        return win;
+    }
+    
+    
 
  
     
