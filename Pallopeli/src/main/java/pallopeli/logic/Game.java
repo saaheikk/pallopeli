@@ -40,8 +40,7 @@ public class Game extends Timer implements ActionListener {
      * @param sizeOfObjects 
      */
     public Game(int sizeOfObjects) {
-        super(600, null); // set update for every 600 millseconds
-//        this.updateables = new ArrayList<>(); // create empty list for updateables
+        super(600, null); // set update for every 600 milliseconds
         
         // create objects
         this.sizeOfObjects = sizeOfObjects;
@@ -70,54 +69,70 @@ public class Game extends Timer implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (!continues) {
             return; // GAME OVER --> check for win / lost
-        }      
-        this.ball.moveOnBoard(board);
-        if (buildingNewWall) {
-            boolean buildingIsOn = this.wallbuilder.buildOneStep(this.direction);
-            if (this.wallbuilder.startHasBall(ball)) {
-                this.wallbuilder.cancelConstructionOfStart();
-                this.lives--;
-                buildingIsOn = false;
-            } else {
-                this.wallbuilder.turnStartIntoWall();
-            }
-            if (this.wallbuilder.directionHasBall(ball) == 1) {
-                this.wallbuilder.setFirstDirectionContinues(false);
-                this.wallbuilder.cancelConstruction(1);
-                this.wallbuilder.setFirstConstructionFailed(true);
-                this.lives--;
-            }
-            if (this.wallbuilder.directionHasBall(ball) == 2) {
-                this.wallbuilder.setSecondDirectionContinues(false);
-                this.wallbuilder.cancelConstruction(2);
-                this.wallbuilder.setSecondConstructionFailed(true);
-                this.lives--;
-            }            
+        }   
 
-            if (!buildingIsOn) {
-                this.wallbuilder.turnAreaIntoWall(ball); 
-                this.wallbuilder.refresh();
-            }
-            this.buildingNewWall = buildingIsOn;
-        }
-        if (this.lives < 1) {
+        this.board.resetActiveBordersOfWallpieces();         
+        this.ball.moveOnBoard(board); // always move ball on board
+        if (buildingNewWall) {
+            buildingNewWall = this.performBuildingActAndReturnTrueIfBuildingContinues();
+        }  
+        if (this.lives < 1) { // lost game
             this.continues = false; 
         }
-        if (this.boardIsCovered()) {
+        if (this.boardIsCovered()) { // win game
             this.continues = false;
             this.win = true;
         }
         this.paintingCanvas.update();
-        this.sidebar.update();
+        this.sidebar.update();        
     }
-
+    
+    public boolean performBuildingActAndReturnTrueIfBuildingContinues() {
+        this.wallbuilder.buildOneStep();
+        // take care of start
+        if (this.wallbuilder.startHasBall(ball)) {
+            this.wallbuilder.cancelConstructionOfStart();
+            this.wallbuilder.setStartFailed(); // may not need this
+            this.lives--; 
+            wallbuilder.refresh();
+            return false;
+        } else {
+            this.wallbuilder.turnStartIntoWall();
+        } 
+        // check for other collisions with ball
+        for (int i = 1; i <= 2; i++) {
+            if (wallbuilder.somePieceUnderConstructionHasBall(i, ball)) {
+                wallbuilder.setConstructionFailed(i, true);
+                wallbuilder.setBuildContinues(i, false);
+                wallbuilder.cancelConstruction(i);
+                wallbuilder.setPiecesUnderConstructionNull(i);
+                lives--;
+            }
+        }
+        // turn some area into wall if needed (construction/the whole area)
+        for (int i = 1; i <= 2; i++) {
+            if (!wallbuilder.getConstructionFailed(i) && !wallbuilder.getBuildContinues(i)) {
+                wallbuilder.turnConstructionIntoWall(i);
+            }
+        }
+        
+        if (!wallbuilder.getBuildContinues(1) && !wallbuilder.getBuildContinues(2)) {
+            if (!wallbuilder.getConstructionFailed(1) && !wallbuilder.getConstructionFailed(2)) {
+                // case: both constructions finished succesfully
+                wallbuilder.turnAreaIntoWall(ball);
+            }
+            this.wallbuilder.refresh();            
+            return false;
+        }       
+        return true;
+    }
     /**
-     * Checks if over 85% of board is covered by wall.
+     * Checks if over 90% of board is covered by wall.
      * @return 
      */
     public boolean boardIsCovered() {
         int allPieces = this.board.numberOfAllPieces();
-        double enough =  0.85 * (double) allPieces;
+        double enough =  0.90 * (double) allPieces;
         if (board.numberOfWallPieces() > enough) {
             return true;
         }   
@@ -137,20 +152,15 @@ public class Game extends Timer implements ActionListener {
         }        
     }
 
+    // getters and setters
     public boolean continues() {
         return continues;
     }
 
     public boolean win() {
         return win;
-    }
+    }    
     
-    
-
- 
-    
-    
-    // getters and setters
     public void setNewDirection(SimpleDirection direction) {
         this.direction = direction;
     } 
@@ -193,7 +203,65 @@ public class Game extends Timer implements ActionListener {
         return this.lives;
     }
   
-//    trash    
+//    trash
+//    
+//    public void checkIfStartHasBall() {
+//        if (this.wallbuilder.startHasBall(ball)) {
+//                this.wallbuilder.cancelConstructionOfStart();
+//                this.lives--;
+////                buildingIsOn = false;
+//            } else {
+//                this.wallbuilder.turnStartIntoWall();
+//            }
+//        }
+//    }
+     
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (!continues) {
+//            return; // GAME OVER --> check for win / lost
+//        }      
+//        this.ball.moveOnBoard(board);
+//        if (buildingNewWall) {
+//            boolean buildingIsOn = this.wallbuilder.buildOneStep(this.direction);
+//            if (this.wallbuilder.startHasBall(ball)) {
+//                this.wallbuilder.cancelConstructionOfStart();
+//                this.lives--;
+//                buildingIsOn = false;
+//            } else {
+//                this.wallbuilder.turnStartIntoWall();
+//            }
+//            if (this.wallbuilder.directionHasBall(ball) == 1) {
+//                this.wallbuilder.setFirstDirectionContinues(false);
+//                this.wallbuilder.cancelConstruction(1);
+//                this.wallbuilder.setFirstConstructionFailed(true);
+//                this.lives--;
+//            }
+//            if (this.wallbuilder.directionHasBall(ball) == 2) {
+//                this.wallbuilder.setSecondDirectionContinues(false);
+//                this.wallbuilder.cancelConstruction(2);
+//                this.wallbuilder.setSecondConstructionFailed(true);
+//                this.lives--;
+//            }            
+//
+//            if (!buildingIsOn) {
+//                this.wallbuilder.turnAreaIntoWall(ball); 
+//                this.wallbuilder.refresh();
+//            }
+//            this.buildingNewWall = buildingIsOn;
+//        }
+//        if (this.lives < 1) {
+//            this.continues = false; 
+//        }
+//        if (this.boardIsCovered()) {
+//            this.continues = false;
+//            this.win = true;
+//        }
+//        this.paintingCanvas.update();
+//        this.sidebar.update();
+//    }    
+    
+    
 //    public void updateUpdateables() {
 //        for (Updateable updateable : this.updateables) {
 //            updateable.update();

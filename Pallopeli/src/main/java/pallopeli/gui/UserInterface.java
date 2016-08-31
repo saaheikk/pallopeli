@@ -40,7 +40,7 @@ public class UserInterface implements Runnable {
     public void run() {
         frame = new JFrame("Pallopeli");
 //        frame.setPreferredSize(new Dimension(300, 322)); // just right for 10 x 10 board
-        frame.setPreferredSize(new Dimension(610, 322));        
+        frame.setPreferredSize(new Dimension(640, 322));        
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // createStartingView(frame.getContentPane());

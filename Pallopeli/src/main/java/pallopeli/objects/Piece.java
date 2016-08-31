@@ -21,11 +21,9 @@ public class Piece {
     private boolean wall;
     private boolean underConstruction;
     
-    private HashMap<CompassDirection, Piece> neighbors;
-    
-//    private HashMap<CompassDirection, Line2D> borders;   
+    private HashMap<CompassDirection, Piece> neighbors;  
     private HashMap<CompassDirection, Point> cornerPoints;
-//    private HashMap<CompassDirection, Boolean> activeBorders;
+    private HashMap<CompassDirection, Border> borders;
 
     public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
@@ -34,9 +32,8 @@ public class Piece {
         this.underConstruction = false;
         this.size = sizeOfObjects;
         this.neighbors = new HashMap<>();
-//        this.activeBorders = new HashMap<>();
+        this.borders = new HashMap<>();
         this.setCorners();
-//        this.setBorders();
     }
     
     /**
@@ -44,7 +41,19 @@ public class Piece {
      */
     public void turnIntoWall() {
         this.wall = true;
-    }  
+    } 
+    
+    // set all borders for piece (does not depend on whether it's wall or not)
+    public void setMainBorders(int radiusOfBall) {
+        for (CompassDirection direction : CompassDirection.NORTH.allMainDirections()) {
+            Piece neighbor = this.getNeighbor(direction);
+            if (neighbor != null) {
+                BorderLine border = new BorderLine(this, direction, radiusOfBall); 
+                border.extendLine(); // no time for arcs
+                this.borders.put(direction, border);
+            }
+        } 
+    }
     
     /**
      * Checks if given Ball touches Piece or not.
@@ -78,24 +87,23 @@ public class Piece {
         return false;
     }
 
-    // this method is used to build walls during the game and it's still under consturction
+    
+    
+    // this method is used to build walls during the game 
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
-        System.out.println("Neighbor: (" + neighbor.x + ", " + neighbor.y + ")");
         if (neighbor == null) {
             return false;
         } else if (neighbor.isWall()) {          
             return false;
         } else {
-            // (here we have to check that Ball does not collide with neigbor - game over otherwise!)
             neighbor.turnIntoWall();
             return true;
         }
     }
-    // this method is used to build walls during the game and it's still under consturction    
+    // this method is used to set other pieces under construction during the game   
     public boolean setNeighborUnderConstruction(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
-        System.out.println(neighbor);
         if (neighbor == null) {
             return false;
         } else if (neighbor.isWall()) {          
@@ -105,7 +113,19 @@ public class Piece {
             neighbor.setUnderConstruction(true);
             return true;
         }
-    }    
+    } 
+    
+    public ArrayList<Piece> turnAllNeighborsIntoWall() {
+        ArrayList<Piece> piecesTurnedIntoWall = new ArrayList<>();
+        for (CompassDirection cd : this.neighbors.keySet()) {
+            boolean turnedNeighborIntoWall = this.turnNeighborIntoWall(cd);
+            if (turnedNeighborIntoWall) {
+                piecesTurnedIntoWall.add(this.neighbors.get(cd));
+            }
+        }
+        return piecesTurnedIntoWall;
+    }
+    
 
     /**
      * Helper method for setting corner points.
@@ -117,14 +137,17 @@ public class Piece {
         this.cornerPoints.put(CompassDirection.SOUTHWEST, new Point(x * size, (y + 1) * size));
         this.cornerPoints.put(CompassDirection.NORTHWEST, new Point(x * size, y * size));
     }
-    // just trying smthg
-    protected void setBorders() {
-        Line2D northBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHWEST), cornerPoints.get(CompassDirection.NORTHEAST));
-        Line2D eastBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHEAST), cornerPoints.get(CompassDirection.SOUTHEAST));
-        Line2D southBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHEAST), cornerPoints.get(CompassDirection.SOUTHWEST));
-        Line2D westBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHWEST), cornerPoints.get(CompassDirection.NORTHWEST));
-    }    
-
+    public void resetActivityOfBorders() {
+        for (CompassDirection direction : this.borders.keySet()) {
+            if (this.borders.get(direction) != null) {
+                Piece neighbor = this.getNeighbor(direction);
+                this.borders.get(direction).setActivity(!neighbor.isWall());
+            }
+        }
+    }
+//    public int getBorderCoordinateForCollisions(int sizeOfBall, CompassDirection directionOfEdge) {
+//        
+//    }
     
     
     @Override
@@ -179,10 +202,21 @@ public class Piece {
     public Piece getNeighbor(CompassDirection direction) {
         return this.neighbors.get(direction);
     }
-
+    public HashMap<CompassDirection, Border> getBorders() {
+        return borders;
+    }
     
 
     // trash   
+    // just trying smthg
+//    protected void setBorders() {
+//        Line2D northBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHWEST), cornerPoints.get(CompassDirection.NORTHEAST));
+//        Line2D eastBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHEAST), cornerPoints.get(CompassDirection.SOUTHEAST));
+//        Line2D southBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHEAST), cornerPoints.get(CompassDirection.SOUTHWEST));
+//        Line2D westBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHWEST), cornerPoints.get(CompassDirection.NORTHWEST));
+//    }    
+//    
+    
     // just trying smthg
 //    public ArrayList<Object> getActiveCornersAndBorders() {
 //        ArrayList<Object> activeBorders = new ArrayList<>();
@@ -302,6 +336,8 @@ public class Piece {
 //        }
 //        return null;
 //    }
+
+
 
 
 }

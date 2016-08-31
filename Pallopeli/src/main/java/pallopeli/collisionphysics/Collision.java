@@ -1,6 +1,7 @@
 package pallopeli.collisionphysics;
 
 import java.awt.Point;
+import pallopeli.MovementType;
 import pallopeli.SimpleDirection;
 
 /**
@@ -11,16 +12,17 @@ import pallopeli.SimpleDirection;
 public class Collision {
     private Point collisionPosition;
     private SimpleDirection reflectingDirection;
-    // private "TYPE"???
+    private MovementType type;
     
     /**
      * Creates new Collision.
      * @param collisionLocation
      * @param reflectingDirection 
      */
-    public Collision(Point collisionLocation, SimpleDirection reflectingDirection) {
+    public Collision(Point collisionLocation, SimpleDirection reflectingDirection, MovementType type) {
         this.collisionPosition = collisionLocation;
         this.reflectingDirection = reflectingDirection;
+        this.type = type;
     }
 
     public int getCoordinateX() {
@@ -38,9 +40,14 @@ public class Collision {
     public Point getCollisionPosition() {
         return collisionPosition;
     }
+
+    public MovementType getType() {
+        return type;
+    }
+    
     @Override
     public String toString() {
-        return "Collision at (" + this.collisionPosition.x + "," + this.collisionPosition.y + ")";
+        return this.reflectingDirection + " collision at " + this.collisionPosition + ", type: " + this.type;
     }
     
     

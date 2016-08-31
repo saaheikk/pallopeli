@@ -8,9 +8,11 @@ package pallopeli.graphics;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import pallopeli.logic.Game;
 
 /**
@@ -21,6 +23,7 @@ public class Sidebar extends JPanel implements Updateable {
     private Game game;
     
     private JLabel instructions;
+    private ArrayList<JLabel> instructionsContent;
     private JLabel lives;
     private JLabel direction;
     private JLabel status;
@@ -37,17 +40,19 @@ public class Sidebar extends JPanel implements Updateable {
 
         
         this.instructions = new JLabel();
+        this.instructionsContent = new ArrayList<>();
         this.lives = new JLabel();
         this.direction = new JLabel();
         this.status = new JLabel();  
         this.statusContent = new JLabel();
         
         container.add(this.instructions);
+        this.addInstructionsContent(container);
         container.add(this.lives);
         container.add(this.direction);
         container.add(this.status);   
         container.add(this.statusContent);   
-        this.setPreferredSize(new Dimension(155, 322));
+        this.setPreferredSize(new Dimension(180, 322));
         this.setMaximumSize(this.getPreferredSize()); 
         this.setMinimumSize(this.getPreferredSize());
     }
@@ -57,10 +62,10 @@ public class Sidebar extends JPanel implements Updateable {
 
     @Override
     public void update() {
-        this.instructions.setText("Instructions here:\n");
-        this.lives.setText("Lives: " + game.getLives() + "\n");
-        this.direction.setText("Direction: " + game.getDirection() + "\n");
-        this.status.setText("Game status: ");
+        this.instructions.setText("INSTRUCTIONS:");
+        this.lives.setText("LIVES: " + game.getLives());
+        this.direction.setText("DIRECTION: " + game.getDirection() + "\n");
+        this.status.setText("GAME STATUS: ");
         this.statusContent.setText(this.statusOfGame());
     }
     
@@ -76,6 +81,23 @@ public class Sidebar extends JPanel implements Updateable {
             }
         }
         return status;
+    }
+    
+    public void addInstructionsContent(Container container) {
+        JLabel firstRow = new JLabel("Turn areas into wall by");
+        container.add(firstRow);
+        JLabel secondRow = new JLabel("clicking pieces. You need");
+        container.add(secondRow);
+        JLabel thirdRow = new JLabel("to get 90% of board covered");
+        container.add(thirdRow);        
+        JLabel fourthRow = new JLabel("to win the game. Change");
+        container.add(fourthRow);        
+        JLabel fifthRow = new JLabel("building direction by");       
+        container.add(fifthRow);        
+        JLabel sixthRow = new JLabel("pressing space key. Watch");  
+        container.add(sixthRow);        
+        JLabel seventhRow = new JLabel("out for the ball!"); 
+        container.add(seventhRow);
     }
     
 }

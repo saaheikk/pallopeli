@@ -203,6 +203,31 @@ public class PieceTest {
         assertTrue("", centerY == 87);    
     } 
     
+    @Test
+    public void northeastCornerIsSetCorrectly() {
+        piece = new Piece(1, 1, false, 10);
+        Point expectedCorner = new Point(20, 10);
+        assertEquals(expectedCorner, piece.getCornerPoint(CompassDirection.NORTHEAST));
+    } 
+    @Test
+    public void northwestCornerIsSetCorrectly() {
+        piece = new Piece(1, 1, false, 10);
+        Point expectedCorner = new Point(10, 10);
+        assertEquals(expectedCorner, piece.getCornerPoint(CompassDirection.NORTHWEST));
+    } 
+    @Test
+    public void southeastCornerIsSetCorrectly() {
+        piece = new Piece(1, 1, false, 10);
+        Point expectedCorner = new Point(20, 20);
+        assertEquals(expectedCorner, piece.getCornerPoint(CompassDirection.SOUTHEAST));
+    }
+    @Test
+    public void southwestCornerIsSetCorrectly() {
+        piece = new Piece(1, 1, false, 10);
+        Point expectedCorner = new Point(10, 20);
+        assertEquals(expectedCorner, piece.getCornerPoint(CompassDirection.SOUTHWEST));
+    }     
+    
     
     
 //    @Test

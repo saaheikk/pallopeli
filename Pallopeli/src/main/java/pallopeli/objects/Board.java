@@ -25,7 +25,8 @@ public class Board {
             this.pieces = new Piece[height][width];
             this.initializePieces();
             this.setNeighbors();
-//            this.resetActiveBorders();
+            this.setMainBordersForAllPieces(sizeOfPieces / 2);
+            this.resetActiveBordersOfWallpieces();
         }
     }
     
@@ -104,8 +105,26 @@ public class Board {
         return false;
     }
     
-    public void resetBorders() {
+    
+    
+    
+    // methods for setting and resetting borders for pieces on board
+    
+    public void setMainBordersForAllPieces(int radiusOfBall) {
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                this.getPiece(w, h).setMainBorders(radiusOfBall);
+            }
+        }          
+    }
+    
+    public void resetActiveBordersOfWallpieces() {
         // reset borders of the wallpieces after creating the board or turning pieces into wall
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                this.getPiece(w, h).resetActivityOfBorders();
+            }
+        }           
     }
     
   

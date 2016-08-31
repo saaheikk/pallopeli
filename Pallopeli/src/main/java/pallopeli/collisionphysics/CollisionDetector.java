@@ -4,10 +4,15 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import pallopeli.SimpleDirection;
 import pallopeli.CompassDirection;
+import pallopeli.MovementType;
 import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
+import pallopeli.objects.Border;
+import pallopeli.objects.BorderLine;
 import pallopeli.objects.Piece;
 
 /**
@@ -19,209 +24,302 @@ public class CollisionDetector {
     
     public CollisionDetector() {
     }
-    /**
-     * CollisionDetector's main method.
-     * This method checks if Ball has collided on wall over the latest step.
-     * @param ball Ball that have to bounce according to the Board's current state.
-     * @param board Board where Ball moves.
-     * @return The earliest proper collision point (as Collision).
-     */
-    
     public Collision checkForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
         ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
-        ArrayList<Collision> collisions = new ArrayList<>();
+        ArrayList<Collision> collisionsDetected = this.getAllCollisions(wallPiecesNearToBall, ball);
+        if (collisionsDetected.isEmpty()) {
+            return null;
+        }
+        return this.getTheDeterminativeCollision(ball, collisionsDetected);
 
-        for (Piece p : wallPiecesNearToBall) {
-            System.out.println("Wallpiece detected nearby: " + p);
+    }       
 
-            int leftBorder = p.getCornerPoint(CompassDirection.NORTHWEST).x - ball.getRadius();
-            int topBorder = p.getCornerPoint(CompassDirection.NORTHWEST).y - ball.getRadius();
-            int rightBorder = p.getCornerPoint(CompassDirection.SOUTHEAST).x + ball.getRadius();
-            int bottomBorder = p.getCornerPoint(CompassDirection.SOUTHEAST).y + ball.getRadius();
-            System.out.println("Left border: " + leftBorder + ", topBorder: "  + topBorder + ", right border: " + rightBorder + ", bottom border: " + bottomBorder);
-
-            System.out.println("Collisions out:");
-            
-//             FIX BORDERS HERE!!!
-            
-            Point collisionOnTopBorder = this.collisionOnHorizontalSegment(ball, topBorder, leftBorder, rightBorder);
-            if (collisionOnTopBorder != null) {
-                System.out.println(collisionOnTopBorder);
-                collisions.add(new Collision(collisionOnTopBorder, SimpleDirection.HORIZONTAL));
-            }
-            Point collisionOnRightBorder = this.collisionOnVerticalSegment(ball, rightBorder, topBorder, bottomBorder);
-            if (collisionOnRightBorder != null) {
-                collisions.add(new Collision(collisionOnRightBorder, SimpleDirection.VERTICAL));
-                System.out.println(collisionOnRightBorder);
-            }
-            Point collisionOnBottomBorder = this.collisionOnHorizontalSegment(ball, bottomBorder, leftBorder, rightBorder);
-            if (collisionOnBottomBorder != null) {
-                collisions.add(new Collision(collisionOnBottomBorder, SimpleDirection.HORIZONTAL));    
-                System.out.println(collisionOnBottomBorder);
-            }
-            Point collisionOnLeftBorder = this.collisionOnVerticalSegment(ball, leftBorder, topBorder, bottomBorder);
-            if (collisionOnLeftBorder != null) {
-                collisions.add(new Collision(collisionOnLeftBorder, SimpleDirection.VERTICAL));            
-                System.out.println(collisionOnLeftBorder);
-            } 
-            System.out.println("");
-        }
-        if (collisions.isEmpty()) {
-            return null; // no collisions
-        }
-        return this.getEarliestProperCollision(ball, collisions);   
-        
-    } 
-    /**
-     * Helper method.
-     * @param ball
-     * @param segmentX
-     * @param segmentStartY
-     * @param segmentEndY
-     * @return The Point where Ball has crossed the given segment over its latest step.
-     */
-
-    public Point collisionOnVerticalSegment(Ball ball, int segmentX, int segmentStartY, int segmentEndY) {
-        // this method returns the collision point on vertical segment or null if no collision happens
-
-        if (ball.getCurrentPosition().x < segmentX && ball.getPreviousPosition().x < segmentX) {
-            return null; // ball moves on the left side of segmentX
-        }
-        if (ball.getCurrentPosition().x > segmentX && ball.getPreviousPosition().x > segmentX) {
-            return null; // ball moves on the right side of segmentX
-        }
-        if (ball.getDx() == 0) {
-            return null; // no horizontal speed
-        }
-
-        // now that we know that ball intersects segmentX, we can make some calculations     
-        double triangleX = (double) ball.getDx();
-        double triangleY = (double) ball.getDy();
-        
-        double smallTriangleX = (double) (segmentX - ball.getPreviousPosition().x);     
-        double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
-        
-        int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
-        
-        if (segmentStartY <= collisionY && collisionY <= segmentEndY) {
-            return new Point(segmentX, collisionY); // actual collision with segment (including ending points)
-        }
-        return null;
-        
-    }
-    
-    /**
-     * Helper method.
-     * @param ball
-     * @param segmentY
-     * @param segmentStartX
-     * @return The Point where Ball has crossed the given segment over its latest step.
-
-     */
-    
-    public Point collisionOnHorizontalSegment(Ball ball, int segmentY, int segmentStartX, int segmentEndX) {
-        // this method returns the collision point on vertival segment or null if no collision happens
-
-        if (ball.getCurrentPosition().y < segmentY && ball.getPreviousPosition().y < segmentY) {
-            System.out.println("above segmentY");  
-            return null; // ball moves above segmentY
-
-        }
-        if (ball.getCurrentPosition().y > segmentY && ball.getPreviousPosition().y > segmentY) {
-            System.out.println("under segmentY");              
-            return null; // ball moves under segmentY
-        }
-        if (ball.getDy() == 0) {
-            return null; // no vertical speed
-        }
-        
-        // now that we know that ball intersects segmentY, we can make some calculations     
-        float triangleX = (float) ball.getDx();
-        float triangleY = (float) ball.getDy();
-        
-        float smallTriangleY = (float) (segmentY - ball.getPreviousPosition().y);
-        float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
-        
-        int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
-        if (segmentStartX <= collisionX && collisionX <= segmentEndX) {
-            return new Point(collisionX, segmentY); // actual collision with segment (including ending points)
-        }
-        System.out.println("no proper collision");          
-        return null;        
-    }
-    
-    /**
-     * Helper method that checks which collision in given list is the earliest proper one.
-     * @param ball
-     * @param collisions
-     * @return Collision that is used to reset parameters of Ball.
-     */   
-    public Collision getEarliestProperCollision(Ball ball, ArrayList<Collision> collisions) {
-        int minimumDistanceToEndOfTrace = 1000; // 1000 must be safe enough
-        Collision earliest = null;
+    public Collision getTheDeterminativeCollision(Ball ball, ArrayList<Collision> collisions) {       
+        double minimumDistanceToEndOfTrace = 1000; // 1000 must be safe enough
+        Point earliest = null;
+        HashMap<SimpleDirection, Integer> reflectingDirectionsArised = new HashMap<>(); // list of directions?
+        reflectingDirectionsArised.put(SimpleDirection.HORIZONTAL, 0);
+        reflectingDirectionsArised.put(SimpleDirection.VERTICAL, 0);        
 
         for (Collision c : collisions) {           
-            int distanceToEndOfTrace = Math.abs(c.getCoordinateX() - ball.getPreviousPosition().x);
-            if (distanceToEndOfTrace < minimumDistanceToEndOfTrace) {
-                // check for the case where ball has just bounced but previousPosition still collides!
-                if (!c.getCollisionPosition().equals(ball.getPreviousPosition())) { 
+            double distanceToEndOfTrace = Math.abs(c.getCollisionPosition().distance(ball.getPreviousPosition()));
+            if (distanceToEndOfTrace <= minimumDistanceToEndOfTrace) {
+                // check for the case where ball has just bounced but previousPosition still collides!               
+                if (c.getType() == MovementType.IN) {
                     minimumDistanceToEndOfTrace = distanceToEndOfTrace;
-                    earliest = c;                    
+                    earliest = c.getCollisionPosition();
+                    reflectingDirectionsArised.put(c.getReflectingDirection(), 1);
                 }
             }
         }
-        return earliest;
+        if (earliest == null) {
+            return null;
+        }
+        return new Collision(earliest, this.decideReflectingDirection(reflectingDirectionsArised), MovementType.IN);
+    }  
+    
+    public SimpleDirection decideReflectingDirection(HashMap<SimpleDirection, Integer> reflectingDirections) {
+        if (reflectingDirections.get(SimpleDirection.HORIZONTAL) == 0) {
+            return SimpleDirection.VERTICAL;
+        } else if (reflectingDirections.get(SimpleDirection.VERTICAL) == 0) {
+            return SimpleDirection.HORIZONTAL;
+        } else {
+            return SimpleDirection.DIAGONAL;
+        }
     }
+    public Collision collisionAtBorderLine(BorderLine borderLine, Ball ball) {
+        int coef = borderLine.getBouncingDirection();
+        Point pointH = this.collisionPointAtHorizontalLine(borderLine.getBorderShape(), ball);
+        if (pointH != null) {
+            boolean ballIsGettingOut = (coef * (ball.getPreviousPosition().y - borderLine.getLineCoordinate()) <= 0);
+            if (ballIsGettingOut) {
+                return new Collision(pointH, SimpleDirection.HORIZONTAL, MovementType.OUT);
+            } else {
+                return new Collision(pointH, SimpleDirection.HORIZONTAL, MovementType.IN);                
+            }                            
+        }
+        Point pointV = this.collisionPointAtVerticalLine(borderLine.getBorderShape(), ball);
+        if (pointV != null) {
+            boolean ballIsGettingOut = (coef * (ball.getPreviousPosition().x - borderLine.getLineCoordinate()) <= 0);            
+            if (ballIsGettingOut) {
+                return new Collision(pointV, SimpleDirection.VERTICAL, MovementType.OUT);
+            } else {
+                return new Collision(pointV, SimpleDirection.VERTICAL, MovementType.IN);                
+            }        
+        } 
+        return null;
+    }
+        
+            
     
-    // trash
+    // about tested
+    public Point collisionPointAtVerticalLine(Line2D line, Ball ball) {
+        if (line.getX1() != line.getX2()) {
+            return null; // do not accept other than vertical lines
+        }
+        Point collisionPoint = null;
+        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+        if (line.intersectsLine(traceOfBall)) {
+            double triangleX = (double) ball.getDx();
+            double triangleY = (double) ball.getDy();
+            double smallTriangleX = (double) (line.getX1() - ball.getPreviousPosition().x);
+
+            double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
+          
+            int collisionX = (int) line.getX1();
+            int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
+            collisionPoint = new Point(collisionX, collisionY);
+        }
+        return collisionPoint;
+    }
+
     
-//    
-//    public Point collisionPointAtVerticalLine(Line2D line, Ball ball) {
-//        if (line.getX1() != line.getX2()) {
-//            return null; // do not accept other than vertical lines
-//        }
-//        Point collisionPoint = null;
-//        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
-//        if (line.intersectsLine(traceOfBall)) {
-//            double triangleX = (double) ball.getDx();
-//            double triangleY = (double) ball.getDy();
+    // about tested
+    public Point collisionPointAtHorizontalLine(Line2D line, Ball ball) {
+        if (line.getY1() != line.getY2()) {
+            return null; // do not accept other than horizontal lines
+        }
+        Point collisionPoint = null;
+        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
+        if (line.intersectsLine(traceOfBall)) {
+            float triangleX = (float) ball.getDx();
+            float triangleY = (float) ball.getDy();
+
+            float smallTriangleY = (float) (line.getY1() - ball.getPreviousPosition().y);
+            float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
+
+            int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
+            int collisionY = (int) line.getY1();
+            collisionPoint = new Point(collisionX, collisionY);
+        }
+        return collisionPoint;
+    }   
+    // about tested
+    public ArrayList<Collision> getAllCollisions(ArrayList<Piece> wallPiecesNearToBall, Ball ball) {
+        ArrayList<Collision> collisions = new ArrayList<>();
+
+        for (Piece p : wallPiecesNearToBall) {
+            for (CompassDirection direction : p.getBorders().keySet()) {
+                Border border = p.getBorders().get(direction);
+                if (border != null) {
+                    if (border.isActive()) {
+
+                        BorderLine borderLine = (BorderLine) border;
+                        Collision candindate = this.collisionAtBorderLine(borderLine, ball);
+                        if (candindate != null) {
+                            collisions.add(candindate);
+                        }
+                    }
+                }
+            }
+        } 
+        return collisions;
+    }
+
+    
+        
+ 
+    // trash 
 //
-//            double smallTriangleX = (double) (line.getX1() - ball.getPreviousPosition().x);
-//            double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
-//            
-//            int collisionX = (int) line.getX1();
-//            int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
-//            collisionPoint = new Point(collisionX, collisionY);
+//    /**
+//     * Helper method.
+//     * @param ball
+//     * @param segmentX
+//     * @param segmentStartY
+//     * @param segmentEndY
+//     * @return The Point where Ball has crossed the given segment over its latest step.
+//     */
+//
+//    public Point collisionOnVerticalSegment(Ball ball, int segmentX, int segmentStartY, int segmentEndY) {
+//        // this method returns the collision point on vertical segment or null if no collision happens
+//
+//        if (ball.getCurrentPosition().x < segmentX && ball.getPreviousPosition().x < segmentX) {
+//            return null; // ball moves on the left side of segmentX
 //        }
-//        return collisionPoint;
+//        if (ball.getCurrentPosition().x > segmentX && ball.getPreviousPosition().x > segmentX) {
+//            return null; // ball moves on the right side of segmentX
+//        }
+//        if (ball.getDx() == 0) {
+//            return null; // no horizontal speed
+//        }
+//
+//        // now that we know that ball intersects segmentX, we can make some calculations     
+//        double triangleX = (double) ball.getDx();
+//        double triangleY = (double) ball.getDy();
+//        
+//        double smallTriangleX = (double) (segmentX - ball.getPreviousPosition().x);     
+//        double smallTriangleY = (triangleY * smallTriangleX) / triangleX;
+//        
+//        int collisionY = ball.getPreviousPosition().y + (int) (smallTriangleY);
+//        
+//        if (segmentStartY <= collisionY && collisionY <= segmentEndY) {
+//            return new Point(segmentX, collisionY); // actual collision with segment (including ending points)
+//        }
+//        return null;
+//        
 //    }
-//    public Point collisionPointAtHorizontalLine(Line2D line, Ball ball) {
-//        if (line.getY1() != line.getY2()) {
-//            return null; // do not accept other than horizontal lines
-//        }
-//        Point collisionPoint = null;
-//        Line2D traceOfBall = new Line2D.Float(ball.getPreviousPosition(), ball.getCurrentPosition());
-//        if (line.intersectsLine(traceOfBall)) {
-//            float triangleX = (float) ball.getDx();
-//            float triangleY = (float) ball.getDy();
+//    
+//    /**
+//     * Helper method.
+//     * @param ball
+//     * @param segmentY
+//     * @param segmentStartX
+//     * @return The Point where Ball has crossed the given segment over its latest step.
 //
-//            float smallTriangleY = (float) (line.getY1() - ball.getPreviousPosition().y);
-//            float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
+//     */
+//    
+//    public Point collisionOnHorizontalSegment(Ball ball, int segmentY, int segmentStartX, int segmentEndX) {
+//        // this method returns the collision point on vertival segment or null if no collision happens
 //
-//            int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
-//            int collisionY = (int) line.getY1();
-//            collisionPoint = new Point(collisionX, collisionY);
+//        if (ball.getCurrentPosition().y < segmentY && ball.getPreviousPosition().y < segmentY) {
+//            System.out.println("above segmentY");  
+//            return null; // ball moves above segmentY
+//
 //        }
-//        return collisionPoint;
-//    }     
+//        if (ball.getCurrentPosition().y > segmentY && ball.getPreviousPosition().y > segmentY) {
+//            System.out.println("under segmentY");              
+//            return null; // ball moves under segmentY
+//        }
+//        if (ball.getDy() == 0) {
+//            return null; // no vertical speed
+//        }
+//        
+//        // now that we know that ball intersects segmentY, we can make some calculations     
+//        float triangleX = (float) ball.getDx();
+//        float triangleY = (float) ball.getDy();
+//        
+//        float smallTriangleY = (float) (segmentY - ball.getPreviousPosition().y);
+//        float smallTriangleX = (triangleX * smallTriangleY) / triangleY;
+//        
+//        int collisionX = ball.getPreviousPosition().x + (int) (smallTriangleX);
+//        if (segmentStartX <= collisionX && collisionX <= segmentEndX) {
+//            return new Point(collisionX, segmentY); // actual collision with segment (including ending points)
+//        }
+//        System.out.println("no proper collision");          
+//        return null;        
+//    }
+//    
+//    /**
+//     * Helper method that checks which collision in given list is the earliest proper one.
+//     * @param ball
+//     * @param collisions
+//     * @return Collision that is used to reset parameters of Ball.
+//     */   
+//    public Collision getEarliestProperCollision(Ball ball, ArrayList<Collision> collisions) {
+//        int minimumDistanceToEndOfTrace = 1000; // 1000 must be safe enough
+//        Collision earliest = null;
+//
+//        for (Collision c : collisions) {           
+//            int distanceToEndOfTrace = Math.abs(c.getCoordinateX() - ball.getPreviousPosition().x);
+//            if (distanceToEndOfTrace < minimumDistanceToEndOfTrace) {
+//                // check for the case where ball has just bounced but previousPosition still collides!
+//                if (!c.getCollisionPosition().equals(ball.getPreviousPosition())) { 
+//                    minimumDistanceToEndOfTrace = distanceToEndOfTrace;
+//                    earliest = c;                    
+//                }
+//            }
+//        }
+//        return earliest;
+//    }
+//        
     
-//    public Collision alternativeCheckForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
+//    /**
+//     * CollisionDetector's main method.
+//     * This method checks if Ball has collided on wall over the latest step.
+//     * @param ball Ball that have to bounce according to the Board's current state.
+//     * @param board Board where Ball moves.
+//     * @return The earliest proper collision point (as Collision).
+//     */
+//    
+//    public Collision checkForEarliestProperCollisionAlongTrace(Ball ball, Board board) {
 //        ArrayList<Piece> wallPiecesNearToBall = board.getWallPiecesNearby(ball.getPreviousPosition(), 50);
-//
 //        ArrayList<Collision> collisions = new ArrayList<>();
 //
 //        for (Piece p : wallPiecesNearToBall) {
 //            System.out.println("Wallpiece detected nearby: " + p);
+//
+//            int leftBorder = p.getCornerPoint(CompassDirection.NORTHWEST).x - ball.getRadius();
+//            int topBorder = p.getCornerPoint(CompassDirection.NORTHWEST).y - ball.getRadius();
+//            int rightBorder = p.getCornerPoint(CompassDirection.SOUTHEAST).x + ball.getRadius();
+//            int bottomBorder = p.getCornerPoint(CompassDirection.SOUTHEAST).y + ball.getRadius();
+//            System.out.println("Left border: " + leftBorder + ", topBorder: "  + topBorder + ", right border: " + rightBorder + ", bottom border: " + bottomBorder);
+//
+//            System.out.println("Collisions out:");
+//            
+////             FIX BORDERS HERE!!!
+//            
+//            Point collisionOnTopBorder = this.collisionOnHorizontalSegment(ball, topBorder, leftBorder, rightBorder);
+//            if (collisionOnTopBorder != null) {
+//                System.out.println(collisionOnTopBorder);
+//                collisions.add(new Collision(collisionOnTopBorder, SimpleDirection.HORIZONTAL));
+//            }
+//            Point collisionOnRightBorder = this.collisionOnVerticalSegment(ball, rightBorder, topBorder, bottomBorder);
+//            if (collisionOnRightBorder != null) {
+//                collisions.add(new Collision(collisionOnRightBorder, SimpleDirection.VERTICAL));
+//                System.out.println(collisionOnRightBorder);
+//            }
+//            Point collisionOnBottomBorder = this.collisionOnHorizontalSegment(ball, bottomBorder, leftBorder, rightBorder);
+//            if (collisionOnBottomBorder != null) {
+//                collisions.add(new Collision(collisionOnBottomBorder, SimpleDirection.HORIZONTAL));    
+//                System.out.println(collisionOnBottomBorder);
+//            }
+//            Point collisionOnLeftBorder = this.collisionOnVerticalSegment(ball, leftBorder, topBorder, bottomBorder);
+//            if (collisionOnLeftBorder != null) {
+//                collisions.add(new Collision(collisionOnLeftBorder, SimpleDirection.VERTICAL));            
+//                System.out.println(collisionOnLeftBorder);
+//            } 
+//            System.out.println("");
+//        }
+//        if (collisions.isEmpty()) {
+//            return null; // no collisions
+//        }
+//        return this.getEarliestProperCollision(ball, collisions);   
+//        
+//    }     
+    
+    
+    
+//            
 //            for (Shape border : this.getActiveBordersForBall(ball, p)) {
 //                System.out.println("Found active borders!!!!");
 //                if (border.getClass().isInstance(new Line2D.Float())) {
@@ -230,13 +328,7 @@ public class CollisionDetector {
 //                    Point pointV = this.collisionPointAtVerticalLine((Line2D) border, ball);
 //                    collisions.add(new Collision(pointV, SimpleDirection.VERTICAL));
 //                }
-//            }    
-//        }
-//        if (collisions.isEmpty()) {
-//            return null; // no collisions
-//        }
-//        return this.getEarliestProperCollision(ball, collisions);   
-//    }    
+//            }        
     
     // this method could be in Piece
 //    public ArrayList<Shape> getActiveBordersForBall(Ball ball, Piece piece) {

@@ -36,28 +36,30 @@ public class Ball {
         this.drawSpeed();
         this.previousPosition = new Point(x - this.dx, y - this.dy);        
     }
-    
     /**
      * The main method of Ball; relocates Ball on given Board according to its speed.
-     * @param board  Board where Ball moves.
-     */    
+     * @param board  Board where Ball moves. 
+     */
+      
     public void moveOnBoard(Board board) {
-        this.moveOneStepForward();
-        System.out.println(this + "\n");
-                           
-        Collision collision = this.collisionDetector.checkForEarliestProperCollisionAlongTrace(this, board);
-        if (collision == null) {            
-            System.out.println("This step has no collision");
-            return;
-        } else {
-            System.out.println("Collision detected!");
-            System.out.println(collision);
-            this.resetAfterCollision(collision);
-            System.out.println("Reset after collision: " + this.toString());
+        this.moveOneStepForward();        
+        while (this.liesOnWall(board)) {
+            Collision collision = this.collisionDetector.checkForEarliestProperCollisionAlongTrace(this, board);
+            if (collision == null) {            
+                System.out.println("ERROR!!!!!!!");
+                return;
+            } else {
+                System.out.println("Collision detected!");
+                System.out.println(collision);
+                this.resetAfterCollision(collision);
+                System.out.println("Reset after collision: " + this.toString());
+            }            
             
-            // check if ball collides after resetting...inner corners might cause this!
-        } 
+        }          
     }
+    
+
+
     /**
      * Resets the parameters of Ball after given Collision.
      * @param collision 
@@ -80,6 +82,14 @@ public class Ball {
             Point currentPositionReset = new Point(collision.getCoordinateX() + illegalTranslationX, collision.getCoordinateY() - illegalTranslationY);
             this.previousPosition.setLocation(previousPositionReset);
             this.currentPosition.setLocation(currentPositionReset);                
+            this.dy *= -1;
+        } else if (collision.getReflectingDirection() == SimpleDirection.DIAGONAL) {
+            // FIX THIS
+            Point previousPositionReset = new Point(collision.getCoordinateX() - legalTranslationX, collision.getCoordinateY() + legalTranslationY);
+            Point currentPositionReset = new Point(collision.getCoordinateX() + illegalTranslationX, collision.getCoordinateY() - illegalTranslationY);
+            this.previousPosition.setLocation(previousPositionReset);
+            this.currentPosition.setLocation(currentPositionReset);                
+            this.dx *= -1;
             this.dy *= -1;
         }
     }
