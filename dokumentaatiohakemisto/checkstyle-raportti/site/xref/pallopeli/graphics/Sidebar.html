@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Sidebar xref</title>
+<link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../apidocs/pallopeli/graphics/Sidebar.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * To change this license header, choose License Headers in Project Properties.</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * To change this template file, choose Tools | Templates</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * and open the template in the editor.</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">package</strong> pallopeli.graphics;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.awt.Color;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.awt.Container;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.awt.Dimension;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> javax.swing.BoxLayout;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> javax.swing.JLabel;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> javax.swing.JPanel;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.swing.JTextField;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> pallopeli.logic.Game;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * Sidebar represents the info bar on the side of actual game board.</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> * Sidebar is updated during the game.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * @author saara</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../pallopeli/graphics/Sidebar.html">Sidebar</a> <strong class="jxr_keyword">extends</strong> JPanel <strong class="jxr_keyword">implements</strong> <a href="../../pallopeli/graphics/Updateable.html">Updateable</a> {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">private</strong> <a href="../../pallopeli/logic/Game.html">Game</a> game;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">private</strong> JLabel instructions;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">private</strong> ArrayList&lt;JLabel&gt; instructionsContent;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">private</strong> JLabel lives;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <strong class="jxr_keyword">private</strong> JLabel direction;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">private</strong> JLabel status;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <strong class="jxr_keyword">private</strong> JLabel statusContent;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">public</strong> <a href="../../pallopeli/graphics/Sidebar.html">Sidebar</a>(<a href="../../pallopeli/logic/Game.html">Game</a> game) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">super</strong>.setBackground(Color.WHITE);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          <strong class="jxr_keyword">this</strong>.game = game;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          <strong class="jxr_keyword">this</strong>.createContent(<strong class="jxr_keyword">this</strong>);        
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      }  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">     * Creates the content of Sidebar and adds it to Container.</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">     * @param container Container (of JFrame).</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">     */</em>   
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> createContent(Container container) {
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <strong class="jxr_keyword">this</strong>.setLayout(<strong class="jxr_keyword">new</strong> BoxLayout(container, BoxLayout.Y_AXIS));
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">this</strong>.instructions = <strong class="jxr_keyword">new</strong> JLabel();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">this</strong>.instructionsContent = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          <strong class="jxr_keyword">this</strong>.lives = <strong class="jxr_keyword">new</strong> JLabel();
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          <strong class="jxr_keyword">this</strong>.direction = <strong class="jxr_keyword">new</strong> JLabel();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          <strong class="jxr_keyword">this</strong>.status = <strong class="jxr_keyword">new</strong> JLabel();  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          <strong class="jxr_keyword">this</strong>.statusContent = <strong class="jxr_keyword">new</strong> JLabel();
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          container.add(<strong class="jxr_keyword">this</strong>.instructions);
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          <strong class="jxr_keyword">this</strong>.addInstructionsContent(container);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>          container.add(<strong class="jxr_keyword">this</strong>.lives);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>          container.add(<strong class="jxr_keyword">this</strong>.direction);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          container.add(<strong class="jxr_keyword">this</strong>.status);   
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          container.add(<strong class="jxr_keyword">this</strong>.statusContent);   
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          <strong class="jxr_keyword">this</strong>.setPreferredSize(<strong class="jxr_keyword">new</strong> Dimension(180, 322));
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          <strong class="jxr_keyword">this</strong>.setMaximumSize(<strong class="jxr_keyword">this</strong>.getPreferredSize()); 
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          <strong class="jxr_keyword">this</strong>.setMinimumSize(<strong class="jxr_keyword">this</strong>.getPreferredSize());
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      }
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>              
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @Override
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> update() {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">this</strong>.instructions.setText(<span class="jxr_string">"INSTRUCTIONS:"</span>);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">this</strong>.lives.setText(<span class="jxr_string">"LIVES: "</span> + game.getLives());
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">this</strong>.direction.setText(<span class="jxr_string">"DIRECTION: "</span> + game.getDirection() + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">this</strong>.status.setText(<span class="jxr_string">"GAME STATUS: "</span>);
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">this</strong>.statusContent.setText(<strong class="jxr_keyword">this</strong>.statusOfGame());
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      }
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * Returns the current status of Game.</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * @return Status as String to be inserted into JLabel.</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">public</strong> String statusOfGame() {
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          String status = <span class="jxr_string">""</span>;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">if</strong> (game.continues()) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>              status += <span class="jxr_string">"Game continues."</span>;
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              <strong class="jxr_keyword">if</strong> (game.win()) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                  status += <span class="jxr_string">"Game over! You win!"</span>;
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>              } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                  status += <span class="jxr_string">"Game over! You lost!"</span>;
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          }
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">return</strong> status;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     * Adds instructions as JLabels.</em>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">     * @param container Container (of JFrame).</em>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addInstructionsContent(Container container) {
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          JLabel firstRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"Turn areas into wall by"</span>);
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>          container.add(firstRow);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         JLabel secondRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"clicking pieces. You need"</span>);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         container.add(secondRow);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>         JLabel thirdRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"to get 90% of board covered"</span>);
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>         container.add(thirdRow);        
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         JLabel fourthRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"to win the game. Change"</span>);
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         container.add(fourthRow);        
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         JLabel fifthRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"building direction by"</span>);       
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>         container.add(fifthRow);        
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         JLabel sixthRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"pressing space key. Watch"</span>);  
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         container.add(sixthRow);        
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         JLabel seventhRow = <strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"out for the ball!"</span>); 
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>         container.add(seventhRow);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     }
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+</body>
+</html>
