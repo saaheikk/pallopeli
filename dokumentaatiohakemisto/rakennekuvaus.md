@@ -3,6 +3,10 @@
 Game-luokka on pelin sovelluslogiikan keskus. Pohjana on pelilooppi, jonka pyörimsestä vastaa Gamen yliluokka Timer ja sen actionPerformed-metodi.
 Game sisältää pelin peruspalaset, eli pallon (Ball) ja laudan (Board). Board sisältää edelleen paloja (Piece), jotka on tallennettu 2-ulotteiseksi taulukoksi.
 Pelissä on kaksi perustoiminnallisuutta, seinän rakentuminen ja pallon liikkuminen. Pallon liikkuminen hoidetaan CollisionDetector-luokan avulla. Ball sisältää yhden CollisionDetectorin, joka palauttaa Collision-olioita, ja pallo osaa liikkua Collisionin antamien tietojen mukaan. 
+
+Abstrakti Border-luokka kuvaa palaan liittyvää rajaa, jota lähemmäksi pallon keskipiste ei voi tulla törmäämättä palaan. Alunperin oli tarkoitus tehdä kulmiin kaarimaiset rajat (BorderArc), mutta siihen ei jäänyt aikaa, joten ohjelma käyttää nyt ainoastaan BorderLine-olioita.
+CollisioDetector käyttää BorderLine-olioita törmäyksen määrittämiseen.
+
 Seinien rakentamisesta vastaa Game-luokalla oleva Wallbuilder-olio. Wallbuilder sisältää pelilaudan (Board), johon se rakentaa seiniä. Kun seinän rakentuminen loppuu (tavalla tai toisella), niin Wallbuilder "refreshaa" kaikki attribuuttinsa, Boardia lukuunottamatta.
 Seinien rakentumisen ja pallon liikkumisen välisestä kommunkaatioista vastaa Game-luokka. Joka kerta kun Wallbuilder rakentaa yhden palan seinää, niin Gamessa tarkistetaan, että osuuko pallo rakentuneeseen palaan ja toimitaan sen mukaan.
 
