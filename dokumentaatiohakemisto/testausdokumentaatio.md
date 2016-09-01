@@ -8,6 +8,6 @@ Kuitenkin peliä on testattu monta kertaa manuaalisesti, ja tällä hetkellä se
 ## Havaittuja bugeja
  - Peliä manuaalisesti testattaessa ilmeni pari kertaa bugi, jossa rakentunut seinä ei muuttunutkaan seinäksi. En ehtinyt testata Wallbuilderia niin perinpohjaisesti, että osaisin sanoa mistä se johtuu.
 
- - Ball-luokalle kirjoitetut testit, joissa testataan pallon törmäämistä sisänurkkaan, eivät mene läpi. Tätä on debuggattu erittäin peusteellisesti, ja syy on se, että CollisionDetectorin getAllCollisionsAlongTrace palauttaa jostain syystä tyhjän listan.
+ - Ball-luokalle kirjoitetut testit, joissa testataan pallon törmäämistä sisänurkkaan, eivät mene läpi. Tätä on debuggattu erittäin perusteellisesti, ja syy on se, että CollisionDetectorin getAllCollisionsAlongTrace palauttaa jostain syystä tyhjän listan.
 
  - Koulun koneilla ajassa käyttöliittymän Sidebar saattaa näyttää erilaiselta ja osa tekstistä saattaa leikkautua pois.
