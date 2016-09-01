@@ -39,7 +39,7 @@ public class Game extends Timer implements ActionListener {
      * @param sizeOfObjects 
      */
     public Game(int sizeOfObjects) {
-        super(600, null); // set update for every 600 milliseconds
+        super(500, null); // set update for every 600 milliseconds
         
         // create objects
         this.sizeOfObjects = sizeOfObjects;
@@ -96,7 +96,7 @@ public class Game extends Timer implements ActionListener {
             this.wallbuilder.cancelConstructionOfStart();
             this.wallbuilder.setStartFailed(); // may not need this
             this.lives--; 
-            wallbuilder.refresh();
+            this.wallbuilder.refresh();
             return false;
         } else {
             this.wallbuilder.turnStartIntoWall();
@@ -128,6 +128,8 @@ public class Game extends Timer implements ActionListener {
         }       
         return true;
     }
+    
+    
     /**
      * Checks if over 90% of board is covered by wall.
      * @return True if 90% of board is covered by wall and false if not.

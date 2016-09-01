@@ -185,10 +185,10 @@ public class CollisionDetector {
                 Border border = p.getBorders().get(direction);
                 if (border != null) {
                     if (border.isActive()) {
-                        System.out.println(border);
+//                        System.out.println(border);
                         BorderLine borderLine = (BorderLine) border;
                         Collision candidate = this.collisionAtBorderLine(borderLine, ball);
-                        System.out.println(candidate);
+//                        System.out.println(candidate);
                         if (candidate != null) {
                             collisions.add(candidate);
                         }

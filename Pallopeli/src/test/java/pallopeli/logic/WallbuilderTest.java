@@ -119,7 +119,9 @@ public class WallbuilderTest {
         }
         boolean continues = w.buildOneStep(); // last piece in east: (8,3)
         assertFalse("Construction should end.", continues);
-    }      
+    }  
+    
+    
     
     
     
@@ -178,6 +180,7 @@ public class WallbuilderTest {
         b.setCurrentPosition(new Point(100, 152));
         assertFalse("No piece should alarm for ball.", w.somePieceUnderConstructionHasBall(2, b));
     }     
+
     
     // test getting the right direction
     @Test

@@ -357,7 +357,7 @@ public class BallTest {
         assertEquals(3, ball.getDy());
     }  
     
-    // does not work
+    // does not work!!!
 //    public void createDiagonalCollision() {
 //        Board board = new Board(10, 10, 20);
 //        ball = new Ball(20);

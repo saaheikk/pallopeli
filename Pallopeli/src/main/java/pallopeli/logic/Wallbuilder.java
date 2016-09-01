@@ -24,6 +24,7 @@ public class Wallbuilder {
 
     private boolean firstStep;
     private boolean startFailed;
+    
     private int stepsFromStart;
     
     private Piece[][] piecesUnderConstruction;   
@@ -39,7 +40,7 @@ public class Wallbuilder {
     }
     
     /**
-     * Resets the parameters to build new wall on Board.
+     * Resets the parameters to build a new wall on Board.
      * @param p Point where start is tried to set.
      * @param simpleDirection Set Wallbuilder's building direction.
      * @return True if there exists a Piece where to set start and false if not.
@@ -119,6 +120,21 @@ public class Wallbuilder {
         if (this.firstStep) {
             return this.buildFirstStep();
         } 
+        this.makeCurrentEndsSetNeighborUnderConstruction();
+        this.stepsFromStart++;
+        if (!this.buildContinues[0] && !this.buildContinues[1]) {
+            return false;
+        }
+        return true;  
+    }
+    /**
+     * Makes current end set their neighbor under construction.
+     * Both ends are checked separately.
+     * If build does not continue in the end, do nothing.
+     * If it does, turn one neighbor under construction and check if build still continues after this.
+     * Reset buildContinues.
+     */
+    public void makeCurrentEndsSetNeighborUnderConstruction() {
         for (int i = 1; i <= 2; i++) {
             if (this.buildContinues[i - 1]) {
                 Piece currentEnd = this.currentEnds[i - 1];
@@ -130,12 +146,7 @@ public class Wallbuilder {
                 }
                 this.buildContinues[i - 1] = continues;
             }
-        }
-        this.stepsFromStart++;
-        if (!this.buildContinues[0] && !this.buildContinues[1]) {
-            return false;
-        }
-        return true;  
+        }        
     }
     /**
      * Determines the direction of the area which needs to be turned into wall. 
