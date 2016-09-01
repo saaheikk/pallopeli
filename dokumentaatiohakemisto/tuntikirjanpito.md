@@ -28,5 +28,5 @@ Päivä | Tunnit | Kuvaus
 29.08.2016 | 6.0h | Sovelluslogiikan rakentamista ja testien kirjoittamista.
 30.08.2016 | 7.0h | Sovelluslogiikan rakentamista ja testien kirjoittamista, demo. 
 31.08.2016 | 4.5h | Sovelluslogiikan rakentamista ja testien kirjoittamista. 
-01.08.2016 | 14.5h | Sovelluslogiikan rakentamista ja testien kirjoittamista, jar. JavaDocin kirjoittamista, viimeistelyt.
+01.08.2016 | 14.5h | Sovelluslogiikan rakentamista ja testien kirjoittamista, jar, JavaDocin kirjoittamista, viimeistelyt.
 
