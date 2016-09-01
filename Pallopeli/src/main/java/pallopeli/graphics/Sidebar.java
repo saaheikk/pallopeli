@@ -55,7 +55,7 @@ public class Sidebar extends JPanel implements Updateable {
         container.add(this.direction);
         container.add(this.status);   
         container.add(this.statusContent);   
-        this.setPreferredSize(new Dimension(180, 322));
+        this.setPreferredSize(new Dimension(200, 322));
         this.setMaximumSize(this.getPreferredSize()); 
         this.setMinimumSize(this.getPreferredSize());
     }
