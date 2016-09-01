@@ -25,3 +25,8 @@ Päivä | Tunnit | Kuvaus
 26.08.2016 | 3.0h | Huonojen ideoiden suunnittelua, toteuttamista ja poiskommentointia
 27.08.2016 | 2.5h | Huonot ideat jatkuu, testien kirjoittamista
 28.08.2016 | 5.5h | Walbuilderin rakentaminen (sis. armotonta debuggausta), koodikatselmointi
+29.08.2016 | 6.0h | Sovelluslogiikan rakentamista ja testien kirjoittamista.
+30.08.2016 | 7.0h | Sovelluslogiikan rakentamista ja testien kirjoittamista, demo. 
+31.08.2016 | 4.5h | Sovelluslogiikan rakentamista ja testien kirjoittamista. 
+01.08.2016 | 14.5h | Sovelluslogiikan rakentamista ja testien kirjoittamista, jar. JavaDocin kirjoittamista, viimeistelyt.
+
