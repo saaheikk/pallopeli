@@ -14,9 +14,15 @@ Toiminnot:
 	* Päivitys: jos seinä ei pääse rakentumaan loppuun asti, niin pelaaja menettää yhden "elämän"
 	* Päivitys: jos pallo koskee yhtäkin rakentumassa olevaa seinäpalaa, niin koko rakentumassa oleva seinäosuus häviää ja pelaaja menettää "elämän" 
 * Pelin voittaminen/häviäminen
-	* Voittaminen kun tietty prosenttiosuus pelialueesta on muuttunut seinäksi (esim. 75%)
+	* Voittaminen kun tietty prosenttiosuus pelialueesta on muuttunut seinäksi (90%)
 	* Häviäminen kun "elämät" loppuvat
 
 Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-balls-cover-75-of/flash-game/
 
+## Linkit luokkakaavioihin
 ![Määrittelyvaiheen luokkakaavio](https://github.com/saaheikk/pallopeli/tree/master/dokumentaatiohakemisto/maarittelyvaiheenluokkakaavio.png)
+![Sovelluslogiikan luokkakaavio](https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/luokkakaaviot/sovelluslogiikkaluokkakaavio.png)
+![Käyttöliittymän luokkakaavio](https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/luokkakaaviot/kayttoliittymaluokkakaavio.png)
+
+## Sekvenssikaaviot
+![Alt text](/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/sekvenssikaaviot/sekvanssikaavioKayttajaKlikkaaPalaa.png)
