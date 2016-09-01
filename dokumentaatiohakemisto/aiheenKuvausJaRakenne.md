@@ -28,9 +28,9 @@ Mallipeli: http://www.freeonlinepcgames.net/play/bounce-build-walls-to-capture-b
 
 ![Käyttöliittymän luokkakaavio](https://github.com/saaheikk/pallopeli/tree/master/dokumentaatiohakemisto/luokkakaaviot/kayttoliittymaluokkakaavio.png)
 
-## Linkit sekvenssikaavioihin
+## Sekvenssikaaviot kuvina
 ![Pallon liikkuminen](https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/sekvenssikaaviot/sekvenssikaavioPallonLiikkuminen.png)
 
 ![Seinän rakentuminen](https://github.com/saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/sekvenssikaaviot/sekvenssikaavioSeinanRakentuminen.png)
 
-![Käyttäjä klikkaa palaa](https://github.com//saaheikk/pallopeli/tree/master/dokumentaatiohakemisto/sekvenssikaaviot/sekvanssikaavioKayttajaKlikkaaPalaa.png)
+![Käyttäjä klikkaa palaa](https://github.com//saaheikk/pallopeli/blob/master/dokumentaatiohakemisto/sekvenssikaaviot/sekvanssikaavioKayttajaKlikkaaPalaa.png)
