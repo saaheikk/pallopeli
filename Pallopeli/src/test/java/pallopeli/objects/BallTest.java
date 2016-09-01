@@ -336,131 +336,64 @@ public class BallTest {
         ball.setDy(-3);
         ball.moveOnBoard(board);        
     }    
-//    @Test
-//    public void newPositionIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
-//        this.createHorizontalCollisionAtPointWhereBordersTouch();
-//        assertEquals(new Point(74, 46), ball.getCurrentPosition());
-//    }    
-//    @Test
-//    public void traceIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
-//        this.createHorizontalCollisionAtPointWhereBordersTouch();
-//        assertEquals(new Point(77, 43), ball.getPreviousPosition());
-//    } 
-//    @Test
-//    public void speedXIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
-//        this.createHorizontalCollisionAtPointWhereBordersTouch();
-//        assertEquals(-3, ball.getDx());
-//    }     
-//    @Test
-//    public void speedYIsSetCorrectlyWhenHorizontcalCollisionAtPointWhereBordersTouch() {
-//        this.createHorizontalCollisionAtPointWhereBordersTouch();
-//        assertEquals(3, ball.getDy());
-//    }       
-
-    // corners!!
-    
-    
-    
     @Test
-    public void testResetting() {
-        
+    public void newPositionIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
+        this.createHorizontalCollisionAtPointWhereBordersTouch();
+        assertEquals(new Point(74, 46), ball.getCurrentPosition());
     }    
+    @Test
+    public void traceIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
+        this.createHorizontalCollisionAtPointWhereBordersTouch();
+        assertEquals(new Point(77, 43), ball.getPreviousPosition());
+    } 
+    @Test
+    public void speedXIsSetCorrectlyWhenHorizontalCollisionAtPointWhereBordersTouch() {
+        this.createHorizontalCollisionAtPointWhereBordersTouch();
+        assertEquals(-3, ball.getDx());
+    }     
+    @Test
+    public void speedYIsSetCorrectlyWhenHorizontcalCollisionAtPointWhereBordersTouch() {
+        this.createHorizontalCollisionAtPointWhereBordersTouch();
+        assertEquals(3, ball.getDy());
+    }  
     
-//    @Test
-//    public void toStringWorks() {
-//        this.setBallWithLegalSpeed();
-//        Board b = new Board(30, 20, 10);
-//        ball.setBallOnBoard(b);
-//        String s = "My current position: (155,103), speed vector: (5,3), and previous location: (150,100)";
-//        assertEquals(s, ball.toString());
-//    }     
+    // does not work
+    public void createDiagonalCollision() {
+        Board board = new Board(10, 10, 20);
+        ball = new Ball(20);
+        ball.setCurrentPosition(new Point(172, 29));
+        ball.setPreviousPosition(new Point(166, 32));
+        ball.setDx(6);
+        ball.setDy(-3);
+        ball.moveOnBoard(board);        
+    }    
+    @Test
+    public void newPositionIsSetCorrectlyInDiagonalCollision() {
+        this.createDiagonalCollision();
+        assertEquals(new Point(168, 31), ball.getCurrentPosition());
+    }    
+    @Test
+    public void traceIsSetCorrectlyInDiagonalCollision() {
+        this.createDiagonalCollision();
+        assertEquals(new Point(174, 28), ball.getPreviousPosition());
+    } 
+    @Test
+    public void speedXIsSetCorrectlyInDiagonalCollision() {
+        this.createDiagonalCollision();
+        assertEquals(-6, ball.getDx());
+    }     
+    @Test
+    public void speedYIsSetCorrectlyInDiagonalCollision() {
+        this.createDiagonalCollision();
+        assertEquals(3, ball.getDy());
+    }     
     
-    
-    
-    // tests for bouncing (earlier idea)
-//    @Test
-//    public void ballBouncesUpwards() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.NORTH);
-//        boolean speedIsCorrect = (originalXSpeed == ball.getDx() && (originalYSpeed == -ball.getDy()));
-//
-//        assertTrue("", speedIsCorrect);
-//    } 
-//    @Test
-//    public void ballBouncesDownwards() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.SOUTH);
-//        boolean speedIsCorrect = (originalXSpeed == ball.getDx() && (originalYSpeed == -ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }     
-//    @Test
-//    public void ballBouncesRightwards() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.EAST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }  
-//    @Test
-//    public void ballBouncesLeftwards() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.WEST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }      
-//    @Test
-//    public void ballIsAbleToBounceFromTopRightCornerOfAPiece() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.NORTHEAST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == -ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }   
-//    @Test    
-//    public void ballIsAbleToBounceFromBottomRightCornerOfAPiece() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.SOUTHEAST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == -ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }     
-//    @Test    
-//    public void ballIsAbleToBounceFromBottomLeftCornerOfAPiece() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.SOUTHWEST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == -ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }    
-//    @Test    
-//    public void ballIsAbleToBounceFromTopLeftCornerOfAPiece() {
-//        this.setBallWithLegalSpeed();
-//        int originalXSpeed = ball.getDx();
-//        int originalYSpeed = ball.getDy();
-//        ball.bounce(CompassDirection.NORTHWEST);
-//        boolean speedIsCorrect = (originalXSpeed == -ball.getDx() && (originalYSpeed == -ball.getDy()));
-//        assertTrue("", speedIsCorrect);
-//    }     
-    
-   
-    
-    
-    // helper methods
-         
+
+
     public void setBallWithLegalSpeed() {
         ball = new Ball(10);
         ball.setSpeed(5, 3);        
     }
-
+    
 
 }

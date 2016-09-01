@@ -1,7 +1,7 @@
 package pallopeli;
 
 /**
- * CompassDirection is mainly used to manage Piece's neighbors.
+ * CompassDirection is used to manage Piece's neighbors and build walls on Board.
  * @author saara
  */
 
@@ -17,7 +17,6 @@ public enum CompassDirection {
     
     int x;
     int y;
-
     
     CompassDirection(int x, int y) {
         this.x = x;
@@ -31,7 +30,12 @@ public enum CompassDirection {
         return y;
     }
     
-    // testing new ideas
+    /**
+     * Returns the CompassDirection associated with a vector.
+     * @param x First coordinate.
+     * @param y Second coordinate.
+     * @return CompassDirection.
+     */   
     public CompassDirection getCompassDirection(int x, int y) {
         if (x == 0 && y == -1) {
             return CompassDirection.NORTH;
@@ -52,10 +56,17 @@ public enum CompassDirection {
         }
         return null;
     }
+    /**
+     * Returns the opposite direction, for example, for NORTH, this method would return SOUTH.
+     * @return CompassDirection.
+     */
     public CompassDirection getOppositeCompassDirection() {
         return this.getCompassDirection(this.x * -1, this.y * -1);
     }
-    
+    /**
+     * Method used to eliminate copy paste in Wallbuilder.
+     * @return Intercardinal direction closer to origin.
+     */
     public CompassDirection getFirstSideOfMainDirection() {
         if (this == CompassDirection.NORTH) {
             return CompassDirection.NORTHWEST;
@@ -68,6 +79,10 @@ public enum CompassDirection {
         }
         return null;
     }
+    /**
+     * Method used to eliminate copy paste in Wallbuilder.
+     * @return Intercardinal direction further from origin.
+     */
     public CompassDirection getSecondSideOfMainDirection() {
         if (this == CompassDirection.NORTH) {
             return CompassDirection.NORTHEAST;
@@ -80,7 +95,10 @@ public enum CompassDirection {
         }
         return null;
     }    
-    
+    /**
+     * Returns the cardinal directions.
+     * @return Table of cardinal directions.
+     */
     public CompassDirection[] allMainDirections() {
         CompassDirection[] mainDirections = new CompassDirection[4];
         mainDirections[0] = CompassDirection.NORTH;
@@ -90,6 +108,4 @@ public enum CompassDirection {
         return mainDirections;
     }
 
-    
-    
 }

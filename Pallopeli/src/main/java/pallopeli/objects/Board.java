@@ -16,7 +16,15 @@ public class Board {
     private int sizeOfPieces; // pixels
     private Piece[][] pieces; // matrix containing all the pieces
 
-
+    /**
+     * Constructor for a new Board.
+     * Sets all the neighbors.
+     * Sets Borders for all Pieces on Board by using the parameter sizeOfPieces.
+     * Resets active borders according to the default starting state of board.
+     * @param width
+     * @param height
+     * @param sizeOfPieces 
+     */
     public Board(int width, int height, int sizeOfPieces) {
         if (width > 4 && height > 4 && width <= 30 && height <= 30) { 
             this.width = width;
@@ -104,12 +112,12 @@ public class Board {
         }
         return false;
     }
-    
-    
-    
-    
+
     // methods for setting and resetting borders for pieces on board
-    
+    /**
+     * Sets borders to guard in NORTH, WEST, SOUTH and EAST.
+     * @param radiusOfBall 
+     */
     public void setMainBordersForAllPieces(int radiusOfBall) {
         for (int h = 0; h < this.height; h++) {                       
             for (int w = 0; w < this.width; w++) {
@@ -117,7 +125,9 @@ public class Board {
             }
         }          
     }
-    
+    /**
+     * Resets the activity of borders according to the current state of Board.
+     */
     public void resetActiveBordersOfWallpieces() {
         // reset borders of the wallpieces after creating the board or turning pieces into wall
         for (int h = 0; h < this.height; h++) {                       
@@ -126,8 +136,41 @@ public class Board {
             }
         }           
     }
-    
-  
+    /**
+     * Returns the Piece that fully encloses given Point.
+     * @param p
+     * @return Piece or null if given Point is between Pieces.
+     */
+    public Piece getPieceThatEnclosesPoint(Point p) {
+        if (p.x % this.sizeOfPieces == 0 || p.y % this.sizeOfPieces == 0) {
+            return null; // check for lines between the pieces
+        }
+        int x = p.x / this.sizeOfPieces;
+        int y = p.y / this.sizeOfPieces; 
+        return this.getPiece(x, y);
+    }
+    /**
+     * Calculates all the Pieces on Board.
+     * @return Integer.
+     */
+    public int numberOfAllPieces() {
+        return this.height * this.width;
+    }
+    /**
+     * Calculates all the wall Pieces on Board.
+     * @return Integer.
+     */
+    public int numberOfWallPieces() {
+        int n = 0;
+        for (int h = 0; h < this.height; h++) {                       
+            for (int w = 0; w < this.width; w++) {
+                if (this.getPiece(w, h).isWall()) {
+                    n++;
+                }
+            }
+        }
+        return n;
+    }  
     // getter & setters
 
     public int getWidth() {
@@ -153,29 +196,7 @@ public class Board {
         return sizeOfPieces;
     }
     
-    public Piece getPieceThatEnclosesPoint(Point p) {
-        if (p.x % this.sizeOfPieces == 0 || p.y % this.sizeOfPieces == 0) {
-            return null; // check for lines between the pieces
-        }
-        int x = p.x / this.sizeOfPieces;
-        int y = p.y / this.sizeOfPieces; 
-        return this.getPiece(x, y);
-    }
-    
-    public int numberOfAllPieces() {
-        return this.height * this.width;
-    }
-    public int numberOfWallPieces() {
-        int n = 0;
-        for (int h = 0; h < this.height; h++) {                       
-            for (int w = 0; w < this.width; w++) {
-                if (this.getPiece(w, h).isWall()) {
-                    n++;
-                }
-            }
-        }
-        return n;
-    }    
+  
     
     @Override
     public String toString() {
@@ -188,72 +209,5 @@ public class Board {
         }
         return boardToString;
     }
-    // constructor used for debugging
-    public Board() { 
-            this.width = 3;
-            this.height = 3;
-            this.sizeOfPieces = 30;            
-            this.pieces = new Piece[height][width];
-            this.initializePieces();
-
-    }    
-    // trash
-//    // this is a test version!!
-//    public void buildWall(int x, int y, SimpleDirection direction) {
-//        this.pieces[y][x].turnIntoWall();
-//        if (direction == SimpleDirection.HORIZONTAL) {
-//            this.buildWall(x, y, CompassDirection.EAST);
-//            this.buildWall(x, y, CompassDirection.WEST);
-//        } else if (direction == SimpleDirection.VERTICAL) {
-//            this.buildWall(x, y, CompassDirection.NORTH);
-//            this.buildWall(x, y, CompassDirection.SOUTH);
-//        }
-//        
-//    }
-//    // this is a test version!!    
-//    protected void buildWall(int x, int y, CompassDirection compassDirection) {
-//        boolean continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-//        while (continues) {
-//            continues = this.pieces[y][x].turnNeighborIntoWall(compassDirection);
-//            y--;        
-//        }
-//    }       
-    
-//    public void resetActiveBorders() {
-//        for (int h = 0; h < this.height; h++) {                       
-//            for (int w = 0; w < this.width; w++) {
-//                this.getPiece(w, h).resetActiveBorders();
-//            }
-//        }           
-//        
-//    }    
-//    
-    
-//    public ArrayList<Piece> getAlarmedWallPieces(Ball ball) {
-//        ArrayList<Piece> alarmedWallPieces = new ArrayList<>();
-//        for (int h = 0; h < this.height; h++) {                       
-//            for (int w = 0; w < this.width; w++) {
-//                if (this.getPiece(w, h).isWall()) {
-//                    if (this.getPiece(w, h).hasBall(ball)) {
-//                        alarmedWallPieces.add(this.getPiece(w, h));
-//                    }                    
-//                }
-//            }
-//        }  
-//        return alarmedWallPieces;
-//    }    
-    
-//    
-//    public ArrayList<Piece> getWallPiecesAsList() {
-//        ArrayList<Piece> wallPieces = new ArrayList<>();
-//        for (int h = 0; h < this.height; h++) {                       
-//            for (int w = 0; w < this.width; w++) {
-//                if (this.getPiece(w, h).isWall()) {
-//                    wallPieces.add(this.getPiece(w, h));
-//                }
-//            }
-//        }  
-//        return wallPieces;        
-//    }
-
+ 
 }

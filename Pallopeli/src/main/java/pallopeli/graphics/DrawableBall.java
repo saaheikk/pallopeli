@@ -20,9 +20,7 @@ public class DrawableBall implements Drawable {
         g.setColor(Color.RED);
         int r = ballToDraw.getRadius();
         g.fillOval(ballToDraw.getCurrentPosition().x - r, ballToDraw.getCurrentPosition().y - r, 2 * r, 2 * r);
-        System.out.println("");
-        System.out.println("BALL DRAWN AT " + ballToDraw.getCurrentPosition());
-        System.out.println("");
+
     }
     
 }

@@ -9,6 +9,7 @@ import pallopeli.logic.Game;
 
 /**
  * PaintingCanvas represents the background where all the drawable components are painted.
+ * Comment.
  * @author saara
  */
 
@@ -16,6 +17,10 @@ public class PaintingCanvas extends JPanel implements Updateable {
     private Game game;
     private ArrayList<Drawable> drawables;
     
+    /**
+     * Creates a new PaintingCanvas for given Game.
+     * @param game 
+     */
     public PaintingCanvas(Game game) {
         super.setBackground(Color.WHITE);        
         this.game = game;

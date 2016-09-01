@@ -1,14 +1,12 @@
 package pallopeli.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import pallopeli.graphics.Updateable;
 import pallopeli.graphics.PaintingCanvas;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -27,7 +25,10 @@ public class UserInterface implements Runnable {
 
     private Updateable paintingCanvas;
     private Updateable sidebar;
-
+    /**
+     * Constructor for a new UserInterface attached to given Game.
+     * @param game 
+     */
     public UserInterface(Game game) {
         this.game = game;
         this.sizeOfObjects = game.getSizeOfObjects();
@@ -39,18 +40,19 @@ public class UserInterface implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Pallopeli");
-//        frame.setPreferredSize(new Dimension(300, 322)); // just right for 10 x 10 board
         frame.setPreferredSize(new Dimension(640, 322));        
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // createStartingView(frame.getContentPane());
         createComponents(frame.getContentPane());
 
         frame.pack();
         frame.setVisible(true);
     }
     
-    // This method will later add other ui-components to Container!
+    /**
+     * Adds ui-components to given Container.
+     * @param container 
+     */
     public void createComponents(Container container) { 
         container.setLayout(new BorderLayout());
         
@@ -77,11 +79,6 @@ public class UserInterface implements Runnable {
     }
     public Updateable getSidebar() {
         return this.sidebar;
-    }    
-    public ArrayList<Updateable> getUpdateables() {
-        ArrayList<Updateable> updateables = new ArrayList<>();
-        updateables.add(paintingCanvas);
-        updateables.add(sidebar);
-        return updateables;
-    }
+    }  
+
 }

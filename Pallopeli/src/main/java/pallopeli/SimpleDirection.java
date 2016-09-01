@@ -22,6 +22,11 @@ public enum SimpleDirection {
         this.firstPerpendicular = firstPerpendicular;
         this.secondPerpendicular = secondPerpendicular;
     }
+    /**
+     * Method used to eliminate copy paste in Wallbuilder.
+     * @param i Closer / further.
+     * @return CompassDirection closer to / further from origin.
+     */
 
     public CompassDirection getAssociatedCompassDirection(int i) {
         if (i == 1) {
@@ -32,6 +37,11 @@ public enum SimpleDirection {
         }
         return null;
     }
+    /**
+     * Method used to eliminate copy paste in Wallbuilder.
+     * @param i Closer / further.
+     * @return Perpendicular CompassDirection closer to / further from origin.
+     */    
     public CompassDirection getPerpendicularCompassDirection(int i) {
         if (i == 1) {
             return firstPerpendicular;

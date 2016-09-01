@@ -20,7 +20,10 @@ public class Ball {
     private int dy; // vertical speed   
     private int radius;
     private CollisionDetector collisionDetector;
-
+    /**
+     * Constructor for a new Ball.
+     * @param sizeOfObjects 
+     */
     public Ball(int sizeOfObjects) {
         this.radius = sizeOfObjects / 2;
         this.collisionDetector = new CollisionDetector();
@@ -39,8 +42,7 @@ public class Ball {
     /**
      * The main method of Ball; relocates Ball on given Board according to its speed.
      * @param board  Board where Ball moves. 
-     */
-      
+     */      
     public void moveOnBoard(Board board) {
         this.moveOneStepForward();        
         while (this.liesOnWall(board)) {
@@ -49,16 +51,11 @@ public class Ball {
                 System.out.println("ERROR!!!!!!!");
                 return;
             } else {
-                System.out.println("Collision detected!");
-                System.out.println(collision);
                 this.resetAfterCollision(collision);
-                System.out.println("Reset after collision: " + this.toString());
             }            
-            
+
         }          
     }
-    
-
 
     /**
      * Resets the parameters of Ball after given Collision.
@@ -84,11 +81,12 @@ public class Ball {
             this.currentPosition.setLocation(currentPositionReset);                
             this.dy *= -1;
         } else if (collision.getReflectingDirection() == SimpleDirection.DIAGONAL) {
-            // FIX THIS
-            Point previousPositionReset = new Point(collision.getCoordinateX() - legalTranslationX, collision.getCoordinateY() + legalTranslationY);
-            Point currentPositionReset = new Point(collision.getCoordinateX() + illegalTranslationX, collision.getCoordinateY() - illegalTranslationY);
+            // FIXED BUT NOT TESTED
+            Point previousPositionReset = new Point(collision.getCoordinateX() + legalTranslationX, collision.getCoordinateY() + legalTranslationY);
+            Point currentPositionReset = new Point(collision.getCoordinateX() - illegalTranslationX, collision.getCoordinateY() - illegalTranslationY);
             this.previousPosition.setLocation(previousPositionReset);
-            this.currentPosition.setLocation(currentPositionReset);                
+            this.currentPosition.setLocation(currentPositionReset);
+
             this.dx *= -1;
             this.dy *= -1;
         }
@@ -119,13 +117,17 @@ public class Ball {
         this.currentPosition.translate(dx, dy);
     }
     
-    // methods used for testing
     @Override
     public String toString() {
         return "My current position: (" + this.currentPosition.x + "," + this.currentPosition.y +
                 "), speed vector: (" + this.dx + "," + this.dy + 
                 "), and previous location: (" + this.previousPosition.x + "," + this.previousPosition.y + ")";
-    }  
+    } 
+    /**
+     * Tracks if circle of Ball intersects any wall piece.
+     * @param board
+     * @return True is ball collides with wall.
+     */
     public boolean liesOnWall(Board board) {
         boolean liesOnWall = false;
         for (Piece p : board.getWallPiecesNearby(currentPosition, 50)) {
@@ -190,23 +192,4 @@ public class Ball {
         this.dy = dy;
     }  
     
-
-    // trash 
-  
-    
-//    public void bounce(CompassDirection compassDirection) {
-//        if (compassDirection == CompassDirection.EAST || compassDirection == CompassDirection.WEST) { 
-//            this.dx *= -1;
-//        } else if (compassDirection == CompassDirection.NORTH || compassDirection == CompassDirection.SOUTH) {
-//            this.dy *= -1;
-//        } else if (compassDirection == CompassDirection.NORTHEAST || compassDirection == CompassDirection.SOUTHWEST) {
-//            this.dx *= -1;
-//            this.dy *= -1;            
-//        } else if (compassDirection == CompassDirection.NORTHWEST || compassDirection == CompassDirection.SOUTHEAST) {
-//            this.dx *= -1;
-//            this.dy *= -1;            
-//        }
-//    }
-    
-
 }

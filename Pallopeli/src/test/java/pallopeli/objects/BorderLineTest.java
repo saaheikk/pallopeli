@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pallopeli.objects;
 
 import java.awt.geom.Line2D;
@@ -15,10 +10,6 @@ import static org.junit.Assert.*;
 import pallopeli.CompassDirection;
 import pallopeli.objects.BorderLine;
 
-/**
- *
- * @author saara
- */
 public class BorderLineTest {
     Piece p;
     BorderLine bl;    

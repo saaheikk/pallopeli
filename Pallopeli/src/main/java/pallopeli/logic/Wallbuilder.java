@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pallopeli.logic;
 
 import java.awt.Point;
@@ -20,7 +15,7 @@ import pallopeli.objects.Piece;
 public class Wallbuilder {
     private Board board;  
     // "refreshable" parametres:
-    private Piece start; // default: null
+    private Piece start;
     private SimpleDirection buildingDirection;
     
     private Piece currentEnds[];
@@ -47,7 +42,7 @@ public class Wallbuilder {
      * Resets the parameters to build new wall on Board.
      * @param p Point where start is tried to set.
      * @param simpleDirection Set Wallbuilder's building direction.
-     * @return 
+     * @return True if there exists a Piece where to set start and false if not.
      */
     public boolean resetStart(Point p, SimpleDirection simpleDirection) {  
         this.start = this.board.getPieceThatEnclosesPoint(p);
@@ -75,7 +70,11 @@ public class Wallbuilder {
         
         this.piecesUnderConstruction = new Piece[2][Math.max(board.getHeight(), board.getWidth())];
     }   
-
+    /**
+     * Try to set start under construction.
+     * Changes the attributes of this Wallbuilder so that normal building can begin.
+     * @return False if start is Wall already and true if not.
+     */
     public boolean buildFirstStep() {
         if (this.start.isWall()) {
             this.startFailed = true;
@@ -90,20 +89,32 @@ public class Wallbuilder {
         this.buildContinues[1] = true;
         return true; 
     }
-
+    /**
+     * Checks if start and Ball collide.
+     * @param ball Ball being examined.
+     * @return True if collision occurs and false if not.
+     */
     public boolean startHasBall(Ball ball) {
         return this.start.hasBall(ball);
     }
+    /**
+     * Turns start into wall.
+     */  
     public void turnStartIntoWall() {
         this.start.turnIntoWall();
     }
+    /**
+     * Sets start back into normal mode (not under construction).
+     * Sets startFailed = true;
+     */
     public void cancelConstructionOfStart() {
         this.start.setUnderConstruction(false);
         this.startFailed = true;
     }
-    public void setStartFailed() {
-        this.startFailed = true;        
-    }
+    /**
+     * Builds one step in both directions of construction (if construction continues).
+     * @return False is both constructions have reached wall or failed or start has failed.
+     */
     public boolean buildOneStep() {
         if (this.firstStep) {
             return this.buildFirstStep();
@@ -128,7 +139,7 @@ public class Wallbuilder {
     }
     /**
      * Determines the direction of the area which needs to be turned into wall. 
-     * @param ball
+     * @param ball Ball being examined.
      * @return Direction code of CompassDirection.
      */
     public int getDirectionCodeForTurningAreaIntoWall(Ball ball) {
@@ -150,8 +161,8 @@ public class Wallbuilder {
         return directionCode;
     }
     /**
-     * Tries to get neighbor of start for first piece for recursion.
-     * @param ball
+     * Tries to get neighbor of start for the first piece for recursion.
+     * @param ball Ball being examined.
      * @return Neighbor of start or null if it's wall already.
      */
     public Piece getNeighborOfStartForFirstPieceOfRecursion(Ball ball) {
@@ -162,7 +173,12 @@ public class Wallbuilder {
         }
         return first;
     }
-    
+    /**
+     * Tries to find the first piece of recursion from somewhere else along the builded wall.
+     * Used if neighbor of start is already wall.
+     * @param ball Ball being examined.
+     * @return Piece where recursion can start or null if there is no piece to start recursion.
+     */
     public Piece seekForFirstPieceOfRecursion(Ball ball) {
         int directionCode = this.getDirectionCodeForTurningAreaIntoWall(ball);
         for (int i = 0; i < 2; i++) {
@@ -173,25 +189,38 @@ public class Wallbuilder {
                         return neighbor;
                     }                    
                 }
-
             }            
         }
         return null;
     }    
-    
+    /**
+     * Cancels the construction.
+     * Used if Ball collides with a Piece that is under construction.
+     * @param direction 
+     */
     public void cancelConstruction(int direction) {
         for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
             if (this.piecesUnderConstruction[direction - 1][j] != null) {
-                this.piecesUnderConstruction[direction - 1][j].setUnderConstruction(false);
-                
+                this.piecesUnderConstruction[direction - 1][j].setUnderConstruction(false); 
             }
         }
     }
+    
+    /**
+     * Refreshes the table of Pieces that are under construction.
+     * @param i 
+     */
     public void setPiecesUnderConstructionNull(int i) {
         for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
             this.piecesUnderConstruction[i - 1][j] = null;
         }        
     }
+    /**
+     * Tracks if some some Piece that is under construction has ball.
+     * @param direction Closer to / further from origin.
+     * @param ball Ball being examined.
+     * @return True if collision occurs and false if not.
+     */
     public boolean somePieceUnderConstructionHasBall(int direction, Ball ball) {
         for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
             if (this.piecesUnderConstruction[direction - 1][j] != null) {
@@ -202,7 +231,11 @@ public class Wallbuilder {
         }
         return false;      
     }    
-    // only if building is fully completed and all the info is NOT yet refreshed:
+    /**
+     * Turns the area into wall that cannot have any connection to Ball anymore.
+     * Used only if construction is fully completed and attributes are NOT yet refreshed.
+     * @param ball 
+     */
     public void turnAreaIntoWall(Ball ball) {
         Piece firstPiece = this.getNeighborOfStartForFirstPieceOfRecursion(ball);
         if (firstPiece == null) {
@@ -213,8 +246,10 @@ public class Wallbuilder {
         }
         this.turnAreaBoundedByWallIntoWall(firstPiece);
     }
-
-    // turn all reachable pieces into wall recursively
+    /**
+     * Turn all reachable pieces into wall recursively.
+     * @param firstPiece Start of recursion.
+     */
     public void turnAreaBoundedByWallIntoWall(Piece firstPiece) {
         ArrayList<Piece> neighborsTurnedIntoWall = firstPiece.turnAllNeighborsIntoWall();
         if (!neighborsTurnedIntoWall.isEmpty()) {
@@ -223,7 +258,10 @@ public class Wallbuilder {
             }            
         }
     }
-    
+    /**
+     * Turns one construction into wall.
+     * @param i Closer to / further from origin.
+     */
     public void turnConstructionIntoWall(int i) {
         for (Piece p : this.piecesUnderConstruction[i - 1]) {
             if (p != null) {
@@ -232,6 +270,9 @@ public class Wallbuilder {
         }
     }    
     // getters and setters
+    public void setStartFailed() {
+        this.startFailed = true;        
+    }   
     public boolean getConstructionFailed(int i) {
         return this.constructionFailed[i - 1];
     }
@@ -247,8 +288,6 @@ public class Wallbuilder {
     public boolean getBuildContinues(int i) {
         return this.buildContinues[i - 1];
     }
-    
-    
 
     public boolean startFailed() {
         return startFailed;
@@ -257,256 +296,4 @@ public class Wallbuilder {
     public Piece[][] getPiecesUnderConstruction() {
         return this.piecesUnderConstruction;
     }
-
-   
-
-
-    
-    
-    
-// trash
-    // trash
-//    private Piece firstEnd; // default: null
-//    private Piece secondEnd; // default: null
-//    
-//    private boolean firstDirectionContinues; // indicates if wallpiece has stopped the construction
-//    private boolean secondDirectionContinues; // indicates if wallpiece has stopped the construction
-//
-//    private boolean firstConstructionFailed; // indicates if ball has stopped the construction
-//    private boolean secondConstructionFailed; // indicates if ball has stopped the construction
-    
-    
-//    public int directionHasBall(Ball ball) {
-//        for (int i = 0; i < 2; i++) {
-//            for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
-//                if (this.piecesUnderConstruction[i][j] != null) {
-//                    if (this.piecesUnderConstruction[i][j].hasBall(ball)) {
-//                        return i + 1;
-//                    }
-//                }
-//            }
-//        }
-//        return 0;      
-//    }    
-    
-//    // only if building is fully completed and all the info is NOT yet refreshed:
-//    public void turnAreaIntoWall(Ball ball) {
-//        if (this.startFailed) {
-//            return;
-//        }
-//        if (!this.firstConstructionFailed && !this.secondConstructionFailed) {
-//            int startX = 0;
-//            int endX = 0;
-//            int startY = 0;
-//            int endY = 0;
-//
-//            if (buildingDirection == SimpleDirection.HORIZONTAL) {
-//                startX = this.firstEnd.getX();
-//                endX = this.secondEnd.getX();
-//                if (ball.getCoordinateY() < start.getCenterCoordinateY()) {
-//                    startY = start.getY();
-//                    endY = this.board.getHeight() - 1;
-//                } else {
-//                    startY = 0;
-//                    endY = start.getY();
-//                }
-//
-//            }
-//            if (buildingDirection == SimpleDirection.VERTICAL) {
-//                startY = this.firstEnd.getY();
-//                endY = this.secondEnd.getY();
-//                if (ball.getCoordinateX() < start.getCenterCoordinateX()) {
-//                    startX = start.getX();
-//                    endX = this.board.getWidth() - 1;
-//                } else {
-//                    startX = 0;
-//                    endX = start.getX();
-//                }            
-//            }
-//            for (int h = startY; h <= endY; h++) {                       
-//                for (int w = startX; w <= endX; w++) {
-//                    this.board.getPiece(w, h).turnIntoWall();
-//                }
-//            }  
-//        } else if (this.firstConstructionFailed) {
-//            if (!this.secondConstructionFailed) {
-//                for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
-//                    if (this.piecesUnderConstruction[1][j] != null) {
-//                        this.piecesUnderConstruction[1][j].turnIntoWall();
-//                    }
-//                }
-//                
-//            }
-//        } else if (this.secondConstructionFailed) {
-//            if (!this.firstConstructionFailed) {
-//                for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
-//                    if (this.piecesUnderConstruction[0][j] != null) {
-//                        this.piecesUnderConstruction[0][j].turnIntoWall();
-//                    }
-//                }                
-//            }           
-//        }
-//
-//    }    
-    
-//    public void setFirstDirectionContinues(boolean firstDirectionContinues) {
-//        this.firstDirectionContinues = firstDirectionContinues;
-//    }
-//
-//    public void setSecondDirectionContinues(boolean secondDirectionContinues) {
-//        this.secondDirectionContinues = secondDirectionContinues;
-//    }     
-    
-//public boolean buildOneStep(SimpleDirection simpleDirection) {
-//        if (this.firstStep) {
-//            return this.buildFirstStep();
-//        } 
-//
-//        
-//        if (this.firstDirectionContinues) {
-//            Piece edge = null;
-//            CompassDirection buildingDirection = null;
-//            if (simpleDirection == SimpleDirection.HORIZONTAL) {
-//                buildingDirection = CompassDirection.WEST;
-//                edge = this.board.getPiece(this.start.getX() - this.stepsFromStart, start.getY());
-//            }
-//            
-//            if (simpleDirection == SimpleDirection.VERTICAL) {
-//                buildingDirection = CompassDirection.NORTH;
-//                edge = this.board.getPiece(this.start.getX(), start.getY() - this.stepsFromStart);
-//            }
-//            this.firstDirectionContinues = edge.setNeighborUnderConstruction(buildingDirection);
-//            if (!this.firstDirectionContinues) {
-//                this.firstEnd = edge;
-//            } else {
-//                this.piecesUnderConstruction[0][this.stepsFromStart] = edge.getNeighbor(buildingDirection);
-//            }
-//        }
-//        
-//        if (this.secondDirectionContinues) {
-//            Piece edge = null;
-//            CompassDirection buildingDirection = null;
-//            if (simpleDirection == SimpleDirection.HORIZONTAL) {
-//                buildingDirection = CompassDirection.EAST;
-//                edge = this.board.getPiece(this.start.getX() + this.stepsFromStart, start.getY());
-//                System.out.println("Second edge: " + edge);
-//            }
-//            if (simpleDirection == SimpleDirection.VERTICAL) {
-//                buildingDirection = CompassDirection.SOUTH;
-//                edge = this.board.getPiece(this.start.getX(), start.getY() + this.stepsFromStart);
-//                System.out.println("second edge: " + edge);
-//            }            
-//            this.secondDirectionContinues = edge.setNeighborUnderConstruction(buildingDirection);
-//            if (!this.secondDirectionContinues) {
-//                this.secondEnd = edge;
-//            } else {
-//                this.piecesUnderConstruction[1][this.stepsFromStart] = edge.getNeighbor(buildingDirection);
-//            }
-//        }
-//        this.stepsFromStart++;
-//        if (!this.firstDirectionContinues && !this.secondDirectionContinues) {
-////            this.refresh(); // do not refresh yet
-//            return false;
-//        }
-//        return true;          
-//        
-//    }    
-    
-    
-    
-//    public boolean firstConstructionFailed() {
-//        return firstConstructionFailed;
-//    }
-//
-//    public void setFirstConstructionFailed(boolean constructionFailed) {
-//        this.firstConstructionFailed = constructionFailed;
-//    }    
-//    public boolean secondConstructionFailed() {
-//        return secondConstructionFailed;
-//    }
-//
-//    public void setSecondConstructionFailed(boolean constructionFailed) {
-//        this.secondConstructionFailed = constructionFailed;
-//    }    
-//    public boolean anyPieceUnderConstructionHasBall(Ball ball) {
-//        for (int i = 0; i < 2; i++) {
-//            for (int j = 0; j < Math.max(board.getHeight(), board.getWidth()); j++) {
-//                if (this.piecesUnderConstruction[i][j] != null) {
-//                    if (this.piecesUnderConstruction[i][j].hasBall(ball)) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }    
-//    public boolean buildOneStepHorizontal(Ball ball) {
-//        if (this.firstStep) {
-//            return this.buildFirstStep(ball);
-//        }    
-//        // check if building continues
-//        if (this.firstDirectionContinues) {
-//            int w = this.start.getX() - this.stepsFromStart;
-//            Piece edgeInWest = this.board.getPiece(w, start.getY());
-//            this.firstDirectionContinues = edgeInWest.setNeighborUnderConstruction(CompassDirection.WEST);
-//            if (!this.firstDirectionContinues) {
-//                this.firstEnd = edgeInWest;
-//            } else {
-//                this.piecesUnderConstruction[0][this.stepsFromStart] = edgeInWest.getNeighbor(CompassDirection.WEST);
-//            }
-//        }
-//        if (this.secondDirectionContinues) {
-//            int e = this.start.getX() + this.stepsFromStart;
-//            Piece edgeInEast = this.board.getPiece(e, start.getY());
-//            this.secondDirectionContinues = edgeInEast.setNeighborUnderConstruction(CompassDirection.EAST);
-//            if (!this.secondDirectionContinues) {
-//                this.secondEnd = edgeInEast;
-//            } else {
-//                this.piecesUnderConstruction[1][this.stepsFromStart] = edgeInEast.getNeighbor(CompassDirection.EAST);
-//            }
-//        }
-//        this.stepsFromStart++;
-//        if (!this.firstDirectionContinues && !this.secondDirectionContinues) {
-//            this.refresh();
-//            return false;
-//        }
-//        return true;    
-//    }    
-    
-        // this method is very ugly...
-//    public boolean build() {
-//        if (this.firstStep) {
-//            this.start.turnIntoWall();
-//            this.firstStep = false;
-//        }
-//        if (buildingDirection == SimpleDirection.HORIZONTAL) {
-//            int e = this.start.getX() + this.stepsFromStart;
-//            int w = this.start.getX() - this.stepsFromStart;
-//            
-//            Piece edgeInEast = this.board.getPiece(e, start.getY());
-//            Piece edgeInWest = this.board.getPiece(w, start.getY());
-//            
-//            boolean buildingInEastCompleted = false;
-//            boolean buildingInWestCompleted = false;
-//            
-//            if (edgeInEast != null) {
-//                buildingInEastCompleted = edgeInEast.turnNeighborIntoWall(CompassDirection.EAST);
-//            }
-//            if (edgeInWest != null) {
-//                buildingInWestCompleted = edgeInWest.turnNeighborIntoWall(CompassDirection.WEST);
-//            }
-//            this.stepsFromStart++;
-//            if (!buildingInEastCompleted && !buildingInWestCompleted) {
-//                this.refresh();
-//                return false;
-//            }
-//            return true;
-//        }
-//        return false;
-//    } 
-
-
-
-
-
 }

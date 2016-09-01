@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pallopeli;
 
 /**
- *
+ * MovementType is used to describe Collision's type: is Ball moving into Piece or away from it.
+ * MovementType is very helpful in the case where Ball has to bounce twice over one time step.
  * @author saara
  */
 public enum MovementType {

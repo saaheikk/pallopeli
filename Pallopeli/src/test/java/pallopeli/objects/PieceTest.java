@@ -1,7 +1,6 @@
 package pallopeli.objects;
 
 import java.awt.Point;
-import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -228,16 +227,4 @@ public class PieceTest {
         assertEquals(expectedCorner, piece.getCornerPoint(CompassDirection.SOUTHWEST));
     }     
     
-    
-    
-//    @Test
-//    public void toStringWorksIfPieceIsWall() {
-//        piece = new Piece(3, 3, true, 30);
-//        assertEquals("(3,3) is-wall", piece.toString());    
-//    }  
-//    @Test
-//    public void toStringWorksIfPieceIsNotWall() {
-//        piece = new Piece(3, 3, false, 30);
-//        assertEquals("(3,3) no-wall", piece.toString());    
-//    }   
 }

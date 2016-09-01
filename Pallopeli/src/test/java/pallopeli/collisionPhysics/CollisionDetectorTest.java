@@ -87,8 +87,6 @@ public class CollisionDetectorTest {
         assertFalse("", collisions.isEmpty());
     }
     
-    // continue from this :)
-    
     public Board setBoardForCases() {
         Board b = new Board(10, 10, 20);
         return b;
@@ -109,7 +107,7 @@ public class CollisionDetectorTest {
         Ball ball = this.setEasyHorizontalCase();
         Point expectedCollisionPoint = new Point(50, 30);
         Collision detected = cd.checkForEarliestProperCollisionAlongTrace(ball, b);
-        assertEquals(expectedCollisionPoint, detected.getCollisionPosition());
+        assertEquals(expectedCollisionPoint, detected.getCollisionPoint());
         assertEquals(SimpleDirection.HORIZONTAL, detected.getReflectingDirection());
     }
     public Ball setEasyVerticalCase() {
@@ -126,7 +124,7 @@ public class CollisionDetectorTest {
         Ball ball = this.setEasyVerticalCase();
         Point expectedCollisionPoint = new Point(30, 60);
         Collision detected = cd.checkForEarliestProperCollisionAlongTrace(ball, b);
-        assertEquals(expectedCollisionPoint, detected.getCollisionPosition());
+        assertEquals(expectedCollisionPoint, detected.getCollisionPoint());
         assertEquals(SimpleDirection.VERTICAL, detected.getReflectingDirection());
     }    
     
@@ -140,7 +138,7 @@ public class CollisionDetectorTest {
         ball.setDy(-3);
         Point expectedCollisionPoint = new Point(30, 30);
         Collision detected = cd.checkForEarliestProperCollisionAlongTrace(ball, b);
-        assertEquals(expectedCollisionPoint, detected.getCollisionPosition());
+        assertEquals(expectedCollisionPoint, detected.getCollisionPoint());
         assertEquals(SimpleDirection.DIAGONAL, detected.getReflectingDirection());
     } 
     @Test
@@ -153,132 +151,7 @@ public class CollisionDetectorTest {
         ball.setDy(-4);
         Point expectedCollisionPoint = new Point(32, 30);
         Collision detected = cd.checkForEarliestProperCollisionAlongTrace(ball, b);
-        assertEquals(expectedCollisionPoint, detected.getCollisionPosition());
+        assertEquals(expectedCollisionPoint, detected.getCollisionPoint());
         assertEquals(SimpleDirection.HORIZONTAL, detected.getReflectingDirection());
-    }     
-//
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallHasFullyCrossedSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(4, 3);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 4, 1, 4));
-//    }
-//
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallsCurrentPositionLiesOnSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(6, 5);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 6, 3, 6));
-//    } 
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallsPreviousPositionLiesOnSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(3, 2);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 3, 1, 3));
-//    } 
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallHitsTheTopEnd() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(5, 4);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 5, 4, 8));
-//    } 
-//    
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallHitsTheBottomEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(10, 4);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 10, 1, 4));
-//    }  
-//    
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallLiesAtTheTopEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(9, 6);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 9, 6, 10));
-//    } 
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallLiesAtTheBottomEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(9, 6);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnVerticalSegment(ball, 9, 1, 6));
-//    }   
-//    
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallADoesNotCrossSegment() {
-//        Ball ball = this.setBallA();
-//        assertEquals(null, cd.collisionOnVerticalSegment(ball, 1, 6, 10));
-//    }       
-//    @Test
-//    public void collisionOnVerticalSegmentWorksIfBallBDoesNotCrossSegment() {
-//        Ball ball = this.setBallB();
-//        assertEquals(null, cd.collisionOnVerticalSegment(ball, 11, 6, 10));
-//    }     
-//    
-//    
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallHasFullyCrossedSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(5, 4);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 4, 1, 10));
-//    }
-//
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallsCurrentPositionLiesOnSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(6, 5);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 5, 3, 10));
-//    } 
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallsPreviousPositionLiesOnSegment() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(3, 2);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 2, 1, 4));
-//    } 
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallHitsTheRightEnd() {
-//        Ball ball = this.setBallA();
-//        Point expectedCollisionPoint = new Point(5, 4);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 4, 0, 5));
-//    } 
-//    
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallHitsTheLeftEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(9, 6);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 6, 9, 10));
-//    }  
-//    
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallLiesAtTheRightEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(9, 6);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 6, 5, 9));
-//    } 
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallLiesAtTheLeftEnd() {
-//        Ball ball = this.setBallB();
-//        Point expectedCollisionPoint = new Point(9, 6);
-//        assertEquals(expectedCollisionPoint, cd.collisionOnHorizontalSegment(ball, 6, 9, 15));
-//    }   
-//    
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallADoesNotCrossSegment() {
-//        Ball ball = this.setBallA();
-//        assertEquals(null, cd.collisionOnHorizontalSegment(ball, 1, 6, 10));
-//    }       
-//    @Test
-//    public void collisionOnHorizontalSegmentWorksIfBallBDoesNotCrossSegment() {
-//        Ball ball = this.setBallB();
-//        assertEquals(null, cd.collisionOnHorizontalSegment(ball, 11, 6, 10));
-//    }     
-//     
-    
-
-
-    
-        
-    
-    
-
-
+    }   
 }

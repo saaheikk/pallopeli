@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pallopeli.objects;
 
 import java.awt.Point;
@@ -10,13 +5,14 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import pallopeli.CompassDirection;
 
-/**
- *
- * @author saara
- */
 public class BorderLine extends Border {
 
-
+    /**
+     * Constructor for a new Border that can de described as Line2D.
+     * @param piece
+     * @param directionOfEdgeToGuard
+     * @param radiusOfBall 
+     */
     public BorderLine(Piece piece, CompassDirection directionOfEdgeToGuard, int radiusOfBall) {
         super(piece, directionOfEdgeToGuard, radiusOfBall);
 
@@ -35,7 +31,11 @@ public class BorderLine extends Border {
     public Line2D getBorderShape() {
         return (Line2D) this.borderShape;
     }
-    // if i don't have time to do BorderArcs
+    /**
+     * Helper method to extend BorderLine to cover the corners of Piece.
+     * Used because I don't have time to implement BorderArc.
+     * Game works quite well without BorderArcs, however.
+     */
     public void extendLine() {
         Point2D firstEnd = this.getBorderShape().getP1();
         Point2D secondEnd = this.getBorderShape().getP2();
@@ -47,8 +47,11 @@ public class BorderLine extends Border {
         int newSecondEndY = (int) secondEnd.getY() + coefficientY * this.radiusOfBall;
         this.borderShape = new Line2D.Float(newFirstEndX, newFirstEndY, newSecondEndX, newSecondEndY);
     }
-    
-    // do we want ball to bounce in plus / minus direction 
+     
+    /**
+     * Method used to eliminate copy paste in CollisionDetector.
+     * @return Integer to indicate which direction Ball must bounce.
+     */
     public int getBouncingDirection() {
         if (this.directionOfEdgeToGuard == CompassDirection.NORTH || this.directionOfEdgeToGuard == CompassDirection.WEST) {
             return -1;
@@ -57,16 +60,15 @@ public class BorderLine extends Border {
         }
         return 0;
     }
-    
+    /**
+     * Returns the x-coordinate of vertical BorderLine and y-coordinate of horizontal BorderLine.
+     * @return Coordinate as integer.
+     */
     public int getLineCoordinate() {
         Line2D line = (Line2D) this.borderShape;
         int coefX = Math.abs(this.directionOfEdgeToGuard.getX());
         int coefY = Math.abs(this.directionOfEdgeToGuard.getY());        
         return (int) (coefX * line.getX1() + coefY * line.getY1());
     }
-    
 
-    
-
-    
 }

@@ -1,10 +1,6 @@
 package pallopeli.objects;
 
 import java.awt.Point;
-import java.awt.Shape;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.HashMap;
 import pallopeli.CompassDirection;
@@ -24,7 +20,13 @@ public class Piece {
     private HashMap<CompassDirection, Piece> neighbors;  
     private HashMap<CompassDirection, Point> cornerPoints;
     private HashMap<CompassDirection, Border> borders;
-
+    /**
+     * Constructor for a new Piece.
+     * @param x Location relative to the board.
+     * @param y Location relative to the board.
+     * @param wall Wall or not.
+     * @param sizeOfObjects Size of Piece (in pixels).
+     */
     public Piece(int x, int y, boolean wall, int sizeOfObjects) {
         this.x = x;
         this.y = y;
@@ -42,8 +44,11 @@ public class Piece {
     public void turnIntoWall() {
         this.wall = true;
     } 
-    
-    // set all borders for piece (does not depend on whether it's wall or not)
+    /**
+     * Sets all borders for piece (does not depend on whether it's wall or not).
+     * @param radiusOfBall 
+     */
+
     public void setMainBorders(int radiusOfBall) {
         for (CompassDirection direction : CompassDirection.NORTH.allMainDirections()) {
             Piece neighbor = this.getNeighbor(direction);
@@ -87,9 +92,12 @@ public class Piece {
         return false;
     }
 
-    
-    
-    // this method is used to build walls during the game 
+    /**
+     * Turns neighbor in given direction into wall.
+     * This method is used to build walls during the game.
+     * @param compassDirection Direction where to build.
+     * @return False if neighbor is  null or already wall and true if not. 
+     */
     public boolean turnNeighborIntoWall(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
         if (neighbor == null) {
@@ -101,7 +109,13 @@ public class Piece {
             return true;
         }
     }
-    // this method is used to set other pieces under construction during the game   
+    // this method is used to set other pieces under construction during the game 
+    /**
+     * Sets neighbor in given direction under construction.
+     * This method is used to build walls during the game.
+     * @param compassDirection Direction where to construct.
+     * @return True if neighbor can be set under construction and false if not.
+     */
     public boolean setNeighborUnderConstruction(CompassDirection compassDirection) {
         Piece neighbor = this.neighbors.get(compassDirection);
         if (neighbor == null) {
@@ -114,7 +128,11 @@ public class Piece {
             return true;
         }
     } 
-    
+    /**
+     * Turn all neighbors into wall that can be turned into wall.
+     * Used to fill areas by wall.
+     * @return ArrayList of Pieces turned into wall.
+     */
     public ArrayList<Piece> turnAllNeighborsIntoWall() {
         ArrayList<Piece> piecesTurnedIntoWall = new ArrayList<>();
         for (CompassDirection cd : this.neighbors.keySet()) {
@@ -125,7 +143,6 @@ public class Piece {
         }
         return piecesTurnedIntoWall;
     }
-    
 
     /**
      * Helper method for setting corner points.
@@ -137,6 +154,9 @@ public class Piece {
         this.cornerPoints.put(CompassDirection.SOUTHWEST, new Point(x * size, (y + 1) * size));
         this.cornerPoints.put(CompassDirection.NORTHWEST, new Point(x * size, y * size));
     }
+    /**
+     * Resets the activity of Borders according to the current state of neighbors.
+     */
     public void resetActivityOfBorders() {
         for (CompassDirection direction : this.borders.keySet()) {
             if (this.borders.get(direction) != null) {
@@ -145,10 +165,6 @@ public class Piece {
             }
         }
     }
-//    public int getBorderCoordinateForCollisions(int sizeOfBall, CompassDirection directionOfEdge) {
-//        
-//    }
-    
     
     @Override
     public String toString() {
@@ -158,8 +174,6 @@ public class Piece {
         return "(" + this.x + "," + this.y + "): no-wall, anchor coordinates: " + this.cornerPoints.get(CompassDirection.NORTHWEST);
     }
 
-
-    
     // getter & setters
     
     public boolean isWall() {
@@ -205,139 +219,5 @@ public class Piece {
     public HashMap<CompassDirection, Border> getBorders() {
         return borders;
     }
-    
-
-    // trash   
-    // just trying smthg
-//    protected void setBorders() {
-//        Line2D northBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHWEST), cornerPoints.get(CompassDirection.NORTHEAST));
-//        Line2D eastBorder = new Line2D.Float(cornerPoints.get(CompassDirection.NORTHEAST), cornerPoints.get(CompassDirection.SOUTHEAST));
-//        Line2D southBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHEAST), cornerPoints.get(CompassDirection.SOUTHWEST));
-//        Line2D westBorder = new Line2D.Float(cornerPoints.get(CompassDirection.SOUTHWEST), cornerPoints.get(CompassDirection.NORTHWEST));
-//    }    
-//    
-    
-    // just trying smthg
-//    public ArrayList<Object> getActiveCornersAndBorders() {
-//        ArrayList<Object> activeBorders = new ArrayList<>();
-//        for (CompassDirection direction : this.cornerPoints.keySet()) {
-//            if (this.activeBorders.get(direction)) {
-//                activeBorders.add(this.cornerPoints.get(direction));
-//            }
-//        }
-//        for (CompassDirection direction : this.borders.keySet()) {
-//            if (this.activeBorders.get(direction)) {
-//                activeBorders.add(this.borders.get(direction));
-//            }
-//        }
-//        return activeBorders;
-//    }    
-    
-    
-    // reset borders for bouncing 
-//    public void resetBorders() {
-//        // only for wall?
-//        for (CompassDirection direction : CompassDirection.values()) {
-//            Piece neighbor = this.neighbors.get(direction);
-//            if (neighbor.isWall()) {
-//                this.borders.put(direction, null); // unguarded borders are null
-//            } else {
-//                // set border (either line/arc)
-//            }
-//        }
-//    }
-    // too much copypaste
-//    public void setBorder(CompassDirection d) {
-//        if (d == CompassDirection.NORTH) {
-//            Line2D borderLine = new Line2D.Float(x * size, y * size - size / 2, 
-//                    (x + 1) * size, (y + 1) * size - size / 2);
-//            this.borders.put(d, borderLine);
-//        }      
-//    }
-
-//    public boolean borderIsActive(CompassDirection direction) {
-//        return this.activeBorders.get(direction);
-//    }
-//    
-//    public void resetActiveBorders() {
-//        if (this.wall) { // only for wallpieces
-//            for (CompassDirection direction : CompassDirection.values()) {
-//                Piece neighbor = this.neighbors.get(direction);
-//                if (neighbor != null) {
-//                    if (neighbor.isWall()) {
-//                        this.activeBorders.put(direction, false);
-//                    } else {
-//                        this.activeBorders.put(direction, true);
-//                    }
-//                } else {
-//                    this.activeBorders.put(direction, false);
-//                }
-//
-//            }
-//        }
-//    }
-
-//    public boolean isSurroundedByWallPieces() {
-//        // returns true for pieces that have no neighbors!!!
-//        if (this.northNeighbor == null || this.northNeighbor.isWall()) {
-//            if (this.eastNeighbor == null || this.eastNeighbor.isWall()) {
-//                if (this.southNeighbor == null || this.southNeighbor.isWall()) {
-//                    if (this.southNeighbor == null || this.southNeighbor.isWall()) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false; // returns true for pieces that have no neighbors!!!
-//    }
-//    public CompassDirection getDirectionWhereToBounce(int ballX, int ballY) {
-//        // this code will be imporved... i am aware that currenlty it's very ugly :(
-//        int topLeftCornerX = this.size * this.x;
-//        int topLeftCornerY = this.size * this.y;
-//        int topRightCornerX  = topLeftCornerX + this.size;
-//        int topRightCornerY = topLeftCornerY;
-//        int bottomLeftCornerX = topLeftCornerX;
-//        int bottomLeftCornerY = topLeftCornerY + this.size;
-//        int bottomRightCornerX = topRightCornerX;
-//        int bottomRightCornerY = bottomLeftCornerY;
-//                
-//        if (ballX - topRightCornerX == ballY - topRightCornerY) {
-//            return CompassDirection.NORTHEAST;
-//        } else if (ballX - topLeftCornerX == ballY - topLeftCornerY) {
-//            return CompassDirection.NORTHWEST;
-//        } else if (ballY < topLeftCornerY) {
-//            if (ballX < topLeftCornerX && topLeftCornerX - ballX > topLeftCornerY - ballY) {
-//                return CompassDirection.WEST;
-//            } else if (ballX > topRightCornerX && ballX - topRightCornerX > topLeftCornerY - ballY) {
-//                return CompassDirection.EAST;
-//            }
-//            return CompassDirection.NORTH;
-//        } else if (ballY > bottomLeftCornerY) {
-//            if (ballX < bottomLeftCornerX && bottomLeftCornerX - ballX > bottomLeftCornerY - ballY) {
-//                return CompassDirection.WEST;
-//            } else if (ballX > bottomRightCornerX && ballX - bottomRightCornerX > bottomRightCornerY - ballY) {
-//                return CompassDirection.EAST;
-//            }                        
-//            return CompassDirection.SOUTH;
-//        } else if (ballX < topLeftCornerX) {
-//            if (ballY < topLeftCornerY && topLeftCornerY - ballY > topLeftCornerX - ballX) {
-//                return CompassDirection.NORTH;
-//            } else if (ballY > bottomLeftCornerY && ballY - bottomLeftCornerY > bottomLeftCornerX - ballX) {
-//                return CompassDirection.SOUTH;
-//            }              
-//            return CompassDirection.WEST;
-//        } else if (ballX > topRightCornerX) {
-//            if (ballY < topRightCornerY && topRightCornerY - ballY > ballX - topRightCornerX) {
-//                return CompassDirection.NORTH;
-//            } else if (ballY > bottomRightCornerY && ballX - bottomRightCornerX > ballY - bottomRightCornerY) {
-//                return CompassDirection.SOUTH;
-//            }              
-//            return CompassDirection.EAST;
-//        }
-//        return null;
-//    }
-
-
-
 
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pallopeli.logic;
 
 import java.awt.Point;
@@ -18,10 +13,7 @@ import pallopeli.objects.Ball;
 import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
-/**
- *
- * @author saara
- */
+
 public class WallbuilderTest {
     Board b;
     Wallbuilder w;

@@ -10,12 +10,17 @@ import java.awt.event.KeyListener;
 import pallopeli.logic.Game;
 
 /**
- *
+ * GameKeyListener listens to space key.
+ * If player presses space key and Game is not currently building new walls, Game changes the direction of build.
  * @author saara
  */
 public class GameKeyListener implements KeyListener {
     private Game game;
     
+    /**
+     * Constructor for a GameKeyListener attached to given Game.
+     * @param game 
+     */
     public GameKeyListener(Game game) {
         this.game = game;
     }
@@ -26,8 +31,7 @@ public class GameKeyListener implements KeyListener {
             if (!this.game.isBuilding()) {
                 this.game.changeDirection();
             }    
-        }
-        
+        }   
     }
 
     @Override

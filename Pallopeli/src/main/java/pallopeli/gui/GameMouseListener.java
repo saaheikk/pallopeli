@@ -12,12 +12,15 @@ import pallopeli.objects.Board;
 import pallopeli.objects.Piece;
 
 /**
- * CustomMouseListener listens to mouse clicks and sets Game into "building mode".
+ * CustomMouseListener listens to mouse clicks and sets Game into building mode (if it's not in building mode already) .
  * @author saara
  */
 public class GameMouseListener implements MouseListener {
     private Game game;
-
+    /**
+     * Constructor for a new GameMouseListener attached to given Game.
+     * @param game 
+     */
     public GameMouseListener(Game game) {
         this.game = game;
     }

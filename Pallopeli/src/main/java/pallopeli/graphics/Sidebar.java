@@ -16,7 +16,8 @@ import javax.swing.JTextField;
 import pallopeli.logic.Game;
 
 /**
- *
+ * Sidebar represents the info bar on the side of actual game board.
+ * Sidebar is updated during the game.
  * @author saara
  */
 public class Sidebar extends JPanel implements Updateable {
@@ -32,13 +33,15 @@ public class Sidebar extends JPanel implements Updateable {
     public Sidebar(Game game) {
         super.setBackground(Color.WHITE);
         this.game = game;
-        this.createSidebar(this);        
-    }   
-    
-    public void createSidebar(Container container) {
+        this.createContent(this);        
+    }  
+    /**
+     * Creates the content of Sidebar and adds it to Container.
+     * @param container Container (of JFrame).
+     */   
+    public void createContent(Container container) {
         this.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        
         this.instructions = new JLabel();
         this.instructionsContent = new ArrayList<>();
         this.lives = new JLabel();
@@ -68,6 +71,10 @@ public class Sidebar extends JPanel implements Updateable {
         this.status.setText("GAME STATUS: ");
         this.statusContent.setText(this.statusOfGame());
     }
+    /**
+     * Returns the current status of Game.
+     * @return Status as String to be inserted into JLabel.
+     */
     
     public String statusOfGame() {
         String status = "";
@@ -82,6 +89,10 @@ public class Sidebar extends JPanel implements Updateable {
         }
         return status;
     }
+    /**
+     * Adds instructions as JLabels.
+     * @param container Container (of JFrame).
+     */
     
     public void addInstructionsContent(Container container) {
         JLabel firstRow = new JLabel("Turn areas into wall by");

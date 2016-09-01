@@ -28,7 +28,6 @@ public class Game extends Timer implements ActionListener {
     private boolean continues;
     private boolean buildingNewWall;
     
-//    private ArrayList<Updateable> updateables;
     private Updateable paintingCanvas;
     private Updateable sidebar;
     
@@ -55,7 +54,7 @@ public class Game extends Timer implements ActionListener {
         this.direction = SimpleDirection.HORIZONTAL;        
         this.continues = true;
         this.buildingNewWall = false;
-        this.lives = 30;
+        this.lives = 3;
         this.win = false;
         
         addActionListener(this);
@@ -63,6 +62,7 @@ public class Game extends Timer implements ActionListener {
     }
     /**
      * Method inherited from ActionListener; invoked when an action occurs.
+     * Represents the game loop.
      * @param e Action event sent by Game itself.
      */
     @Override
@@ -70,7 +70,6 @@ public class Game extends Timer implements ActionListener {
         if (!continues) {
             return; // GAME OVER --> check for win / lost
         }   
-
         this.board.resetActiveBordersOfWallpieces();         
         this.ball.moveOnBoard(board); // always move ball on board
         if (buildingNewWall) {
@@ -86,7 +85,10 @@ public class Game extends Timer implements ActionListener {
         this.paintingCanvas.update();
         this.sidebar.update();        
     }
-    
+    /**
+     * Performs one building action.
+     * @return True if building continues after the act and false if not.
+     */
     public boolean performBuildingActAndReturnTrueIfBuildingContinues() {
         this.wallbuilder.buildOneStep();
         // take care of start
@@ -128,7 +130,7 @@ public class Game extends Timer implements ActionListener {
     }
     /**
      * Checks if over 90% of board is covered by wall.
-     * @return 
+     * @return True if 90% of board is covered by wall and false if not.
      */
     public boolean boardIsCovered() {
         int allPieces = this.board.numberOfAllPieces();
@@ -202,91 +204,5 @@ public class Game extends Timer implements ActionListener {
     public int getLives() {
         return this.lives;
     }
-  
-//    trash
-//    
-//    public void checkIfStartHasBall() {
-//        if (this.wallbuilder.startHasBall(ball)) {
-//                this.wallbuilder.cancelConstructionOfStart();
-//                this.lives--;
-////                buildingIsOn = false;
-//            } else {
-//                this.wallbuilder.turnStartIntoWall();
-//            }
-//        }
-//    }
-     
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        if (!continues) {
-//            return; // GAME OVER --> check for win / lost
-//        }      
-//        this.ball.moveOnBoard(board);
-//        if (buildingNewWall) {
-//            boolean buildingIsOn = this.wallbuilder.buildOneStep(this.direction);
-//            if (this.wallbuilder.startHasBall(ball)) {
-//                this.wallbuilder.cancelConstructionOfStart();
-//                this.lives--;
-//                buildingIsOn = false;
-//            } else {
-//                this.wallbuilder.turnStartIntoWall();
-//            }
-//            if (this.wallbuilder.directionHasBall(ball) == 1) {
-//                this.wallbuilder.setFirstDirectionContinues(false);
-//                this.wallbuilder.cancelConstruction(1);
-//                this.wallbuilder.setFirstConstructionFailed(true);
-//                this.lives--;
-//            }
-//            if (this.wallbuilder.directionHasBall(ball) == 2) {
-//                this.wallbuilder.setSecondDirectionContinues(false);
-//                this.wallbuilder.cancelConstruction(2);
-//                this.wallbuilder.setSecondConstructionFailed(true);
-//                this.lives--;
-//            }            
-//
-//            if (!buildingIsOn) {
-//                this.wallbuilder.turnAreaIntoWall(ball); 
-//                this.wallbuilder.refresh();
-//            }
-//            this.buildingNewWall = buildingIsOn;
-//        }
-//        if (this.lives < 1) {
-//            this.continues = false; 
-//        }
-//        if (this.boardIsCovered()) {
-//            this.continues = false;
-//            this.win = true;
-//        }
-//        this.paintingCanvas.update();
-//        this.sidebar.update();
-//    }    
-    
-    
-//    public void updateUpdateables() {
-//        for (Updateable updateable : this.updateables) {
-//            updateable.update();
-//        }
-//    }    
-//
-//    public ArrayList<Updateable> getUpdateables() {
-//        return updateables;
-//    }
-//
-//    public void setUpdateables(ArrayList<Updateable> updateables) {
-//        this.updateables = updateables;
-//    }
-    
-    
-    
-    
 
-    
-
-    
-
-
-
-    
-
-    
 }
